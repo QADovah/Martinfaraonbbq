@@ -1,0 +1,1727 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Martín Faraón BBQ — Smokehouse Index</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Bebas+Neue&family=Oswald:wght@300;400;600;700&family=Crimson+Text:ital,wght@0,400;1,400&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --black: #0a0a0a;
+      --deep: #111111;
+      --steel: #2a2a2a;
+      --iron: #3d3d3d;
+      --silver: #9a9a9a;
+      --chrome: #c8c8c8;
+      --white: #f0ece4;
+      --red: #c0120c;
+      --red-hot: #e8180f;
+      --red-ember: #8a0a07;
+      --wood: #5c3a1e;
+      --wood-light: #7a4f2a;
+      --smoke: rgba(200, 200, 200, 0.04);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Oswald', sans-serif;
+      overflow-x: hidden;
+      cursor: default;
+    }
+
+    /* ── SMOKE BACKGROUND ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 20% 10%, rgba(192, 18, 12, 0.06) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 80% at 80% 90%, rgba(192, 18, 12, 0.04) 0%, transparent 60%),
+        repeating-linear-gradient(0deg,
+          transparent,
+          transparent 120px,
+          rgba(255, 255, 255, 0.008) 121px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── GRAIN OVERLAY ── */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E");
+      background-size: 256px;
+      opacity: 0.5;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    section,
+    nav,
+    footer {
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 48px;
+      background: linear-gradient(to bottom, rgba(10, 10, 10, 0.95), transparent);
+      backdrop-filter: blur(2px);
+    }
+
+    .nav-logo {
+      font-family: 'Black Ops One', sans-serif;
+      font-size: 1.1rem;
+      letter-spacing: 3px;
+      color: var(--red);
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--chrome);
+      text-decoration: none;
+      font-family: 'Oswald', sans-serif;
+      font-weight: 300;
+      font-size: 0.75rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--red);
+    }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 120px 80px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Smoker silhouette BG */
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 120% 80% at 75% 50%, rgba(10, 10, 10, 0) 30%, var(--black) 70%),
+        radial-gradient(ellipse 50% 100% at 72% 55%, rgba(192, 18, 12, 0.12) 0%, transparent 60%);
+    }
+
+    /* Animated smoke wisps */
+    .smoke-wisp {
+      position: absolute;
+      bottom: 0;
+      width: 3px;
+      border-radius: 50%;
+      background: linear-gradient(to top, rgba(180, 180, 180, 0.25), transparent);
+      animation: rise linear infinite;
+      filter: blur(8px);
+    }
+
+    .smoke-wisp:nth-child(1) {
+      left: 64%;
+      width: 40px;
+      height: 300px;
+      animation-duration: 6s;
+      animation-delay: 0s;
+    }
+
+    .smoke-wisp:nth-child(2) {
+      left: 68%;
+      width: 30px;
+      height: 250px;
+      animation-duration: 8s;
+      animation-delay: 2s;
+    }
+
+    .smoke-wisp:nth-child(3) {
+      left: 72%;
+      width: 50px;
+      height: 350px;
+      animation-duration: 7s;
+      animation-delay: 1s;
+    }
+
+    .smoke-wisp:nth-child(4) {
+      left: 60%;
+      width: 25px;
+      height: 200px;
+      animation-duration: 9s;
+      animation-delay: 3s;
+    }
+
+    .smoke-wisp:nth-child(5) {
+      left: 76%;
+      width: 35px;
+      height: 280px;
+      animation-duration: 5s;
+      animation-delay: 0.5s;
+    }
+
+    @keyframes rise {
+      0% {
+        transform: translateY(0) translateX(0) scaleX(1);
+        opacity: 0;
+      }
+
+      10% {
+        opacity: 1;
+      }
+
+      50% {
+        transform: translateY(-200px) translateX(20px) scaleX(1.5);
+      }
+
+      100% {
+        transform: translateY(-500px) translateX(-10px) scaleX(2);
+        opacity: 0;
+      }
+    }
+
+    /* Three smokers illustration */
+    .smokers-illustration {
+      position: absolute;
+      right: 6%;
+      bottom: 0;
+      width: 420px;
+      height: 520px;
+      opacity: 0.65;
+    }
+
+    .hero-eyebrow {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 300;
+      font-size: 0.7rem;
+      letter-spacing: 8px;
+      color: var(--red);
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      animation: fadeUp 0.8s ease forwards;
+      opacity: 0;
+      animation-delay: 0.2s;
+    }
+
+    .hero-title {
+      font-family: 'Black Ops One', sans-serif;
+      font-size: clamp(4rem, 10vw, 9rem);
+      line-height: 0.88;
+      text-transform: uppercase;
+      letter-spacing: -2px;
+      color: var(--white);
+      animation: fadeUp 0.8s ease forwards;
+      opacity: 0;
+      animation-delay: 0.4s;
+      position: relative;
+    }
+
+    .hero-title span {
+      display: block;
+      color: var(--red);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(5rem, 12vw, 11rem);
+      letter-spacing: 4px;
+      -webkit-text-stroke: 2px var(--red-ember);
+    }
+
+    .hero-sub {
+      font-family: 'Crimson Text', serif;
+      font-style: italic;
+      font-size: 1.3rem;
+      color: var(--silver);
+      margin-top: 24px;
+      letter-spacing: 1px;
+      animation: fadeUp 0.8s ease forwards;
+      opacity: 0;
+      animation-delay: 0.6s;
+    }
+
+    .hero-divider {
+      width: 80px;
+      height: 3px;
+      background: linear-gradient(to right, var(--red), transparent);
+      margin: 32px 0;
+      animation: expandWidth 1s ease forwards;
+      opacity: 0;
+      animation-delay: 0.8s;
+    }
+
+    @keyframes expandWidth {
+      from {
+        width: 0;
+        opacity: 0;
+      }
+
+      to {
+        width: 80px;
+        opacity: 1;
+      }
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 36px;
+      background: var(--red);
+      color: var(--white);
+      text-decoration: none;
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+      font-size: 0.8rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+      transition: background 0.2s, transform 0.2s;
+      animation: fadeUp 0.8s ease forwards;
+      opacity: 0;
+      animation-delay: 1s;
+      margin-right: 16px;
+    }
+
+    .hero-cta:hover {
+      background: var(--red-hot);
+      transform: translateY(-2px);
+    }
+
+    .hero-cta-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 28px;
+      border: 1px solid var(--iron);
+      color: var(--chrome);
+      text-decoration: none;
+      font-family: 'Oswald', sans-serif;
+      font-weight: 300;
+      font-size: 0.75rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      transition: border-color 0.2s, color 0.2s;
+      animation: fadeUp 0.8s ease forwards;
+      opacity: 0;
+      animation-delay: 1.1s;
+    }
+
+    .hero-cta-secondary:hover {
+      border-color: var(--red);
+      color: var(--red);
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ── BADGE: 3 SMOKERS ── */
+    .smoker-badge {
+      position: absolute;
+      bottom: 48px;
+      left: 80px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      animation: fadeUp 0.8s ease forwards;
+      opacity: 0;
+      animation-delay: 1.3s;
+    }
+
+    .smoker-icon {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--red);
+      box-shadow: 0 0 8px var(--red);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    .smoker-icon:nth-child(2) {
+      animation-delay: 0.3s;
+    }
+
+    .smoker-icon:nth-child(3) {
+      animation-delay: 0.6s;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        box-shadow: 0 0 6px var(--red);
+      }
+
+      50% {
+        box-shadow: 0 0 18px var(--red-hot), 0 0 32px rgba(192, 18, 12, 0.4);
+      }
+    }
+
+
+    .smoker-badge-text {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 300;
+      font-size: 0.65rem;
+      letter-spacing: 4px;
+      color: var(--silver);
+      text-transform: uppercase;
+    }
+
+    /* ── MANIFESTO STRIP ── */
+    .manifesto {
+      background: var(--red);
+      padding: 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .manifesto-track {
+      display: inline-flex;
+      animation: scroll 20s linear infinite;
+      padding: 16px 0;
+    }
+
+    .manifesto-track span {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.1rem;
+      letter-spacing: 6px;
+      color: var(--black);
+      padding: 0 40px;
+    }
+
+    .manifesto-track span.sep {
+      color: rgba(0, 0, 0, 0.4);
+      padding: 0 8px;
+    }
+
+    @keyframes scroll {
+      from {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(-50%);
+      }
+    }
+
+    /* ── ABOUT / MACHO SECTION ── */
+    #nosotros {
+      padding: 120px 80px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .about-visual {
+      position: relative;
+    }
+
+    .about-portrait {
+      width: 100%;
+      aspect-ratio: 3/4;
+      background: var(--steel);
+      position: relative;
+      overflow: hidden;
+      clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 24px 100%, 0 calc(100% - 24px));
+    }
+
+    /* Martin illustration placeholder */
+    .portrait-fill {
+      width: 100%;
+      height: 100%;
+      background:
+        radial-gradient(ellipse 60% 80% at 50% 40%, var(--iron) 0%, var(--steel) 40%, var(--deep) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .portrait-silhouette {
+      width: 220px;
+      height: 420px;
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .portrait-name-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 40px 28px 24px;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+    }
+
+    .portrait-name-overlay .big-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.8rem;
+      letter-spacing: 4px;
+      color: var(--white);
+      line-height: 1;
+    }
+
+    .portrait-name-overlay .big-name span {
+      color: var(--red);
+    }
+
+    .portrait-accent {
+      position: absolute;
+      top: -3px;
+      left: -3px;
+      width: 60px;
+      height: 60px;
+      border-top: 3px solid var(--red);
+      border-left: 3px solid var(--red);
+    }
+
+    .portrait-accent-br {
+      position: absolute;
+      bottom: -3px;
+      right: -3px;
+      width: 60px;
+      height: 60px;
+      border-bottom: 3px solid var(--red);
+      border-right: 3px solid var(--red);
+    }
+
+    .about-content {}
+
+    .section-label {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 300;
+      font-size: 0.65rem;
+      letter-spacing: 6px;
+      color: var(--red);
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .section-title {
+      font-family: 'Black Ops One', sans-serif;
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      line-height: 1;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+
+    .section-title em {
+      font-family: 'Bebas Neue', sans-serif;
+      color: var(--red);
+      font-style: normal;
+      font-size: 1.1em;
+    }
+
+    .about-text {
+      font-family: 'Crimson Text', serif;
+      font-size: 1.15rem;
+      line-height: 1.8;
+      color: var(--silver);
+      margin-bottom: 32px;
+    }
+
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      border: 1px solid var(--steel);
+      margin-top: 40px;
+    }
+
+    .stat-item {
+      padding: 24px 20px;
+      border-right: 1px solid var(--steel);
+      position: relative;
+    }
+
+    .stat-item:last-child {
+      border-right: none;
+    }
+
+    .stat-number {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.8rem;
+      color: var(--red);
+      line-height: 1;
+      display: block;
+    }
+
+    .stat-label {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 300;
+      font-size: 0.65rem;
+      letter-spacing: 3px;
+      color: var(--silver);
+      text-transform: uppercase;
+      margin-top: 4px;
+      display: block;
+    }
+
+    /* ── MENU / PLATES ── */
+    #menu {
+      padding: 100px 80px;
+      background: linear-gradient(to bottom, var(--black), var(--deep), var(--black));
+    }
+
+    .menu-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 64px;
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      background: var(--steel);
+    }
+
+    .menu-card {
+      background: var(--deep);
+      padding: 36px 28px;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s;
+      cursor: default;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .menu-card-image {
+      margin: -36px -28px 20px;
+      height: 250px;
+      background: var(--steel);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .menu-card-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      image-rendering: -webkit-optimize-contrast;
+    }
+
+    .menu-card:hover {
+      background: var(--steel);
+    }
+
+    .menu-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 3px;
+      height: 0;
+      background: var(--red);
+      transition: height 0.3s;
+    }
+
+    .menu-card:hover::before {
+      height: 100%;
+    }
+
+    .menu-card-temp {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 4px;
+      color: var(--red);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .temp-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--red);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    .menu-card-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.6rem;
+      letter-spacing: 3px;
+      color: var(--white);
+      line-height: 1.1;
+      margin-bottom: 12px;
+    }
+
+    .menu-card-desc {
+      font-family: 'Crimson Text', serif;
+      font-style: italic;
+      font-size: 0.95rem;
+      color: var(--silver);
+      line-height: 1.6;
+    }
+
+    .menu-card-tag {
+      margin-top: 20px;
+      display: inline-block;
+      padding: 4px 12px;
+      border: 1px solid var(--iron);
+      font-family: 'Oswald', sans-serif;
+      font-weight: 300;
+      font-size: 0.6rem;
+      letter-spacing: 3px;
+      color: var(--iron);
+      text-transform: uppercase;
+    }
+
+    /* ── SMOKERS SECTION ── */
+    #smokers {
+      padding: 100px 0;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .smokers-content {
+      padding: 0 80px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .smokers-visual {
+      position: relative;
+      height: 500px;
+    }
+
+    .smoker-unit {
+      position: absolute;
+      bottom: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .smoker-unit:nth-child(1) {
+      left: 0;
+      z-index: 3;
+    }
+
+    .smoker-unit:nth-child(2) {
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+    }
+
+    .smoker-unit:nth-child(3) {
+      right: 0;
+      z-index: 1;
+    }
+
+    .smoker-body {
+      width: 100px;
+      height: 220px;
+      background: linear-gradient(135deg, var(--iron) 0%, var(--steel) 40%, #1a1a1a 100%);
+      border-radius: 4px 4px 0 0;
+      position: relative;
+      border: 1px solid var(--iron);
+      box-shadow: inset 2px 0 4px rgba(255, 255, 255, 0.05), 4px 4px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Red horizontal stripes */
+    .smoker-body::before {
+      content: '';
+      position: absolute;
+      left: -2px;
+      right: -2px;
+      top: 30px;
+      height: 8px;
+      background: var(--red);
+      box-shadow: 0 50px 0 var(--red), 0 100px 0 var(--red);
+    }
+
+    .smoker-body::after {
+      content: '';
+      position: absolute;
+      left: 15px;
+      right: 15px;
+      top: 50%;
+      bottom: 16px;
+      transform: translateY(-50%);
+      border: 1px solid var(--iron);
+      border-radius: 2px;
+    }
+
+    .smoker-chimney {
+      width: 20px;
+      height: 60px;
+      background: linear-gradient(to top, var(--iron), var(--steel));
+      margin-bottom: -2px;
+      position: relative;
+      border: 1px solid var(--iron);
+    }
+
+    .smoker-legs {
+      display: flex;
+      gap: 30px;
+    }
+
+    .smoker-leg {
+      width: 12px;
+      height: 40px;
+      background: var(--iron);
+    }
+
+    .smoker-smoke {
+      position: absolute;
+      top: -80px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 30px;
+      height: 80px;
+      background: linear-gradient(to top, rgba(180, 180, 180, 0.3), transparent);
+      filter: blur(8px);
+      border-radius: 50%;
+      animation: smokeRise 3s ease-in-out infinite;
+    }
+
+    @keyframes smokeRise {
+
+      0%,
+      100% {
+        transform: translateX(-50%) scaleX(1);
+        opacity: 0.4;
+      }
+
+      50% {
+        transform: translateX(-40%) scaleX(1.4);
+        opacity: 0.8;
+      }
+    }
+
+    .smoker-number {
+      margin-top: 12px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.5rem;
+      color: var(--red);
+      line-height: 1;
+    }
+
+    .smoker-label {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 300;
+      font-size: 0.6rem;
+      letter-spacing: 3px;
+      color: var(--silver);
+      text-transform: uppercase;
+    }
+
+    .smokers-text {}
+
+    .smokers-specs {
+      margin-top: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      border: 1px solid var(--steel);
+    }
+
+    .spec-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--steel);
+      transition: background 0.2s;
+    }
+
+    .spec-row:last-child {
+      border-bottom: none;
+    }
+
+    .spec-row:hover {
+      background: rgba(192, 18, 12, 0.05);
+    }
+
+    .spec-key {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 300;
+      font-size: 0.65rem;
+      letter-spacing: 3px;
+      color: var(--silver);
+      text-transform: uppercase;
+    }
+
+    .spec-val {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem;
+      letter-spacing: 2px;
+      color: var(--white);
+    }
+
+    .spec-val.red {
+      color: var(--red);
+    }
+
+    /* ── HORARIOS ── */
+    #horarios {
+      padding: 100px 80px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .horario-table {
+      border: 1px solid var(--steel);
+      overflow: hidden;
+    }
+
+    .horario-header {
+      background: var(--red);
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .horario-header span {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.1rem;
+      letter-spacing: 4px;
+      color: var(--black);
+    }
+
+    .horario-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--steel);
+      position: relative;
+    }
+
+    .horario-row:last-child {
+      border-bottom: none;
+    }
+
+    .horario-row:hover {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .dia {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 600;
+      font-size: 0.85rem;
+      letter-spacing: 2px;
+      color: var(--white);
+      text-transform: uppercase;
+      min-width: 140px;
+    }
+
+    .horario-times {
+      text-align: right;
+    }
+
+    .time {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem;
+      letter-spacing: 2px;
+      color: var(--chrome);
+      display: block;
+    }
+
+    .time-sep {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 300;
+      font-size: 0.55rem;
+      letter-spacing: 2px;
+      color: var(--iron);
+      text-transform: uppercase;
+      display: block;
+      text-align: center;
+      margin: 2px 0;
+    }
+
+    .closed-tag {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 300;
+      font-size: 0.65rem;
+      letter-spacing: 3px;
+      color: var(--iron);
+      text-transform: uppercase;
+    }
+
+    /* Map area */
+    .location-block {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .location-map {
+      width: 100%;
+      height: 280px;
+      background: var(--steel);
+      border: 1px solid var(--iron);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .location-map img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .location-info {
+      border: 1px solid var(--steel);
+      border-top: none;
+      padding: 24px;
+    }
+
+    .location-address {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem;
+      letter-spacing: 3px;
+      color: var(--white);
+      margin-bottom: 4px;
+    }
+
+    .location-city {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 300;
+      font-size: 0.7rem;
+      letter-spacing: 4px;
+      color: var(--silver);
+      text-transform: uppercase;
+    }
+
+    /* ── INSTAGRAM / CTA ── */
+    #contacto {
+      padding: 100px 80px;
+      text-align: center;
+      border-top: 1px solid var(--steel);
+    }
+
+    .ig-link {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      text-decoration: none;
+      padding: 48px 64px;
+      border: 1px solid var(--steel);
+      position: relative;
+      transition: border-color 0.3s;
+    }
+
+    .ig-link:hover {
+      border-color: var(--red);
+    }
+
+    .ig-link::before,
+    .ig-link::after {
+      content: '';
+      position: absolute;
+      background: var(--red);
+      transition: all 0.3s;
+    }
+
+    .ig-link::before {
+      top: -1px;
+      left: 20%;
+      width: 0;
+      height: 3px;
+    }
+
+    .ig-link::after {
+      bottom: -1px;
+      right: 20%;
+      width: 0;
+      height: 3px;
+    }
+
+    .ig-link:hover::before,
+    .ig-link:hover::after {
+      width: 60%;
+    }
+
+    .ig-handle {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.5rem;
+      letter-spacing: 6px;
+      color: var(--white);
+    }
+
+    .ig-subtitle {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 300;
+      font-size: 0.65rem;
+      letter-spacing: 5px;
+      color: var(--silver);
+      text-transform: uppercase;
+    }
+
+    .ig-icon {
+      width: 40px;
+      height: 40px;
+      color: var(--red);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--deep);
+      border-top: 1px solid var(--steel);
+      padding: 32px 80px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-logo {
+      font-family: 'Black Ops One', sans-serif;
+      font-size: 1rem;
+      letter-spacing: 4px;
+      color: var(--red);
+    }
+
+    .footer-copy {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 300;
+      font-size: 0.6rem;
+      letter-spacing: 3px;
+      color: var(--iron);
+      text-transform: uppercase;
+    }
+
+    /* ── WOOD TEXTURE DIVIDER ── */
+    .wood-divider {
+      height: 8px;
+      background: repeating-linear-gradient(90deg,
+          var(--wood) 0px,
+          var(--wood-light) 40px,
+          var(--wood) 80px,
+          #4a2e14 120px,
+          var(--wood) 160px);
+      opacity: 0.7;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav {
+        padding: 16px 24px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      #hero {
+        padding: 100px 24px 60px;
+      }
+
+      .hero-title {
+        font-size: 3.5rem;
+      }
+
+      #nosotros,
+      #horarios {
+        grid-template-columns: 1fr;
+        padding: 60px 24px;
+        gap: 40px;
+      }
+
+      #menu {
+        padding: 60px 24px;
+      }
+
+      .menu-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .smokers-content {
+        grid-template-columns: 1fr;
+        padding: 0 24px;
+      }
+
+      #contacto {
+        padding: 60px 24px;
+      }
+
+      .ig-link {
+        padding: 32px 20px;
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      .ig-handle {
+        font-size: 1.6rem;
+        letter-spacing: 3px;
+      }
+
+      .ig-subtitle {
+        font-size: 0.55rem;
+        letter-spacing: 3px;
+      }
+
+      footer {
+        padding: 24px;
+        flex-direction: column;
+        gap: 12px;
+        text-align: center;
+      }
+
+      .footer-copy {
+        letter-spacing: 1px;
+        font-size: 0.7rem;
+        line-height: 1.5;
+      }
+
+      .smokers-visual {
+        height: 500px;
+        grid-template-columns: 1fr !important;
+      }
+
+      .smoker-body {
+        width: 70px;
+        height: 150px;
+      }
+
+      .smoker-unit:nth-child(2) .smoker-body {
+        width: 80px;
+        height: 170px;
+      }
+
+      .stat-row {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .stat-item:nth-child(2) {
+        border-right: none;
+      }
+
+      .stat-item:nth-child(1),
+      .stat-item:nth-child(2) {
+        border-bottom: 1px solid var(--steel);
+      }
+    }
+  </style>
+
+  <!-- ================================================
+  CONFIGURACIÓN DE IMÁGENES
+  Cambiá las rutas acá abajo para actualizar cualquier foto del sitio.
+  No necesitás tocar nada más en el HTML.
+================================================ -->
+  <script>
+    const IMAGENES = {
+      // Foto principal de Martín en la sección "Nosotros"
+      martin: "Menu/Martin_frente.jpg",
+
+      // Mapa de ubicación (sección Horarios)
+      mapa: "Mapa.jpg",
+
+      // Foto de los smokers (sección Los Smokers)
+      ahumadores: "Local/Ahumadores.jpg",
+      smokers: "Local/Smokers.jpg",
+
+      // Imágenes del menú — una por plato
+      salamines: "Menu/Salamines.jpg",
+      dinoRibs: "Menu/Costilla.jpg",
+      matambre: "Menu/Ribs.jpg",
+      choriBondi: "Menu/Sandwich.jpg",
+      pastelPapas: "Menu/PastelDePapas.jpg",
+      brisket: "Menu/ExtremosAhumados.jpg",
+      extremos: "Menu/ExtremosAhumados.jpg",
+      especiales: "Menu/Especiales.jpg",
+      PapasFritas: "Menu/PapasFritas.jpg",
+    };
+
+    // Aplica las rutas al cargar la página
+    document.addEventListener("DOMContentLoaded", () => {
+      const set = (id, key) => {
+        const el = document.getElementById(id);
+        if (el && IMAGENES[key]) el.src = IMAGENES[key];
+      };
+      set("img-martin", "martin");
+      set("img-mapa", "mapa");
+      set("img-ahumadores", "ahumadores");
+      set("img-smokers", "smokers");
+      set("img-salamines", "salamines");
+      set("img-dino-ribs", "dinoRibs");
+      set("img-matambre", "matambre");
+      set("img-chori-bondi", "choriBondi");
+      set("img-pastel", "pastelPapas");
+      set("img-brisket", "brisket");
+      set("img-extremos", "extremos");
+      set("img-especiales", "especiales");
+      set("img-PapasFritas", "PapasFritas");
+    });
+  </script>
+
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">MF·BBQ</div>
+    <ul class="nav-links">
+      <li><a href="#nosotros">La historia</a></li>
+      <li><a href="#menu">El Menú</a></li>
+      <li><a href="#smokers">Los Smokers</a></li>
+      <li><a href="#horarios">Horarios</a></li>
+      <li><a href="#contacto">Instagram</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="smoke-wisp"></div>
+    <div class="smoke-wisp"></div>
+    <div class="smoke-wisp"></div>
+    <div class="smoke-wisp"></div>
+    <div class="smoke-wisp"></div>
+
+    <div class="hero-eyebrow">Ramos Mejía · Buenos Aires · Desde el fuego</div>
+    <h1 class="hero-title">
+      Martín<br>Faraón
+      <span>BBQ</span>
+    </h1>
+    <p class="hero-sub">Ahumado de verdad. Sin atajos. Sin apuro.</p>
+    <div class="hero-divider"></div>
+    <div>
+      <a href="#horarios" class="hero-cta">Ver Horarios</a>
+      <a href="#menu" class="hero-cta-secondary">El Menú</a>
+    </div>
+
+    <div class="smoker-badge">
+      <div class="smoker-icon"></div>
+      <div class="smoker-icon"></div>
+      <div class="smoker-icon"></div>
+    </div>
+  </section>
+
+  <!-- MANIFESTO STRIP -->
+  <div class="manifesto">
+    <div class="manifesto-track">
+      <span>100% AHUMADO</span><span class="sep">✦</span>
+      <span>FUEGO REAL</span><span class="sep">✦</span>
+      <span>SIN HORNO</span><span class="sep">✦</span>
+      <span>SIN MICROONDAS</span><span class="sep">✦</span>
+      <span>MADERA Y TIEMPO</span><span class="sep">✦</span>
+      <span>RAMOS MEJÍA</span><span class="sep">✦</span>
+      <span>BOLÍVAR 667</span><span class="sep">✦</span>
+      <span>100% AHUMADO</span><span class="sep">✦</span>
+      <span>FUEGO REAL</span><span class="sep">✦</span>
+      <span>SIN HORNO</span><span class="sep">✦</span>
+      <span>SIN MICROONDAS</span><span class="sep">✦</span>
+      <span>MADERA Y TIEMPO</span><span class="sep">✦</span>
+      <span>RAMOS MEJÍA</span><span class="sep">✦</span>
+      <span>BOLÍVAR 667</span><span class="sep">✦</span>
+    </div>
+  </div>
+
+  <div class="wood-divider"></div>
+
+  <!-- NOSOTROS -->
+  <section id="nosotros">
+    <div class="about-visual">
+      <div class="about-portrait">
+        <div class="portrait-fill" style="background:none;">
+          <img id="img-martin" src="Martin_frente.jpg" alt="Martín Faraón — Smoke Warrior BBQ"
+            style="width:100%;height:auto;display:block;" />
+        </div>
+        <div class="portrait-name-overlay">
+          <div class="big-name">MARTÍN<br><span>FARAÓN</span></div>
+        </div>
+      </div>
+      <div class="portrait-accent"></div>
+      <div class="portrait-accent-br"></div>
+    </div>
+
+    <div class="about-content">
+      <div class="section-label">// La historia</div>
+      <h2 class="section-title">No es<br>un<br><em>restaurant.</em></h2>
+      <p class="about-text">
+        . Martín Faraón lleva años perfeccionando el arte del ahumado en Buenos Aires.
+
+        Un espacio industrial, honesto, donde el humo manda y el tiempo es el ingrediente principal, y donde no te vas a
+        ir con hambre, y vas a volver con ganas de más.
+      </p>
+      <p class="about-text">
+        La formula es simple: Tres tubos de hierro. Madera real y tiempo.
+        Cero electricidad en el proceso.
+        Todo lo que comes, pasó horas dentro de un smoker. Sin excepciones.
+      </p>
+      <div class="stat-row">
+        <div class="stat-item">
+          <span class="stat-number">3</span>
+          <span class="stat-label">Smokers</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">2</span>
+          <span class="stat-label">Kamados</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">+12hs</span>
+          <span class="stat-label">Cocción</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">100%</span>
+          <span class="stat-label">Ahumado</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="wood-divider"></div>
+
+  <!-- MENU -->
+  <section id="menu">
+    <div class="menu-header">
+      <div>
+        <div class="section-label">// El fuego</div>
+        <h2 class="section-title">Solo<br><em>Ahumados</em></h2>
+      </div>
+      <p
+        style="font-family:'Crimson Text',serif;font-style:italic;color:var(--silver);max-width:300px;text-align:right;font-size:1rem;line-height:1.7;">
+        Calidad que se huele antes de sentarse. <br> Lo que sale de este local tardó más en cocinarse que vos en
+        llegar."
+      </p>
+    </div>
+
+    <div class="menu-grid">
+      <div class="menu-card">
+        <div class="menu-card-image">
+          <img id="img-salamines" src="Menu/Salamines.jpg" alt="Salamines y Longanizas" />
+        </div>
+        <div class="menu-card-temp">
+          <div class="temp-dot"></div>Para empezar
+        </div>
+        <div class="menu-card-name">Salamines &amp; Longanizas</div>
+        <p class="menu-card-desc">Embutidos ahumados de elaboración propia. Entrada directa. Para ir entrando en calor
+          mientras el humo hace lo suyo.</p>
+        <span class="menu-card-tag">Ahumado en frío</span>
+      </div>
+      <div class="menu-card">
+        <div class="menu-card-image">
+          <img id="img-pastel" src="Menu/PastelDePapas.jpg" alt="Pastel de Papas" />
+        </div>
+        <div class="menu-card-temp">
+          <div class="temp-dot"></div>Clásico
+        </div>
+        <div class="menu-card-name">Pastel de Papas</div>
+        <p class="menu-card-desc">El pastel de papas que conocés, pero ahumado. Costra dorada, relleno jugoso. Comfort
+          food de otro nivel.</p>
+        <span class="menu-card-tag">Ahumado · Horneado</span>
+      </div>
+      <div class="menu-card">
+        <div class="menu-card-image">
+          <img id="img-dino-ribs" src="Menu/Costilla.jpg" alt="Dino Ribs" />
+        </div>
+        <div class="menu-card-temp">
+          <div class="temp-dot"></div>Imponente
+        </div>
+        <div class="menu-card-name">Dino Ribs</div>
+        <p class="menu-card-desc">Costillar de res entero. Hueso largo. Carne que se desprende sola después de horas
+          dentro del smoker. No apto para apurados.</p>
+        <span class="menu-card-tag">Roble · +8hs</span>
+      </div>
+      <div class="menu-card">
+        <div class="menu-card-image">
+          <img id="img-matambre" src="Menu/Ribs.jpg" alt="Ribs" />
+        </div>
+        <div class="menu-card-temp">
+          <div class="temp-dot"></div>Favorito
+        </div>
+        <div class="menu-card-name">Matambre a la Pizza</div>
+        <p class="menu-card-desc">Matambre ahumado con mozzarella, salsa y morrón. El cruce entre dos grandes del asado
+          argentino. Sale distinto acá.</p>
+        <span class="menu-card-tag">Ahumado · Gratinado</span>
+      </div>
+      <div class="menu-card">
+        <div class="menu-card-image">
+          <img id="img-chori-bondi" src="Menu/Sandwich.jpg" alt="Chori Bondi" />
+        </div>
+        <div class="menu-card-temp">
+          <div class="temp-dot"></div>Sándwich
+        </div>
+        <div class="menu-card-name">Chori Bondi</div>
+        <p class="menu-card-desc">Chorizo y bondiola ahumados juntos en pan. El sándwich más honesto que podés pedir.
+          Directo, contundente, sin vueltas.</p>
+        <span class="menu-card-tag">Manzano · Sándwich</span>
+      </div>
+      <div class="menu-card">
+        <div class="menu-card-image">
+          <img id="img-PapasFritas" src="Menu/PapasFritas.jpg" alt="Papas Fritas" />
+        </div>
+        <div class="menu-card-temp">
+          <div class="temp-dot"></div>El acompañante
+        </div>
+        <div class="menu-card-name">Papas Fritas</div>
+        <p class="menu-card-desc">Crocantes por fuera, tiernas por dentro. El clásico infaltable para acompañar
+          cualquier
+          ahumado. Salen con el toque justo de sal.</p>
+        <span class="menu-card-tag">Clásico · Fritas</span>
+      </div>
+      <div class="menu-card">
+        <div class="menu-card-image">
+          <img id="img-brisket" src="Menu/ExtremosAhumados.jpg" alt="Brisket" />
+        </div>
+        <div class="menu-card-temp">
+          <div class="temp-dot"></div>Signature
+        </div>
+        <div class="menu-card-name">Brisket</div>
+        <p class="menu-card-desc">Pecho de novillo ahumado lento sobre roble. Costra negra. Jugoso adentro. El plato que
+          define a Martín Faraón BBQ.</p>
+        <span class="menu-card-tag">Roble · +12hs</span>
+      </div>
+      <div class="menu-card" style="background:rgba(192,18,12,0.06);border-left:3px solid var(--red);">
+        <div class="menu-card-image">
+          <img id="img-especiales" src="" alt="Especiales" />
+        </div>
+        <div class="menu-card-temp">
+          <div class="temp-dot"></div>Limitado · Cambia cada semana
+        </div>
+        <div class="menu-card-name">Especiales de la Semana</div>
+        <p class="menu-card-desc">Lo que salió bien. Lo que Martín quiso probar. Lo que no está en el menú fijo pero
+          merece su lugar. Seguí el IG para saber qué hay.</p>
+        <a href="https://www.instagram.com/martinfaraonbbq/" target="_blank"
+          style="display:inline-flex;align-items:center;gap:6px;margin-top:16px;color:var(--red);text-decoration:none;font-family:'Oswald',sans-serif;font-weight:300;font-size:0.65rem;letter-spacing:3px;text-transform:uppercase;">
+          Ver en Instagram →
+        </a>
+      </div>
+      <div class="menu-card" style="background:rgba(192,18,12,0.08);">
+        <div class="menu-card-image">
+          <img id="img-extremos" src="Menu/ExtremosAhumados.jpg" alt="Extremos Quemados" />
+        </div>
+        <div class="menu-card-temp">
+          <div class="temp-dot"></div>
+          <div class="temp-dot" style="animation-delay:0.2s"></div>
+          <div class="temp-dot" style="animation-delay:0.4s"></div>&nbsp;Cuando hay, hay
+        </div>
+        <div class="menu-card-name" style="font-size:2rem;">Extremos Quemados</div>
+        <p class="menu-card-desc">Las puntas del brisket caramelizadas en su propia grasa. Cortadas en cubos. Lacadas.
+          El bocado más buscado de la noche. No siempre están. Cuando aparecen, no duran.</p>
+        <span class="menu-card-tag" style="border-color:var(--red);color:var(--red);">Roble · Stock muy limitado</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SMOKERS SECTION -->
+  <section id="smokers">
+    <div class="smokers-content">
+      <div>
+        <div class="section-label">// La maquinaria</div>
+        <h2 class="section-title">Los<br>3<br><em>Smokers</em></h2>
+        <p class="about-text">
+          Tres caños rojos al fondo del local. Son el corazón del lugar.
+          No son decoración — trabajan incluso los días que abrimos.
+        </p>
+        <div class="smokers-specs">
+          <div class="spec-row">
+            <span class="spec-key">Tipo</span>
+            <span class="spec-val">Offset Smoker</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-key">Color</span>
+            <span class="spec-val red">Rojo industrial</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-key">Combustible</span>
+            <span class="spec-val">Leña dura</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-key">Temperatura</span>
+            <span class="spec-val">107–135°C</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-key">Capacidad</span>
+            <span class="spec-val">+30kg simultáneos</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-key">Arranque</span>
+            <span class="spec-key red" style="color:var(--red)">6hs antes de abrir</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="smokers-visual"
+        style="height:500px;border:1px solid var(--steel);overflow:hidden;position:relative;display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--steel);">
+        <img id="img-ahumadores" src="Local/Ahumadores.jpg" alt="Ahumadores"
+          style="width:100%;height:100%;object-fit:cover;display:block;" />
+        <img id="img-smokers" src="Local/Smokers.jpg" alt="Smokers"
+          style="width:100%;height:100%;object-fit:cover;display:block;" />
+        <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 50%);">
+        </div>
+        <div style="position:absolute;bottom:24px;left:24px;display:flex;gap:20px;align-items:flex-end;">
+          <div style="text-align:center;">
+            <span
+              style="font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--red);display:block;line-height:1;">03</span>
+            <span
+              style="font-family:'Oswald',sans-serif;font-weight:300;font-size:0.55rem;letter-spacing:3px;color:var(--silver);text-transform:uppercase;">Ahumadores
+              XL</span>
+          </div>
+          <div style="text-align:center;">
+            <span
+              style="font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--red);display:block;line-height:1;">02</span>
+            <span
+              style="font-family:'Oswald',sans-serif;font-weight:300;font-size:0.55rem;letter-spacing:3px;color:var(--silver);text-transform:uppercase;">Kamados</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="wood-divider"></div>
+
+  <!-- HORARIOS + UBICACIÓN -->
+  <section id="horarios">
+    <div>
+      <div class="section-label">// Cuándo venís</div>
+      <h2 class="section-title" style="margin-bottom:40px;">Horarios</h2>
+
+      <div class="horario-table">
+        <div class="horario-header">
+          <span>Días & Horarios</span>
+          <span>📍 Bolívar 667</span>
+        </div>
+        <div class="horario-row">
+          <span class="dia">Lunes</span>
+          <span class="closed-tag">Cerrado</span>
+        </div>
+        <div class="horario-row">
+          <span class="dia">Martes</span>
+          <span class="closed-tag">Cerrado</span>
+        </div>
+        <div class="horario-row">
+          <span class="dia">Miércoles</span>
+          <span class="closed-tag">Cerrado</span>
+        </div>
+        <div class="horario-row" style="background:rgba(192,18,12,0.04)">
+          <span class="dia" style="color:var(--red)">Jueves</span>
+          <div class="horario-times">
+            <span class="time">19:30 – 23:00</span>
+          </div>
+        </div>
+        <div class="horario-row" style="background:rgba(192,18,12,0.04)">
+          <span class="dia" style="color:var(--red)">Viernes</span>
+          <div class="horario-times">
+            <span class="time">19:30 – 23:00</span>
+          </div>
+        </div>
+        <div class="horario-row" style="background:rgba(192,18,12,0.07)">
+          <span class="dia" style="color:var(--red)">Sábado</span>
+          <div class="horario-times">
+            <span class="time">12:00 – 15:00</span>
+            <span class="time-sep">· · ·</span>
+            <span class="time">19:00 – 23:00</span>
+          </div>
+        </div>
+        <div class="horario-row" style="background:rgba(192,18,12,0.07)">
+          <span class="dia" style="color:var(--red)">Domingo</span>
+          <div class="horario-times">
+            <span class="time">12:00 – 15:00</span>
+            <span class="time-sep">· · ·</span>
+            <span class="time">19:00 – 23:00</span>
+          </div>
+        </div>
+      </div>
+
+      <p
+        style="margin-top:16px;font-family:'Oswald',sans-serif;font-weight:300;font-size:0.65rem;letter-spacing:2px;color:var(--iron);text-transform:uppercase;">
+        * Hasta agotar stock. Cuando se acaba, se acaba.
+      </p>
+    </div>
+
+    <div class="location-block">
+      <div class="section-label">// Dónde estamos</div>
+      <h2 class="section-title" style="margin-bottom:40px;">Ubicación</h2>
+
+      <div class="location-info">
+        <iframe src="https://www.google.com/maps?q=-34.6466663,-58.5629035&z=15&output=embed" width="100%" height="400"
+          style="border:0;" allowfullscreen="" loading="lazy">
+        </iframe>
+        <div class="location-address">Bolívar 667</div>
+        <div class="location-city">Ramos Mejía · Buenos Aires · Argentina</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- IG / CONTACTO -->
+  <section id="contacto">
+    <div class="section-label" style="text-align:center;margin-bottom:32px;">// Seguinos</div>
+    <a href="https://www.instagram.com/martinfaraonbbq/" target="_blank" class="ig-link">
+      <svg class="ig-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+      </svg>
+      <div class="ig-handle">@martinfaraonbbq</div>
+      <div class="ig-subtitle">Instagram — Seguinos para ver el fuego en tiempo real</div>
+    </a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Martín Faraón BBQ</div>
+    <div class="footer-copy">
+      Bolívar 667 · Ramos Mejía · Buenos Aires · © 2026
+      <div style="margin-top: 8px; opacity: 0.8; font-size: 0.6rem; letter-spacing: 1px;">
+        Hecho por <span style="color: var(--red); font-weight: 600;">QADOVAH</span> con amor, café y humo
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>
