@@ -85,7 +85,19 @@
           "opens": "12:00",
           "closes": "23:00"
         }
-      ]
+      ],
+      "potentialAction": {
+        "@type": "OrderAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://wa.me/5491131074333?text=Hola%20Mart%C3%ADn,%20quiero%20hacer%20un%20pedido.",
+          "actionPlatform": [
+            "http://schema.org/DesktopWebPlatform",
+            "http://schema.org/MobileWebPlatform"
+          ]
+        },
+        "deliveryMethod": ["http://purl.org/goodrelations/v1#DeliveryModeOwnFleet"]
+      }
     }
   </script>
 
@@ -164,47 +176,75 @@
       z-index: 2;
     }
 
-    /* ── NAV ── */
-    nav {
+    /* ── HEADER & NAV ── */
+    header {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
-      z-index: 100;
+      z-index: 1000;
+      background: rgba(10, 10, 10, 0.85);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .header-main {
+      max-width: 1400px;
+      margin: 0 auto;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 18px 48px;
-      background: linear-gradient(to bottom, rgba(10, 10, 10, 0.95), transparent);
-      backdrop-filter: blur(2px);
+      padding: 18px 40px;
     }
 
-    .nav-logo {
+    .logo {
       font-family: 'Black Ops One', sans-serif;
       font-size: 1.1rem;
-      letter-spacing: 3px;
-      color: var(--red);
+      letter-spacing: 2px;
+      color: var(--white);
       text-transform: uppercase;
+      text-decoration: none;
     }
 
-    .nav-links {
+    .logo span {
+      color: var(--red);
+    }
+
+    header nav {
       display: flex;
-      gap: 36px;
-      list-style: none;
+      gap: 32px;
     }
 
-    .nav-links a {
+    header nav a {
       color: var(--chrome);
       text-decoration: none;
       font-family: 'Oswald', sans-serif;
-      font-weight: 300;
+      font-weight: 400;
       font-size: 0.75rem;
       letter-spacing: 3px;
       text-transform: uppercase;
-      transition: color 0.2s;
+      transition: color 0.3s;
     }
 
-    .nav-links a:hover {
+    header nav a:hover {
+      color: var(--red);
+    }
+
+    .ig-btn-top {
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      transition: color 0.3s;
+    }
+
+    .ig-btn-top svg {
+      width: 20px;
+      height: 20px;
+      stroke: currentColor;
+    }
+
+    .ig-btn-top:hover {
       color: var(--red);
     }
 
@@ -756,6 +796,7 @@
       grid-template-columns: repeat(3, 1fr);
       gap: 2px;
       background: var(--steel);
+      transition: opacity 0.3s ease;
     }
 
     .menu-card {
@@ -997,7 +1038,6 @@
       text-transform: uppercase;
     }
 
-    .smokers-text {}
 
     .smokers-specs {
       margin-top: 40px;
@@ -1289,13 +1329,83 @@
       opacity: 0.7;
     }
 
-    /* ── RESPONSIVE ── */
-    @media (max-width: 900px) {
-      nav {
-        padding: 16px 24px;
+    /* ── WHATSAPP FLOAT ── */
+    .whatsapp-float {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 60px;
+      height: 60px;
+      background-color: var(--red);
+      color: var(--white);
+      border-radius: 50%;
+      text-align: center;
+      font-size: 30px;
+      box-shadow: 0 0 15px rgba(192, 18, 12, 0.4);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      transition: transform 0.3s ease, background-color 0.3s ease;
+      animation: pulse-red 2s infinite;
+    }
+
+    .whatsapp-float:hover {
+      transform: scale(1.1);
+      background-color: var(--red-hot);
+    }
+
+    .whatsapp-float svg {
+      width: 32px;
+      height: 32px;
+      fill: currentColor;
+    }
+
+    @keyframes pulse-red {
+      0% {
+        box-shadow: 0 0 0 0 rgba(192, 18, 12, 0.7);
       }
 
-      .nav-links {
+      70% {
+        box-shadow: 0 0 0 15px rgba(192, 18, 12, 0);
+      }
+
+      100% {
+        box-shadow: 0 0 0 0 rgba(192, 18, 12, 0);
+      }
+    }
+
+    /* Tooltip */
+    .whatsapp-tooltip {
+      position: absolute;
+      right: 75px;
+      background: var(--steel);
+      color: var(--white);
+      padding: 8px 16px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-family: 'Oswald', sans-serif;
+      white-space: nowrap;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s;
+      pointer-events: none;
+      border: 1px solid var(--red);
+    }
+
+    .whatsapp-float:hover .whatsapp-tooltip {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .header-main {
+        padding: 15px 24px;
+      }
+
+      header nav {
         display: none;
       }
 
@@ -1389,22 +1499,42 @@
       }
     }
 
-    /* ── TESTIMONIALS (SOCIAL PROOF) ── */
+    /* ── TESTIMONIALS (CAROUSEL) ── */
     #testimonios {
       padding: 100px 80px;
       background: linear-gradient(to bottom, var(--black), #0f0f0f);
       border-top: 1px solid var(--steel);
       position: relative;
+      overflow: hidden;
     }
 
-    .testimonials-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 30px;
+    .testimonials-container {
+      position: relative;
       margin-top: 50px;
+      max-width: 1400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .testimonials-track {
+      display: flex;
+      gap: 30px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      /* Firefox */
+      scroll-behavior: smooth;
+      padding: 20px 5px;
+    }
+
+    .testimonials-track::-webkit-scrollbar {
+      display: none;
+      /* Chrome/Safari */
     }
 
     .testimonial-card {
+      flex: 0 0 calc(33.333% - 20px);
+      scroll-snap-align: center;
       background: rgba(255, 255, 255, 0.02);
       border: 1px solid var(--steel);
       padding: 40px;
@@ -1412,6 +1542,7 @@
       display: flex;
       flex-direction: column;
       transition: all 0.4s ease;
+      min-width: 320px;
     }
 
     .testimonial-card:hover {
@@ -1420,14 +1551,14 @@
       transform: translateY(-5px);
     }
 
-    /* Card destacada (la de Facundo por ser larga) */
+    /* Cards destacadas en carrusel */
     .testimonial-card.featured {
-      grid-column: span 2;
+      border-left: 3px solid var(--red);
     }
 
     .testimonial-quote {
       font-family: 'Crimson Text', serif;
-      font-size: 1.15rem;
+      font-size: 1.1rem;
       line-height: 1.7;
       color: var(--silver);
       margin-bottom: 30px;
@@ -1442,14 +1573,13 @@
       left: -10px;
       font-size: 4rem;
       color: var(--red);
-      opacity: 0.3;
+      opacity: 0.2;
       font-family: 'Bebas Neue', sans-serif;
     }
 
     .testimonial-quote strong {
       color: var(--white);
       font-weight: 600;
-      border-bottom: 1px solid var(--red);
     }
 
     .testimonial-meta {
@@ -1457,7 +1587,7 @@
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
       padding-top: 20px;
     }
 
@@ -1478,21 +1608,57 @@
 
     .stars {
       color: var(--red);
-      font-size: 0.9rem;
+      font-size: 0.8rem;
       letter-spacing: 2px;
     }
 
-    @media (max-width: 1024px) {
-      .testimonials-grid {
-        grid-template-columns: 1fr;
-      }
+    /* Carousel Controls */
+    .carousel-controls {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 40px;
+    }
 
-      .testimonial-card.featured {
-        grid-column: span 1;
-      }
+    .carousel-btn {
+      background: none;
+      border: 1px solid var(--steel);
+      color: var(--white);
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.2rem;
+    }
 
+    .carousel-btn:hover {
+      border-color: var(--red);
+      color: var(--red);
+      background: rgba(192, 18, 12, 0.05);
+    }
+
+    @media (max-width: 1100px) {
+      .testimonial-card {
+        flex: 0 0 calc(50% - 15px);
+      }
+    }
+
+    @media (max-width: 768px) {
       #testimonios {
         padding: 80px 24px;
+      }
+
+      .testimonial-card {
+        flex: 0 0 85%;
+      }
+
+      .carousel-controls {
+        display: none;
+        /* Touch es suficiente en móvil */
       }
     }
 
@@ -1518,7 +1684,7 @@
       left: 0;
       width: 100%;
       height: 1px;
-      background: linear-gradient(to right, transparent, var(--red), transparent);
+      background: linear-gradient(to right, transparent, var(--steel), transparent);
       z-index: 0;
     }
 
@@ -1526,12 +1692,17 @@
       position: relative;
       z-index: 1;
       text-align: center;
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .ritual-step.reveal.active {
+      transform: scale(1.05);
     }
 
     .step-number {
       font-family: 'Bebas Neue', sans-serif;
       font-size: 3.5rem;
-      color: var(--white);
+      color: rgba(255, 255, 255, 0.2);
       background: var(--black);
       width: 90px;
       height: 90px;
@@ -1540,31 +1711,62 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.4s ease;
+      transition: all 0.6s ease;
+      position: relative;
+    }
+
+    .ritual-step.reveal.active .step-number {
+      border-color: var(--red);
+      color: var(--white);
+      box-shadow: 0 0 30px rgba(192, 18, 12, 0.4);
+      animation: pulse-ember 3s ease-in-out infinite;
+      text-shadow: 0 0 10px var(--red);
+    }
+
+    @keyframes pulse-ember {
+
+      0%,
+      100% {
+        box-shadow: 0 0 20px rgba(192, 18, 12, 0.3);
+        border-color: var(--red);
+      }
+
+      50% {
+        box-shadow: 0 0 40px rgba(192, 18, 12, 0.7), inset 0 0 15px rgba(192, 18, 12, 0.3);
+        border-color: #ff4d4d;
+      }
     }
 
     .ritual-step:hover .step-number {
-      border-color: var(--red);
-      color: var(--red);
-      transform: scale(1.1) rotate(5deg);
-      box-shadow: 0 0 20px rgba(192, 18, 12, 0.3);
+      transform: scale(1.15) rotate(5deg);
+      background: rgba(192, 18, 12, 0.1);
     }
 
     .step-title {
       font-family: 'Oswald', sans-serif;
-      font-size: 1rem;
+      font-size: 1.1rem;
       letter-spacing: 3px;
       text-transform: uppercase;
-      color: var(--white);
+      color: var(--silver);
       margin-bottom: 16px;
+      transition: color 0.6s ease;
+    }
+
+    .ritual-step.reveal.active .step-title {
+      color: var(--white);
     }
 
     .step-desc {
       font-family: 'Crimson Text', serif;
       font-size: 0.95rem;
-      color: var(--silver);
+      color: var(--iron);
       line-height: 1.6;
       padding: 0 10px;
+      transition: color 0.6s ease;
+    }
+
+    .ritual-step.reveal.active .step-desc {
+      color: var(--silver);
     }
 
     @media (max-width: 1024px) {
@@ -1657,6 +1859,269 @@
       padding-left: 10px;
     }
 
+    /* ── MENU SECTION (RESTORED & MODAL) ── */
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      background: var(--steel);
+      margin-top: 50px;
+    }
+
+    .menu-card {
+      background: var(--deep);
+      padding: 36px 28px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .menu-card:hover {
+      background: var(--steel);
+      transform: translateY(-5px);
+    }
+
+    .menu-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 3px;
+      height: 0;
+      background: var(--red);
+      transition: height 0.3s;
+    }
+
+    .menu-card:hover::before {
+      height: 100%;
+    }
+
+    .menu-card-image {
+      margin: -36px -28px 20px;
+      height: 250px;
+      background: #151515;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .menu-card-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+
+    .menu-card:hover .menu-card-image img {
+      transform: scale(1.05);
+    }
+
+    .menu-card-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      letter-spacing: 3px;
+      color: var(--white);
+      line-height: 1.1;
+      margin-bottom: 12px;
+    }
+
+    .menu-card-desc {
+      font-family: 'Crimson Text', serif;
+      font-style: italic;
+      font-size: 0.95rem;
+      color: var(--silver);
+      line-height: 1.6;
+      flex-grow: 1;
+    }
+
+    /* ── MODAL DE GALERÍA ── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.9);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .modal-content {
+      background: var(--black);
+      border: 1px solid var(--steel);
+      max-width: 900px;
+      width: 100%;
+      position: relative;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+      transform: scale(0.9);
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .modal-overlay.active .modal-content {
+      transform: scale(1);
+    }
+
+    .modal-image-container {
+      background: #111;
+      height: 100%;
+      min-height: 400px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .modal-image-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .modal-info {
+      padding: 60px 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: none;
+      border: none;
+      color: var(--white);
+      font-size: 2rem;
+      cursor: pointer;
+      z-index: 10;
+      font-family: 'Bebas Neue', sans-serif;
+      line-height: 1;
+      transition: color 0.3s;
+    }
+
+    .modal-close:hover {
+      color: var(--red);
+    }
+
+    @media (max-width: 850px) {
+      .modal-content {
+        grid-template-columns: 1fr;
+        max-height: 90vh;
+        overflow-y: auto;
+      }
+
+      .modal-image-container {
+        min-height: 300px;
+      }
+
+      .modal-info {
+        padding: 40px 24px;
+      }
+    }
+
+    /* ── REVEAL ANIMATIONS ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      pointer-events: none;
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    /* ── STATUS INDICATOR ── */
+    .status-banner {
+      background: var(--black);
+      border-top: 1px solid var(--red);
+      border-bottom: 1px solid var(--red);
+      padding: 10px;
+      text-align: center;
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      position: sticky;
+      top: 65px;
+      z-index: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #ccc;
+    }
+
+    .status-banner.open .status-dot {
+      background: #0f0;
+      box-shadow: 0 0 10px #0f0;
+      animation: pulse-green 2s infinite;
+    }
+
+    .status-banner.closed .status-dot {
+      background: var(--red);
+    }
+
+    @keyframes pulse-green {
+      0% {
+        box-shadow: 0 0 0 0 rgba(0, 255, 0, 0.7);
+      }
+
+      70% {
+        box-shadow: 0 0 0 10px rgba(0, 255, 0, 0);
+      }
+
+      100% {
+        box-shadow: 0 0 0 0 rgba(0, 255, 0, 0);
+      }
+    }
+
+    /* Sold Out Style */
+    .menu-card.sold-out {
+      filter: grayscale(1);
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    .menu-card.sold-out::after {
+      content: 'SOLD OUT';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-15deg);
+      background: var(--red);
+      color: var(--white);
+      padding: 5px 15px;
+      font-weight: bold;
+      font-size: 1.2rem;
+      border: 2px solid var(--white);
+      z-index: 10;
+    }
+
     @media (max-width: 1024px) {
       #faq {
         padding: 80px 24px;
@@ -1711,11 +2176,13 @@
 
     .logia-form {
       display: flex;
-      gap: 10px;
-      background: rgba(255, 255, 255, 0.05);
-      padding: 10px;
+      flex-direction: column;
+      gap: 15px;
+      background: rgba(255, 255, 255, 0.03);
+      padding: 30px;
       border: 1px solid var(--steel);
       transition: all 0.3s ease;
+      text-align: left;
     }
 
     .logia-form:focus-within {
@@ -1724,26 +2191,33 @@
     }
 
     .logia-input {
-      flex: 1;
-      background: none;
-      border: none;
-      padding: 15px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--iron);
+      padding: 15px 20px;
       color: var(--white);
       font-family: 'Oswald', sans-serif;
-      font-size: 1rem;
+      font-size: 0.9rem;
       outline: none;
+      transition: all 0.3s;
+    }
+
+    .logia-input:focus {
+      border-color: var(--red);
+      background: rgba(192, 18, 12, 0.05);
     }
 
     .logia-btn {
       background: var(--red);
       color: var(--white);
       border: none;
-      padding: 0 30px;
+      padding: 18px;
       font-family: 'Oswald', sans-serif;
       text-transform: uppercase;
       letter-spacing: 2px;
       cursor: pointer;
       transition: all 0.3s ease;
+      font-weight: 600;
+      margin-top: 10px;
     }
 
     .logia-btn:hover {
@@ -1838,56 +2312,624 @@
         gap: 30px;
       }
     }
+
+    /* ── REVEAL ANIMATIONS ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      pointer-events: none;
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    /* ── MENU FILTERS ── */
+    .menu-filters {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 50px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      background: none;
+      border: 1px solid var(--steel);
+      color: var(--iron);
+      padding: 12px 24px;
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      cursor: pointer;
+      transition: all 0.3s;
+      position: relative;
+    }
+
+    .filter-btn::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--red);
+      transition: width 0.3s;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      border-color: var(--red);
+      color: var(--white);
+      background: rgba(192, 18, 12, 0.05);
+    }
+
+    .filter-btn.active::after {
+      width: 100%;
+    }
+
+    /* ── SUCCESS WAX SEAL ── */
+    .success-container {
+      display: none;
+      padding: 60px 20px;
+      text-align: center;
+      animation: fadeIn 0.5s ease forwards;
+    }
+
+    .wax-seal-wrapper {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 30px;
+    }
+
+    .wax-seal {
+      width: 120px;
+      height: 120px;
+      background: #c0120c;
+      border-radius: 50%;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow:
+        inset 0 0 15px rgba(0, 0, 0, 0.4),
+        0 4px 15px rgba(0, 0, 0, 0.5);
+      border: 4px solid #a00f0a;
+      animation: stampIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+      opacity: 0;
+      transform: scale(3) rotate(-15deg);
+    }
+
+    .wax-seal::after {
+      content: 'F';
+      font-family: 'Black Ops One', cursive;
+      font-size: 4rem;
+      color: rgba(255, 255, 255, 0.8);
+      text-shadow: -1px -1px 2px rgba(0, 0, 0, 0.5), 1px 1px 2px rgba(255, 255, 255, 0.2);
+    }
+
+    .wax-drips {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+    }
+
+    .drip {
+      position: absolute;
+      background: #c0120c;
+      border-radius: 20px;
+      width: 15px;
+      height: 0;
+      animation: dripEffect 0.6s 0.3s ease-out forwards;
+    }
+
+    .drip-1 {
+      left: 20px;
+      top: 90px;
+      width: 12px;
+    }
+
+    .drip-2 {
+      right: 30px;
+      top: 100px;
+      width: 18px;
+    }
+
+    .drip-3 {
+      left: 50%;
+      top: 110px;
+      width: 10px;
+      margin-left: -5px;
+    }
+
+    @keyframes stampIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+      }
+
+      /* ── SUCCESS WAX SEAL ── */
+      .success-container {
+        display: none;
+        padding: 60px 20px;
+        text-align: center;
+        animation: fadeIn 0.5s ease forwards;
+      }
+
+      .wax-seal-wrapper {
+        position: relative;
+        display: inline-block;
+        margin-bottom: 30px;
+      }
+
+      .wax-seal {
+        width: 120px;
+        height: 120px;
+        background: #c0120c;
+        border-radius: 50%;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow:
+          inset 0 0 15px rgba(0, 0, 0, 0.4),
+          0 4px 15px rgba(0, 0, 0, 0.5);
+        border: 4px solid #a00f0a;
+        animation: stampIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        opacity: 0;
+        transform: scale(3) rotate(-15deg);
+      }
+
+      .wax-seal::after {
+        content: 'F';
+        font-family: 'Black Ops One', cursive;
+        font-size: 4rem;
+        color: rgba(255, 255, 255, 0.8);
+        text-shadow: -1px -1px 2px rgba(0, 0, 0, 0.5), 1px 1px 2px rgba(255, 255, 255, 0.2);
+      }
+
+      .wax-drips {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+      }
+
+      .drip {
+        position: absolute;
+        background: #c0120c;
+        border-radius: 20px;
+        width: 15px;
+        height: 0;
+        animation: dripEffect 0.6s 0.3s ease-out forwards;
+      }
+
+      .drip-1 {
+        left: 20px;
+        top: 90px;
+        width: 12px;
+      }
+
+      .drip-2 {
+        right: 30px;
+        top: 100px;
+        width: 18px;
+      }
+
+      .drip-3 {
+        left: 50%;
+        top: 110px;
+        width: 10px;
+        margin-left: -5px;
+      }
+
+      @keyframes stampIn {
+        to {
+          opacity: 1;
+          transform: scale(1) rotate(-8deg);
+        }
+      }
+
+      @keyframes dripEffect {
+        to {
+          height: 25px;
+        }
+      }
+
+      .ticket-rustico {
+        background: #e2d1b5;
+        color: #3d2b1f;
+        padding: 30px;
+        font-family: 'Oswald', sans-serif;
+        max-width: 400px;
+        margin: 0 auto;
+        border-radius: 2px;
+        position: relative;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        border: 1px dashed rgba(61, 43, 31, 0.3);
+      }
+
+      .ticket-rustico::before,
+      .ticket-rustico::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 10px;
+        left: 0;
+        background-image: radial-gradient(circle, transparent 70%, #e2d1b5 72%);
+        background-size: 20px 20px;
+      }
+
+      .ticket-rustico::before {
+        top: -10px;
+        background-position: 0 10px;
+      }
+
+      .ticket-rustico::after {
+        bottom: -10px;
+        background-position: 0 0;
+      }
+
+      .ticket-title {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 2rem;
+        border-bottom: 2px solid #3d2b1f;
+        margin-bottom: 15px;
+        letter-spacing: 2px;
+      }
   </style>
 
-  <!-- ================================================
-  CONFIGURACIÓN DE IMÁGENES
-  Cambiá las rutas acá abajo para actualizar cualquier foto del sitio.
-  No necesitás tocar nada más en el HTML.
-================================================ -->
+  <!-- 
+  ================================================
+  CONFIGURACIÓN DINÁMICA (Menú y Horarios)
+  ================================================
+  -->
   <script>
-    const IMAGENES = {
-      // Foto principal de Martín en la sección "Nosotros"
-      martin: "Menu/Portada.jpg",
+    /* ── REVEAL OBSERVER ── */
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+        }
+      });
+    }, {
+      threshold: 0.15
+    });
 
-      // Mapa de ubicación (sección Horarios)
-      mapa: "Mapa.jpg",
+    /* ── MENU DATA & RENDER ── */
+    const MENU_DATA = [
+      {
+        id: "salamines",
+        name: "Salamines & Longanizas",
+        category: "entradas",
+        desc: "Embutidos ahumados de elaboración propia. Entrada directa. Para ir entrando en calor mientras el humo hace lo suyo.",
+        tag: "Ahumado en frío",
+        temp: "Para empezar",
+        img: "Menu/Salamines.jpg",
+        status: "active"
+      },
+      {
+        id: "pastel",
+        name: "Pastel de Papas",
+        category: "platos",
+        desc: "El pastel de papas que conocés, pero ahumado. Costra dorada, relleno jugoso. Comfort food de otro nivel.",
+        tag: "Ahumado · Horneado",
+        temp: "Clásico",
+        img: "Menu/PastelDePapas.jpg",
+        status: "active"
+      },
+      {
+        id: "dino-ribs",
+        name: "Dino Ribs",
+        category: "platos",
+        desc: "Costillar de res entero. Hueso largo. Carne que se desprende sola después de horas dentro del smoker. No apto para apurados.",
+        tag: "Roble · +8hs",
+        temp: "Imponente",
+        img: "Menu/Costilla.jpg",
+        status: "active"
+      },
+      {
+        id: "matambre",
+        name: "Matambre a la Pizza",
+        category: "platos",
+        desc: "Matambre ahumado con mozzarella, salsa y morrón. El cruce entre dos grandes del asado argentino. Sale distinto acá.",
+        tag: "Ahumado · Gratinado",
+        temp: "Favorito",
+        img: "Menu/MatambrePizza.jpg",
+        status: "active"
+      },
+      {
+        id: "chori-bondi",
+        name: "Chori Bondi",
+        category: "sandwiches",
+        desc: "Chorizo y bondiola ahumados juntos en pan. El sándwich más honesto que podés pedir. Directo, contundente, sin vueltas.",
+        tag: "Manzano · Sándwich",
+        temp: "Sándwich",
+        img: "Menu/Sandwich.jpg",
+        status: "active"
+      },
+      {
+        id: "papas",
+        name: "Papas Fritas",
+        category: "acompanamientos",
+        desc: "Crocantes por fuera, tiernas por dentro. El clásico infaltable para acompañar cualquier ahumado.",
+        tag: "Clásico · Fritas",
+        temp: "El acompañante",
+        img: "Menu/PapasFritas.jpg",
+        status: "active"
+      },
+      {
+        id: "brisket",
+        name: "Brisket",
+        category: "platos",
+        desc: "Pecho de novillo ahumado lento sobre roble. Costra negra. Jugoso adentro. El plato que define a Martín Faraón BBQ.",
+        tag: "Roble · +12hs",
+        temp: "Signature",
+        img: "Menu/Brisket.jpg",
+        status: "active"
+      },
+      {
+        id: "extremos",
+        name: "Extremos Quemados",
+        category: "especiales",
+        desc: "Las puntas del brisket caramelizadas en su propia grasa. El bocado más buscado. Cuando aparecen, no duran.",
+        tag: "Roble · Stock limitado",
+        temp: "Cuando hay, hay",
+        img: "Menu/ExtremosAhumados.jpg",
+        status: "limited",
+        style: "background:rgba(192,18,12,0.08);"
+      },
+      {
+        id: "especiales",
+        name: "Especiales de la Semana",
+        category: "especiales",
+        desc: "Lo que Martín quiso probar. Lo que no está en el menú fijo pero merece su lugar. Seguí el IG para saber qué hay.",
+        tag: "Limitado",
+        temp: "Novedad",
+        img: "Menu/Especiales.jpg",
+        status: "active",
+        link: "https://www.instagram.com/martinfaraonbbq/",
+        style: "background:rgba(192,18,12,0.06);border-left:3px solid var(--red);"
+      }
+    ];
 
-      // Foto de los smokers (sección Los Smokers)
-      ahumadores: "Local/Ahumadores.jpg",
-      smokers: "Local/Smokers.jpg",
+    async function renderMenu(categoryFilter = 'all') {
+      const container = document.getElementById('menu-container');
+      if (!container) return;
 
-      // Imágenes del menú — una por plato
-      salamines: "Menu/Salamines.jpg",
-      dinoRibs: "Menu/Costilla.jpg",
-      matambre: "Menu/MatambrePizza.jpg",
-      choriBondi: "Menu/Sandwich.jpg",
-      pastelPapas: "Menu/PastelDePapas.jpg",
-      brisket: "Menu/Brisket.jpg",
-      extremos: "Menu/ExtremosAhumados.jpg",
-      especiales: "Menu/Especiales.jpg",
-      PapasFritas: "Menu/PapasFritas.jpg",
+      const hasWebP = await supportsWebP();
+
+      // Filtrado
+      const filteredData = categoryFilter === 'all'
+        ? MENU_DATA
+        : MENU_DATA.filter(item => item.category === categoryFilter);
+
+      // Efecto de fade out antes de cambiar
+      container.style.opacity = '0';
+
+      setTimeout(() => {
+        container.innerHTML = filteredData.map(item => {
+          const imgPath = hasWebP ? item.img.replace(/\.(jpg|png)$/i, '.webp') : item.img;
+          const soldOutClass = item.status === 'sold-out' ? 'sold-out' : '';
+          const customStyle = item.style || '';
+
+          return `
+            <div class="menu-card reveal ${soldOutClass}" style="${customStyle}" onclick="openMenuModal('${item.id}')">
+              <div class="menu-card-image">
+                <img id="img-${item.id}" src="${imgPath}" alt="${item.name}" loading="lazy" 
+                     width="400" height="300"
+                     onerror="this.src='${item.img}'" />
+              </div>
+              <div class="menu-card-temp">
+                <div class="temp-dot"></div>${item.temp}
+              </div>
+              <div class="menu-card-name">${item.name}</div>
+              <p class="menu-card-desc">${item.desc}</p>
+              ${item.link ? `
+                <a href="${item.link}" target="_blank" class="menu-card-ig-link" onclick="event.stopPropagation()">Ver en Instagram →</a>
+              ` : `
+                <span class="menu-card-tag">${item.tag}</span>
+              `}
+            </div>
+          `;
+        }).join('');
+
+        container.style.opacity = '1';
+
+        // Observar los nuevos elementos
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+      }, 300);
+    }
+
+    window.filterMenu = function (category, btn) {
+      // Actualizar botones
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      // Renderizar
+      renderMenu(category);
     };
 
-    // Aplica las rutas al cargar la página
+    /* ── OPENING HOURS LOGIC ── */
+    function updateStoreStatus() {
+      const now = new Date();
+      const day = now.getDay();
+      const hour = now.getHours();
+      const min = now.getMinutes();
+      const time = hour + min / 60;
+
+      let isOpen = false;
+      let nextOpening = "JUEVES 19:30";
+
+      if ((day === 4 || day === 5) && (time >= 19.5 && time < 23)) isOpen = true;
+      else if ((day === 6 || day === 0) && (time >= 12 && time < 23)) isOpen = true;
+
+      const banner = document.getElementById('store-status');
+      const text = document.getElementById('status-text');
+
+      if (isOpen) {
+        banner.classList.add('open');
+        banner.classList.remove('closed');
+        text.innerText = "🔥 ESTAMOS AHUMANDO (ABIERTO)";
+      } else {
+        banner.classList.add('closed');
+        banner.classList.remove('open');
+        text.innerText = `💨 HOY EL FUEGO DESCANSA (ABRIMOS EL ${nextOpening})`;
+      }
+    }
+
+    async function supportsWebP() {
+      if (!self.createImageBitmap) return false;
+      const webpData = 'data:image/webp;base64,UklGRh4AAABXRUJQVlA4TBEAAAAvAAAAAAfQ//73vJBiREwA';
+      const blob = await fetch(webpData).then(r => r.blob());
+      return createImageBitmap(blob).then(() => true, () => false);
+    }
+
+    /* ── GALLERY MODAL LOGIC ── */
+    async function openMenuModal(itemId) {
+      const item = MENU_DATA.find(i => i.id === itemId);
+      if (!item) return;
+
+      const modal = document.getElementById('menu-modal');
+      const img = document.getElementById('modal-img');
+      const title = document.getElementById('modal-title');
+      const desc = document.getElementById('modal-desc');
+      const badge = document.getElementById('modal-badge');
+      const tag = document.getElementById('modal-tag');
+
+      const hasWebP = await supportsWebP();
+      const imgPath = hasWebP ? item.img.replace(/\.(jpg|png)$/i, '.webp') : item.img;
+
+      img.src = imgPath;
+      img.onerror = () => { img.src = item.img; };
+      title.innerText = item.name;
+      desc.innerText = item.desc;
+      badge.innerText = item.tag;
+      tag.innerText = `// ${item.temp}`;
+
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeMenuModal() {
+      const modal = document.getElementById('menu-modal');
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    /* ── INITIALIZATION ── */
     document.addEventListener("DOMContentLoaded", () => {
-      const set = (id, key) => {
-        const el = document.getElementById(id);
-        if (el && IMAGENES[key]) el.src = IMAGENES[key];
+      renderMenu();
+      updateStoreStatus();
+      setInterval(updateStoreStatus, 60000);
+
+      // Hero Parallax
+      const heroBg = document.querySelector('.hero-bg img');
+      if (heroBg && window.innerWidth > 1024) {
+        window.addEventListener('scroll', () => {
+          const scrolled = window.pageYOffset;
+          if (scrolled < window.innerHeight) {
+            heroBg.style.transform = `translate3d(0, ${scrolled * 0.4}px, 0)`;
+          }
+        });
+      }
+
+      // FAQ
+      document.querySelectorAll('.faq-item').forEach(item => {
+        item.querySelector('.faq-question').addEventListener('click', () => {
+          const isActive = item.classList.contains('active');
+          document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+          if (!isActive) item.classList.add('active');
+        });
+      });
+
+      // La Logia - Google Sheets Integration
+      const logiaForm = document.getElementById('form-logia');
+      if (logiaForm) {
+        logiaForm.addEventListener('submit', async function (e) {
+          e.preventDefault();
+
+          const submitBtn = document.getElementById('logia-submit-btn');
+          const errorMsg = document.getElementById('logia-error');
+
+          const originalBtnText = submitBtn.innerText;
+          submitBtn.innerText = "PROCESANDO HUMO...";
+          submitBtn.disabled = true;
+          errorMsg.style.display = 'none';
+
+          const data = {
+            nombre: document.getElementById('logia-nombre').value,
+            email: document.getElementById('logia-email').value,
+            ubicacion: document.getElementById('logia-ubicacion').value,
+            telefono: document.getElementById('logia-telefono').value
+          };
+
+          console.log("🚀 Mandando a la Logia:", data);
+
+          const scriptURL = 'https://script.google.com/macros/s/AKfycbxfoAqPRJC6r8OdpF4brNWm26r1Bf2msEe4DctST43pM5pcc0RfxCqoBV7xPAkETvmvHw/exec';
+
+          try {
+            // Mandamos los datos como texto plano para evitar problemas de pre-flight CORS
+            // Google Apps Script lo recibe igual en e.postData.contents
+            await fetch(scriptURL, {
+              method: 'POST',
+              mode: 'no-cors',
+              cache: 'no-cache',
+              body: JSON.stringify(data)
+            });
+
+            const successContainer = document.getElementById('logia-success-container');
+            if (successContainer) {
+              successContainer.style.display = 'block';
+              logiaForm.style.display = 'none';
+            }
+          } catch (error) {
+            console.error('Error!', error.message);
+            submitBtn.innerText = originalBtnText;
+            submitBtn.disabled = false;
+            errorMsg.style.display = 'block';
+          }
+        });
+      }
+
+      // Testimonials Carousel
+      window.scrollCarousel = function (direction) {
+        const track = document.getElementById('testimonials-track');
+        if (!track) return;
+        const cardWidth = track.querySelector('.testimonial-card').offsetWidth + 30;
+        track.scrollBy({
+          left: direction * cardWidth,
+          behavior: 'smooth'
+        });
       };
-      set("img-martin", "martin");
-      set("img-mapa", "mapa");
-      set("img-ahumadores", "ahumadores");
-      set("img-smokers", "smokers");
-      set("img-salamines", "salamines");
-      set("img-dino-ribs", "dinoRibs");
-      set("img-matambre", "matambre");
-      set("img-chori-bondi", "choriBondi");
-      set("img-pastel", "pastelPapas");
-      set("img-brisket", "brisket");
-      set("img-extremos", "extremos");
-      set("img-especiales", "especiales");
-      set("img-PapasFritas", "PapasFritas");
+
+      // Reveal Animations (Intersection Observer)
+      const revealOption = {
+        threshold: 0.15,
+        rootMargin: "0px 0px -50px 0px"
+      };
+
+      const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+          }
+        });
+      }, revealOption);
+
+      document.querySelectorAll('.reveal').forEach(el => {
+        revealObserver.observe(el);
+      });
     });
   </script>
 
@@ -1899,22 +2941,33 @@
       style="display:none;visibility:hidden"></iframe></noscript>
   <!-- End Google Tag Manager (noscript) -->
 
-
-
-
   <!-- NAV -->
-  <nav>
-    <div class="nav-logo">MARTIN FARAON·BBQ</div>
-    <ul class="nav-links">
-      <li><a href="#nosotros">Historia</a></li>
-      <li><a href="#ritual">Ritual</a></li>
-      <li><a href="#menu">Menú</a></li>
-      <li><a href="#smokers">Smokers</a></li>
-      <li><a href="#horarios">Horarios y ubicación</a></li>
-      <li><a href="#contacto">Instagram</a></li>
-      <li><a href="#faq">Preguntas</a></li>
-    </ul>
-  </nav>
+  <header>
+    <div class="header-main">
+      <div class="logo">MARTÍN <span>FARAÓN</span> BBQ</div>
+      <nav>
+        <a href="#menu">Menú</a>
+        <a href="#nosotros">Historia</a>
+        <a href="#ritual">El Ritual</a>
+        <a href="#contacto">Ubicación</a>
+      </nav>
+      <div class="header-actions">
+        <a href="https://www.instagram.com/martinfaraonbbq/" target="_blank" class="ig-btn-top">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- STATUS BANNER -->
+  <div id="store-status" class="status-banner">
+    <div class="status-dot"></div>
+    <span id="status-text">Calculando fuego...</span>
+  </div>
 
   <!-- HERO -->
   <section id="hero">
@@ -2095,126 +3148,17 @@
       </p>
     </div>
 
-    <div class="menu-grid">
-      <div class="menu-card">
-        <div class="menu-card-image">
-          <img id="img-salamines" src="Menu/Salamines.jpg" alt="Salamines y Longanizas ahumadas artesanalmente"
-            loading="lazy" />
-        </div>
-        <div class="menu-card-temp">
-          <div class="temp-dot"></div>Para empezar
-        </div>
-        <div class="menu-card-name">Salamines &amp; Longanizas</div>
-        <p class="menu-card-desc">Embutidos ahumados de elaboración propia. Entrada directa. Para ir entrando en calor
-          mientras el humo hace lo suyo.</p>
-        <span class="menu-card-tag">Ahumado en frío</span>
-      </div>
-      <div class="menu-card">
-        <div class="menu-card-image">
-          <img id="img-pastel" src="Menu/PastelDePapas.jpg" alt="Pastel de Papas ahumado con costra dorada"
-            loading="lazy" />
-        </div>
-        <div class="menu-card-temp">
-          <div class="temp-dot"></div>Clásico
-        </div>
-        <div class="menu-card-name">Pastel de Papas</div>
-        <p class="menu-card-desc">El pastel de papas que conocés, pero ahumado. Costra dorada, relleno jugoso. Comfort
-          food de otro nivel.</p>
-        <span class="menu-card-tag">Ahumado · Horneado</span>
-      </div>
-      <div class="menu-card">
-        <div class="menu-card-image">
-          <img id="img-dino-ribs" src="Menu/Costilla.jpg" alt="Dino Ribs: Costillar de res ahumado por 12 horas"
-            loading="lazy" />
-        </div>
-        <div class="menu-card-temp">
-          <div class="temp-dot"></div>Imponente
-        </div>
-        <div class="menu-card-name">Dino Ribs</div>
-        <p class="menu-card-desc">Costillar de res entero. Hueso largo. Carne que se desprende sola después de horas
-          dentro del smoker. No apto para apurados.</p>
-        <span class="menu-card-tag">Roble · +8hs</span>
-      </div>
-      <div class="menu-card">
-        <div class="menu-card-image">
-          <img id="img-matambre" src="Menu/MatambrePizza.jpg" alt="Ribs" loading="lazy" />
-        </div>
-        <div class="menu-card-temp">
-          <div class="temp-dot"></div>Favorito
-        </div>
-        <div class="menu-card-name">Matambre a la Pizza</div>
-        <p class="menu-card-desc">Matambre ahumado con mozzarella, salsa y morrón. El cruce entre dos grandes del asado
-          argentino. Sale distinto acá.</p>
-        <span class="menu-card-tag">Ahumado · Gratinado</span>
-      </div>
-      <div class="menu-card">
-        <div class="menu-card-image">
-          <img id="img-chori-bondi" src="Menu/Sandwich.jpg" alt="Chori Bondi" loading="lazy" />
-        </div>
-        <div class="menu-card-temp">
-          <div class="temp-dot"></div>Sándwich
-        </div>
-        <div class="menu-card-name">Chori Bondi</div>
-        <p class="menu-card-desc">Chorizo y bondiola ahumados juntos en pan. El sándwich más honesto que podés pedir.
-          Directo, contundente, sin vueltas.</p>
-        <span class="menu-card-tag">Manzano · Sándwich</span>
-      </div>
-      <div class="menu-card">
-        <div class="menu-card-image">
-          <img id="img-PapasFritas" src="Menu/PapasFritas.jpg" alt="Papas Fritas" loading="lazy" />
-        </div>
-        <div class="menu-card-temp">
-          <div class="temp-dot"></div>El acompañante
-        </div>
-        <div class="menu-card-name">Papas Fritas</div>
-        <p class="menu-card-desc">Crocantes por fuera, tiernas por dentro. El clásico infaltable para acompañar
-          cualquier
-          ahumado. Salen con el toque justo de sal.</p>
-        <span class="menu-card-tag">Clásico · Fritas</span>
-      </div>
-      <div class="menu-card">
-        <div class="menu-card-image">
-          <img id="img-brisket" src="Menu/Brisket.jpg" alt="Brisket de novillo ahumado al estilo Texas en Ramos Mejía"
-            loading="lazy" />
-        </div>
-        <div class="menu-card-temp">
-          <div class="temp-dot"></div>Signature
-        </div>
-        <div class="menu-card-name">Brisket</div>
-        <p class="menu-card-desc">Pecho de novillo ahumado lento sobre roble. Costra negra. Jugoso adentro. El plato que
-          define a Martín Faraón BBQ.</p>
-        <span class="menu-card-tag">Roble · +12hs</span>
-      </div>
-      <div class="menu-card" style="background:rgba(192,18,12,0.06);border-left:3px solid var(--red);">
-        <div class="menu-card-image">
-          <img id="img-especiales" src="" alt="Especiales" loading="lazy" />
-        </div>
-        <div class="menu-card-temp">
-          <div class="temp-dot"></div>Limitado · Cambia cada semana
-        </div>
-        <div class="menu-card-name">Especiales de la Semana</div>
-        <p class="menu-card-desc">Lo que salió bien. Lo que Martín quiso probar. Lo que no está en el menú fijo pero
-          merece su lugar. Seguí el IG para saber qué hay.</p>
-        <a href="https://www.instagram.com/martinfaraonbbq/" target="_blank"
-          style="display:inline-flex;align-items:center;gap:6px;margin-top:16px;color:var(--red);text-decoration:none;font-family:'Oswald',sans-serif;font-weight:300;font-size:0.65rem;letter-spacing:3px;text-transform:uppercase;">
-          Ver en Instagram →
-        </a>
-      </div>
-      <div class="menu-card" style="background:rgba(192,18,12,0.08);">
-        <div class="menu-card-image">
-          <img id="img-extremos" src="Menu/ExtremosAhumados.jpg"
-            alt="Extremos Quemados (Burnt Ends) de Brisket caramelizados" loading="lazy" />
-        </div>
-        <div class="menu-card-temp">
-          <div class="temp-dot"></div>
-          <div class="temp-dot" style="animation-delay:0.2s"></div>
-          <div class="temp-dot" style="animation-delay:0.4s"></div>&nbsp;Cuando hay, hay
-        </div>
-        <div class="menu-card-name" style="font-size:2rem;">Extremos Quemados</div>
-        <p class="menu-card-desc">Las puntas del brisket caramelizadas en su propia grasa. Cortadas en cubos. Lacadas.
-          El bocado más buscado de la noche. No siempre están. Cuando aparecen, no duran.</p>
-        <span class="menu-card-tag" style="border-color:var(--red);color:var(--red);">Roble · Stock muy limitado</span>
-      </div>
+    <div class="menu-filters">
+      <button class="filter-btn active" onclick="filterMenu('all', this)">Todos</button>
+      <button class="filter-btn" onclick="filterMenu('entradas', this)">Entradas</button>
+      <button class="filter-btn" onclick="filterMenu('platos', this)">Ahumados</button>
+      <button class="filter-btn" onclick="filterMenu('sandwiches', this)">Sándwiches</button>
+      <button class="filter-btn" onclick="filterMenu('acompanamientos', this)">Extras</button>
+      <button class="filter-btn" onclick="filterMenu('especiales', this)">Especiales</button>
+    </div>
+
+    <div id="menu-container" class="menu-grid">
+      <!-- Los platos se cargan dinámicamente desde el script -->
     </div>
   </section>
 
@@ -2223,80 +3167,87 @@
     <div class="section-label">// La voz de la logia</div>
     <h2 class="section-title"><em>Los Guerreros</em> andan diciendo...</h2>
 
-    <div class="testimonials-grid">
-      <!-- Facundo (Destacado) -->
-      <div class="testimonial-card featured">
-        <div class="testimonial-quote">
-          <br>
-          Hay dos tipos de personas, los que saben cocinar carne y luego están estas personas. Es un viaje de ida, más
-          que nada si sos un amante de los ahumados.<br><br>
-          Hicimos un pedido por Rappi... De repente teníamos dos brutalidades ahumadas en nuestra mesa. Cada bocado es
-          una experiencia única, no les falta nada.
-          <strong>Ahora entiendo que cuando Homer comió la costilla, tuve la misma sensación.</strong>
-          Me saco el sombrero ante el chef que creó estas maravillas.
-        </div>
-        <div class="testimonial-meta">
-          <div class="author-info">
-            <span class="name">Facundo</span>
-            <span class="date">18 de Abril, 2026</span>
+    <div class="testimonials-container">
+      <div id="testimonials-track" class="testimonials-track">
+        <!-- Facundo (Destacado) -->
+        <div class="testimonial-card featured reveal">
+          <div class="testimonial-quote">
+            <br>
+            Hay dos tipos de personas, los que saben cocinar carne y luego están estas personas. Es un viaje de ida, más
+            que nada si sos un amante de los ahumados.<br><br>
+            Hicimos un pedido por Rappi... De repente teníamos dos brutalidades ahumadas en nuestra mesa. Cada bocado es
+            una experiencia única, no les falta nada.
+            <strong>Ahora entiendo que cuando Homer comió la costilla, tuve la misma sensación.</strong>
+            Me saco el sombrero ante el chef que creó estas maravillas.
           </div>
-          <div class="stars">★★★★★</div>
+          <div class="testimonial-meta">
+            <div class="author-info">
+              <span class="name">Facundo</span>
+              <span class="date">18 de Abril, 2026</span>
+            </div>
+            <div class="stars">★★★★★</div>
+          </div>
+        </div>
+
+        <!-- Alejandro -->
+        <div class="testimonial-card reveal" style="transition-delay: 0.1s;">
+          <div class="testimonial-quote"> <br>
+            ¡Excelente lugar! Martín un fenómeno… los sándwiches son lo más! Si querés comer algo distinto tenés que
+            venir. 10/10.
+          </div>
+          <div class="testimonial-meta">
+            <div class="author-info">
+              <span class="name">Alejandro</span>
+              <span class="date">12 de Abril, 2026</span>
+            </div>
+            <div class="stars">★★★★★</div>
+          </div>
+        </div>
+
+        <!-- Federico (Destacado) -->
+        <div class="testimonial-card featured reveal" style="transition-delay: 0.2s;">
+          <div class="testimonial-quote"> <br>
+            Lo que cocina el Barba loco. No importa lo que pida, cada porción me dilata las pupilas.
+            Esta vez volvimos porque pusieron postre. Nos pedimos un chebusan de costilla y extremos ahumados.
+            Es cruzar un umbral que está más allá de la realidad.
+            <strong>Y nuevamente me cerró la boca con el flan. Sin agujeritos (como debe ser), super cremoso.</strong>
+            No van a probar otro ahumado con la calidad, dedicación y pasión que le ponen en este lugar del bien.
+          </div>
+          <div class="testimonial-meta">
+            <div class="author-info">
+              <span class="name">Fede</span>
+              <span class="date">24 de Abril, 2026</span>
+            </div>
+            <div class="stars">★★★★★</div>
+          </div>
+        </div>
+
+        <!-- Pablo -->
+        <div class="testimonial-card reveal" style="transition-delay: 0.3s;">
+          <div class="testimonial-quote"> <br>
+            Martín un genio, es arte a las brasas y humo, nada igual!! Lugar autoservicio, buenos picantes, salsas y
+            encurtidos caseros. ¡Obviamente voy a volver, es una locura lo que ahuma el Faraón!
+          </div>
+          <div class="testimonial-meta">
+            <div class="author-info">
+              <span class="name">Pablo</span>
+              <span class="date">22 de Marzo, 2026</span>
+            </div>
+            <div class="stars">★★★★★</div>
+          </div>
         </div>
       </div>
 
-      <!-- Alejandro -->
-      <div class="testimonial-card">
-        <div class="testimonial-quote"> <br>
-          ¡Excelente lugar! Martín un fenómeno… los sándwiches son lo más! Si querés comer algo distinto tenés que
-          venir. 10/10.
-        </div>
-        <div class="testimonial-meta">
-          <div class="author-info">
-            <span class="name">Alejandro</span>
-            <span class="date">12 de Abril, 2026</span>
-          </div>
-          <div class="stars">★★★★★</div>
-        </div>
-      </div>
-
-      <!-- Federico (Destacado) -->
-      <div class="testimonial-card featured">
-        <div class="testimonial-quote"> <br>
-          Lo que cocina el Barba loco. No importa lo que pida, cada porción me dilata las pupilas.
-          Esta vez volvimos porque pusieron postre. Nos pedimos un chebusan de costilla y extremos ahumados.
-          Es cruzar un umbral que está más allá de la realidad.
-          <strong>Y nuevamente me cerró la boca con el flan. Sin agujeritos (como debe ser), super cremoso.</strong>
-          No van a probar otro ahumado con la calidad, dedicación y pasión que le ponen en este lugar del bien.
-        </div>
-        <div class="testimonial-meta">
-          <div class="author-info">
-            <span class="name">Fede</span>
-            <span class="date">24 de Abril, 2026</span>
-          </div>
-          <div class="stars">★★★★★</div>
-        </div>
-      </div>
-
-      <!-- Pablo -->
-      <div class="testimonial-card">
-        <div class="testimonial-quote"> <br>
-          Martín un genio, es arte a las brasas y humo, nada igual!! Lugar autoservicio, buenos picantes, salsas y
-          encurtidos caseros. ¡Obviamente voy a volver, es una locura lo que ahuma el Faraón!
-        </div>
-        <div class="testimonial-meta">
-          <div class="author-info">
-            <span class="name">Pablo</span>
-            <span class="date">22 de Marzo, 2026</span>
-          </div>
-          <div class="stars">★★★★★</div>
-        </div>
+      <div class="carousel-controls">
+        <button class="carousel-btn" onclick="scrollCarousel(-1)">←</button>
+        <button class="carousel-btn" onclick="scrollCarousel(1)">→</button>
       </div>
     </div>
   </section>
 
   <!-- SMOKERS SECTION -->
   <section id="smokers">
-    <div class="smokers-content">
+    <div class="smokers-content reveal">
       <div>
         <div class="section-label">// La maquinaria</div>
         <h2 class="section-title"><em>Smokers</em></h2>
@@ -2525,23 +3476,66 @@
       <p class="logia-subtitle">Unite al club del Humo. Recibí avisos de stock limitado y beneficios exclusivos.</p>
 
       <form id="form-logia" class="logia-form">
-        <input type="email" class="logia-input" placeholder="Tu email de guerrero..." required>
-        <button type="submit" class="logia-btn">Unirme al club</button>
+        <input type="text" id="logia-nombre" class="logia-input" placeholder="Tu nombre o apodo de guerrero..."
+          required>
+        <input type="email" id="logia-email" class="logia-input" placeholder="Tu mejor email..." required>
+        <input type="tel" id="logia-telefono" class="logia-input" placeholder="Tu WhatsApp (con código de área)..."
+          required>
+        <input type="text" id="logia-ubicacion" class="logia-input" placeholder="¿De dónde sos? (Ramos, Haedo, CABA...)"
+          required>
+        <button type="submit" id="logia-submit-btn" class="logia-btn">Unirme a la Logia</button>
       </form>
-      <div id="logia-success" class="logia-msg" style="color: var(--red);">Bienvenido a la Logia. Revisá tu correo.
+      <!-- ÉXITO CON SELLO DE LACRE -->
+      <div id="logia-success-container" class="success-container">
+        <div class="wax-seal-wrapper">
+          <div class="wax-seal"></div>
+          <div class="wax-drips">
+            <div class="drip drip-1"></div>
+            <div class="drip drip-2"></div>
+            <div class="drip drip-3"></div>
+          </div>
+        </div>
+
+        <div class="ticket-rustico">
+          <div class="ticket-title">BIENVENIDO GUERRERO</div>
+          <p style="font-size: 1.1rem; line-height: 1.4; color: #3d2b1f; margin-bottom: 20px;">
+            Tu lugar en <strong>La Logia del Humo</strong> ha sido sellado con éxito.
+          </p>
+          <div
+            style="border-top: 1px dashed rgba(61,43,31,0.5); padding-top: 15px; font-size: 0.8rem; letter-spacing: 1px;">
+            PRÓXIMAMENTE RECIBIRÁS TU PRIMER AVISO DE STOCK.<br>
+            <strong>MANTENÉ EL FUEGO PRENDIDO.</strong>
+          </div>
+        </div>
+      </div>
+
+      <div id="logia-error" class="logia-msg"
+        style="color: var(--red); background: rgba(192, 18, 12, 0.1); border: 1px solid var(--red); padding: 20px;">
+        Algo salió mal. El fuego está rebelde, por favor intentá de nuevo.
       </div>
     </div>
   </section>
 
   <!-- FOOTER -->
-  <!-- MEDIOS DE PAGO -->
+  <!-- BOTÓN FLOTANTE WHATSAPP -->
+  <a href="https://wa.me/5491112341234?text=Hola%20Mart%C3%ADn,%20vi%20la%20web%20y%20quiero%20hacer%20un%20pedido."
+    class="whatsapp-float" target="_blank" rel="noopener noreferrer">
+    <span class="whatsapp-tooltip">¡Pedíle tu porción de Ahumado al Barba!</span>
+    <svg viewBox="0 0 24 24">
+      <path
+        d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217s.231.001.332.005c.109.004.258-.041.404.31.159.386.541 1.32.589 1.417.048.097.08.21.015.341-.065.13-.098.223-.195.336-.097.113-.205.253-.292.344-.101.104-.207.218-.089.421.118.203.525.867 1.127 1.403.776.689 1.431.903 1.634 1.004.203.101.322.084.443-.054.12-.139.518-.601.657-.806.139-.204.277-.171.466-.101.19.07.1.518.3.1.201.139.792.38 1.138.552.347.172.578.257.662.399.083.142.083.822-.061 1.227z" />
+      <path
+        d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm0 21.169c-5.057 0-9.169-4.113-9.169-9.169s4.112-9.169 9.169-9.169 9.169 4.113 9.169 9.169-4.112 9.169-9.169 9.169z" />
+    </svg>
+  </a>
+
   <section id="pagos">
     <div class="pagos-container">
       <div class="pago-item">
         <svg class="pago-icon" viewBox="0 0 24 24">
           <path d="M3 6h18v12H3V6zm2 2v8h14V8H5zm2 2h4v4H7v-4zm6 0h4v1H13v-1zm0 2h4v1H13v-1zm0 2h4v1H13v-1z" />
         </svg>
-        <span class="pago-text">Efectivo</span>
+        <span class="pago-text">Efectivo (10% off)</span>
       </div>
       <div class="pago-item">
         <svg class="pago-icon" viewBox="0 0 24 24">
@@ -2584,39 +3578,25 @@
     </div>
   </footer>
 
-  <script>
-    // Lógica para el FAQ (Acordeón)
-    const faqItems = document.querySelectorAll('.faq-item');
-    faqItems.forEach(item => {
-      const question = item.querySelector('.faq-question');
-      question.addEventListener('click', () => {
-        const isActive = item.classList.contains('active');
-        // Cerramos todos por las dudas
-        faqItems.forEach(i => i.classList.remove('active'));
-        // Si no estaba activo, lo abrimos
-        if (!isActive) {
-          item.classList.add('active');
-        }
-      });
-    });
+  <!-- GALLERY MODAL -->
+  <div id="menu-modal" class="modal-overlay" onclick="closeMenuModal()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closeMenuModal()">×</button>
+      <div class="modal-image-container">
+        <img id="modal-img" src="" alt="">
+      </div>
+      <div class="modal-info">
+        <div class="section-label" id="modal-tag">// Detalle</div>
+        <h2 class="section-title" id="modal-title" style="margin: 10px 0;"></h2>
+        <p class="about-text" id="modal-desc" style="font-size: 1.1rem; line-height: 1.7;"></p>
+        <div id="modal-price-container" style="margin-top: 30px;">
+          <span class="menu-card-tag" id="modal-badge"></span>
+        </div>
+      </div>
+    </div>
+  </div>
 
-    // Lógica para el formulario de la Logia
-    const logiaForm = document.getElementById('form-logia');
-    if (logiaForm) {
-      logiaForm.addEventListener('submit', function (e) {
-        e.preventDefault();
-        const email = this.querySelector('input').value;
-        const successMsg = document.getElementById('logia-success');
-
-        console.log("Nuevo aspirante a la Logia:", email);
-
-        // Simulación de éxito
-        this.style.display = 'none';
-        successMsg.style.display = 'block';
-      });
-    }
-  </script>
-
+  <!-- Scripts consolidados en el head para mejor mantenimiento -->
 </body>
 
 </html>
