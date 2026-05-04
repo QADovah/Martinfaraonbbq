@@ -1703,6 +1703,7 @@
       height: 400px;
       overflow: hidden;
       background: var(--steel);
+      cursor: pointer;
     }
 
     .gallery-item:hover {
@@ -2111,6 +2112,67 @@
       .modal-info {
         padding: 40px 24px;
       }
+    }
+
+    /* ── GALLERY MODAL CSS ── */
+    #gallery-modal.modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s;
+      padding: 20px;
+    }
+
+    #gallery-modal.modal-overlay.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    #gallery-modal .modal-content {
+      background: transparent;
+      border: none;
+      max-width: 90vw;
+      max-height: 90vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: none;
+      padding: 0;
+      transform: scale(0.9);
+      transition: transform 0.3s;
+    }
+
+    #gallery-modal.modal-overlay.active .modal-content {
+      transform: scale(1);
+    }
+
+    #gallery-modal-img {
+      max-width: 100%;
+      max-height: 90vh;
+      object-fit: contain;
+      border: 1px solid var(--steel);
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+    }
+
+    #gallery-modal .modal-close {
+      position: absolute;
+      top: -40px;
+      right: 0;
+      background: none;
+      border: none;
+      color: var(--white);
+      font-size: 2.5rem;
+      cursor: pointer;
+      font-family: 'Bebas Neue', sans-serif;
+      z-index: 10;
     }
 
     /* ── REVEAL ANIMATIONS ── */
@@ -2926,6 +2988,21 @@
       document.body.style.overflow = '';
     }
 
+    async function openGalleryModal(basePath) {
+      const modal = document.getElementById('gallery-modal');
+      const img = document.getElementById('gallery-modal-img');
+      const hasWebP = await supportsWebP();
+      img.src = hasWebP ? `${basePath}.webp` : `${basePath}.jpeg`;
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeGalleryModal() {
+      const modal = document.getElementById('gallery-modal');
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
     /* ── INITIALIZATION ── */
     document.addEventListener("DOMContentLoaded", () => {
       renderMenu();
@@ -3006,10 +3083,16 @@
         const track = document.getElementById('testimonials-track');
         if (!track) return;
         const cardWidth = track.querySelector('.testimonial-card').offsetWidth + 30;
-        track.scrollBy({
-          left: direction * cardWidth,
-          behavior: 'smooth'
-        });
+        const currentScroll = track.scrollLeft;
+        const maxScroll = track.scrollWidth - track.clientWidth;
+
+        if (direction === 1 && currentScroll >= maxScroll - 10) {
+          track.scrollTo({ left: 0, behavior: 'smooth' });
+        } else if (direction === -1 && currentScroll <= 10) {
+          track.scrollTo({ left: maxScroll, behavior: 'smooth' });
+        } else {
+          track.scrollBy({ left: direction * cardWidth, behavior: 'smooth' });
+        }
       };
 
       // Gallery Carousel
@@ -3017,10 +3100,16 @@
         const track = document.getElementById('gallery-track');
         if (!track) return;
         const cardWidth = track.querySelector('.gallery-item').offsetWidth + 30;
-        track.scrollBy({
-          left: direction * cardWidth,
-          behavior: 'smooth'
-        });
+        const currentScroll = track.scrollLeft;
+        const maxScroll = track.scrollWidth - track.clientWidth;
+
+        if (direction === 1 && currentScroll >= maxScroll - 10) {
+          track.scrollTo({ left: 0, behavior: 'smooth' });
+        } else if (direction === -1 && currentScroll <= 10) {
+          track.scrollTo({ left: maxScroll, behavior: 'smooth' });
+        } else {
+          track.scrollBy({ left: direction * cardWidth, behavior: 'smooth' });
+        }
       };
 
       // Reveal Animations (Intersection Observer)
@@ -3362,103 +3451,43 @@
 
     <div class="gallery-container">
       <div id="gallery-track" class="gallery-track">
-        <!-- Local -->
-        <div class="gallery-item reveal">
+        <div class="gallery-item reveal" onclick="openGalleryModal('Imagenes/Costillas')">
           <picture>
-            <source srcset="Local/Ahumadores.webp" type="image/webp">
-            <img src="Local/Ahumadores.jpg" loading="lazy" alt="Ahumadores">
+            <source srcset="Imagenes/Costillas.webp" type="image/webp">
+            <img src="Imagenes/Costillas.jpeg" loading="lazy" alt="Costillas">
           </picture>
         </div>
-        <div class="gallery-item reveal" style="transition-delay: 0.1s;">
+        <div class="gallery-item reveal" style="transition-delay: 0.1s;" onclick="openGalleryModal('Imagenes/Fachada')">
           <picture>
-            <source srcset="Local/Smokers.webp" type="image/webp">
-            <img src="Local/Smokers.jpg" loading="lazy" alt="Smokers">
+            <source srcset="Imagenes/Fachada.webp" type="image/webp">
+            <img src="Imagenes/Fachada.jpeg" loading="lazy" alt="Fachada del local">
           </picture>
         </div>
-        
-        <!-- Menu -->
-        <div class="gallery-item reveal" style="transition-delay: 0.2s;">
+        <div class="gallery-item reveal" style="transition-delay: 0.2s;"
+          onclick="openGalleryModal('Imagenes/Flancito')">
           <picture>
-            <source srcset="Menu/Brisket.webp" type="image/webp">
-            <img src="Menu/Brisket.jpg" loading="lazy" alt="Brisket">
+            <source srcset="Imagenes/Flancito.webp" type="image/webp">
+            <img src="Imagenes/Flancito.jpeg" loading="lazy" alt="Flancito Faraón">
           </picture>
         </div>
-        <div class="gallery-item reveal" style="transition-delay: 0.3s;">
+        <div class="gallery-item reveal" style="transition-delay: 0.3s;"
+          onclick="openGalleryModal('Imagenes/Heladeras')">
           <picture>
-            <source srcset="Menu/Choribondi.webp" type="image/webp">
-            <img src="Menu/Choribondi.jpg" loading="lazy" alt="Choribondi">
+            <source srcset="Imagenes/Heladeras.webp" type="image/webp">
+            <img src="Imagenes/Heladeras.jpeg" loading="lazy" alt="Heladeras">
           </picture>
         </div>
-        <div class="gallery-item reveal">
+        <div class="gallery-item reveal" style="transition-delay: 0.1s;"
+          onclick="openGalleryModal('Imagenes/Matambrito')">
           <picture>
-            <source srcset="Menu/Costilla.webp" type="image/webp">
-            <img src="Menu/Costilla.jpg" loading="lazy" alt="Costilla">
+            <source srcset="Imagenes/Matambrito.webp" type="image/webp">
+            <img src="Imagenes/Matambrito.jpeg" loading="lazy" alt="Matambrito">
           </picture>
         </div>
-        <div class="gallery-item reveal" style="transition-delay: 0.1s;">
+        <div class="gallery-item reveal" style="transition-delay: 0.2s;" onclick="openGalleryModal('Imagenes/Salsas')">
           <picture>
-            <source srcset="Menu/DinoRibs.webp" type="image/webp">
-            <img src="Menu/DinoRibs.jpg" loading="lazy" alt="Dino Ribs">
-          </picture>
-        </div>
-        <div class="gallery-item reveal" style="transition-delay: 0.2s;">
-          <picture>
-            <source srcset="Menu/Especiales.webp" type="image/webp">
-            <img src="Menu/Especiales.jpg" loading="lazy" alt="Especiales">
-          </picture>
-        </div>
-        <div class="gallery-item reveal" style="transition-delay: 0.3s;">
-          <picture>
-            <source srcset="Menu/ExtremosAhumados.webp" type="image/webp">
-            <img src="Menu/ExtremosAhumados.jpg" loading="lazy" alt="Extremos Ahumados">
-          </picture>
-        </div>
-        <div class="gallery-item reveal">
-          <picture>
-            <source srcset="Menu/Martin_frente.webp" type="image/webp">
-            <img src="Menu/Martin_frente.jpg" loading="lazy" alt="Martín Faraón">
-          </picture>
-        </div>
-        <div class="gallery-item reveal" style="transition-delay: 0.1s;">
-          <picture>
-            <source srcset="Menu/MatambrePizza.webp" type="image/webp">
-            <img src="Menu/MatambrePizza.jpg" loading="lazy" alt="Matambre a la Pizza">
-          </picture>
-        </div>
-        <div class="gallery-item reveal" style="transition-delay: 0.2s;">
-          <picture>
-            <source srcset="Menu/PapasFritas.webp" type="image/webp">
-            <img src="Menu/PapasFritas.jpg" loading="lazy" alt="Papas Fritas">
-          </picture>
-        </div>
-        <div class="gallery-item reveal" style="transition-delay: 0.3s;">
-          <picture>
-            <source srcset="Menu/PastelDePapas.webp" type="image/webp">
-            <img src="Menu/PastelDePapas.jpg" loading="lazy" alt="Pastel de Papas">
-          </picture>
-        </div>
-        <div class="gallery-item reveal">
-          <picture>
-            <source srcset="Menu/Portada.webp" type="image/webp">
-            <img src="Menu/Portada.jpg" loading="lazy" alt="Portada">
-          </picture>
-        </div>
-        <div class="gallery-item reveal" style="transition-delay: 0.1s;">
-          <picture>
-            <source srcset="Menu/Ribs.webp" type="image/webp">
-            <img src="Menu/Ribs.jpg" loading="lazy" alt="Ribs">
-          </picture>
-        </div>
-        <div class="gallery-item reveal" style="transition-delay: 0.2s;">
-          <picture>
-            <source srcset="Menu/Salamines.webp" type="image/webp">
-            <img src="Menu/Salamines.jpg" loading="lazy" alt="Salamines">
-          </picture>
-        </div>
-        <div class="gallery-item reveal" style="transition-delay: 0.3s;">
-          <picture>
-            <source srcset="Menu/Sandwich.webp" type="image/webp">
-            <img src="Menu/Sandwich.jpg" loading="lazy" alt="Sandwich">
+            <source srcset="Imagenes/Salsas.webp" type="image/webp">
+            <img src="Imagenes/Salsas.jpeg" loading="lazy" alt="Salsas caseras">
           </picture>
         </div>
       </div>
@@ -3818,6 +3847,14 @@
           <span class="menu-card-tag" id="modal-badge"></span>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- GALLERY MODAL -->
+  <div id="gallery-modal" class="modal-overlay" onclick="closeGalleryModal()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closeGalleryModal()">×</button>
+      <img id="gallery-modal-img" src="" alt="Faraón">
     </div>
   </div>
 
