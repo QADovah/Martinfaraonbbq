@@ -38,14 +38,14 @@
   <meta name="keywords"
     content="BBQ, Ahumados, Ramos Mejía, Brisket, Costillar, Comida Americana, Parrilla, Martín Faraón">
   <link rel="canonical" href="https://martinfaraonbbq.site">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="icon" type="image/webp" href="Local/Warriors.webp">
+  <link rel="apple-touch-icon" href="Local/Warriors.webp">
 
   <!-- OPEN GRAPH (Para que se vea bien en WhatsApp/Instagram) -->
   <meta property="og:title" content="Martín Faraón BBQ — Smokehouse en Ramos Mejía">
   <meta property="og:description"
     content="Ahumado de verdad. Sin atajos. Sin apuro. Vení a probar el mejor Brisket de Buenos Aires.">
-  <meta property="og:image" content="Menu/Portada.jpg">
+  <meta property="og:image" content="Menu/Portada.webp">
   <meta property="og:type" content="website">
 
   <!-- DATOS ESTRUCTURADOS (JSON-LD para Google Local) -->
@@ -54,7 +54,7 @@
       "@context": "https://schema.org",
       "@type": "Restaurant",
       "name": "Martín Faraón BBQ",
-      "image": "Menu/Portada.jpg",
+      "image": "Menu/Portada.webp",
       "address": {
         "@type": "PostalAddress",
         "streetAddress": "Bolívar 667",
@@ -205,6 +205,15 @@
       color: var(--white);
       text-transform: uppercase;
       text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo img {
+      height: 45px;
+      width: auto;
+      object-fit: contain;
     }
 
     .logo span {
@@ -1302,10 +1311,20 @@
     }
 
     .footer-logo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
       font-family: 'Black Ops One', sans-serif;
       font-size: 1rem;
       letter-spacing: 4px;
       color: var(--red);
+    }
+    
+    .footer-logo img {
+      height: 80px;
+      width: auto;
+      object-fit: contain;
     }
 
     .footer-copy {
@@ -1407,6 +1426,10 @@
 
       header nav {
         display: none;
+      }
+
+      .status-banner {
+        top: 77px;
       }
 
       #hero {
@@ -2201,7 +2224,7 @@
       letter-spacing: 2px;
       text-transform: uppercase;
       position: sticky;
-      top: 65px;
+      top: 83px;
       z-index: 900;
       display: flex;
       align-items: center;
@@ -2776,7 +2799,7 @@
         desc: "Embutidos ahumados de elaboración propia. Entrada directa. Para ir entrando en calor mientras el humo hace lo suyo.",
         tag: "Ahumado en frío",
         temp: "Para empezar",
-        img: "Menu/Salamines.jpg",
+        img: "Menu/Salamines.webp",
         status: "active"
       },
       {
@@ -2786,7 +2809,7 @@
         desc: "El pastel de papas que conocés, pero ahumado. Costra dorada, relleno jugoso. Comfort food de otro nivel.",
         tag: "Ahumado · Horneado",
         temp: "Clásico",
-        img: "Menu/PastelDePapas.jpg",
+        img: "Menu/PastelDePapas.webp",
         status: "active"
       },
       {
@@ -2796,7 +2819,7 @@
         desc: "Costillar de res entero. Hueso largo. Carne que se desprende sola después de horas dentro del smoker. No apto para apurados.",
         tag: "Roble · +8hs",
         temp: "Imponente",
-        img: "Menu/Costilla.jpg",
+        img: "Menu/Costilla.webp",
         status: "active"
       },
       {
@@ -2806,7 +2829,7 @@
         desc: "Matambre ahumado con mozzarella, salsa y morrón. El cruce entre dos grandes del asado argentino. Sale distinto acá.",
         tag: "Ahumado · Gratinado",
         temp: "Favorito",
-        img: "Menu/MatambrePizza.jpg",
+        img: "Menu/MatambrePizza.webp",
         status: "active"
       },
       {
@@ -2816,7 +2839,7 @@
         desc: "Chorizo y bondiola ahumados juntos en pan. El sándwich más honesto que podés pedir. Directo, contundente, sin vueltas.",
         tag: "Manzano · Sándwich",
         temp: "Sándwich",
-        img: "Menu/Sandwich.jpg",
+        img: "Menu/Sandwich.webp",
         status: "active"
       },
       {
@@ -2826,7 +2849,7 @@
         desc: "Crocantes por fuera, tiernas por dentro. El clásico infaltable para acompañar cualquier ahumado.",
         tag: "Clásico · Fritas",
         temp: "El acompañante",
-        img: "Menu/PapasFritas.jpg",
+        img: "Menu/PapasFritas.webp",
         status: "active"
       },
       {
@@ -2836,7 +2859,7 @@
         desc: "Pecho de novillo ahumado lento sobre roble. Costra negra. Jugoso adentro. El plato que define a Martín Faraón BBQ.",
         tag: "Roble · +12hs",
         temp: "Signature",
-        img: "Menu/Brisket.jpg",
+        img: "Menu/Brisket.webp",
         status: "active"
       },
       {
@@ -2846,7 +2869,7 @@
         desc: "Las puntas del brisket caramelizadas en su propia grasa. El bocado más buscado. Cuando aparecen, no duran.",
         tag: "Roble · Stock limitado",
         temp: "Cuando hay, hay",
-        img: "Menu/ExtremosAhumados.jpg",
+        img: "Menu/ExtremosAhumados.webp",
         status: "limited",
         style: "background:rgba(192,18,12,0.08);"
       },
@@ -2857,7 +2880,7 @@
         desc: "Lo que Martín quiso probar. Lo que no está en el menú fijo pero merece su lugar. Seguí el IG para saber qué hay.",
         tag: "Limitado",
         temp: "Novedad",
-        img: "Menu/Especiales.jpg",
+        img: "Menu/Especiales.webp",
         status: "active",
         link: "https://www.instagram.com/martinfaraonbbq/",
         style: "background:rgba(192,18,12,0.06);border-left:3px solid var(--red);"
@@ -2880,7 +2903,7 @@
 
       setTimeout(() => {
         container.innerHTML = filteredData.map(item => {
-          const imgPath = hasWebP ? item.img.replace(/\.(jpg|png)$/i, '.webp') : item.img;
+          const imgPath = hasWebP ? item.img.replace(/\.(webp|png)$/i, '.webp') : item.img;
           const soldOutClass = item.status === 'sold-out' ? 'sold-out' : '';
           const customStyle = item.style || '';
 
@@ -2969,7 +2992,7 @@
       const tag = document.getElementById('modal-tag');
 
       const hasWebP = await supportsWebP();
-      const imgPath = hasWebP ? item.img.replace(/\.(jpg|png)$/i, '.webp') : item.img;
+      const imgPath = hasWebP ? item.img.replace(/\.(webp|png)$/i, '.webp') : item.img;
 
       img.src = imgPath;
       img.onerror = () => { img.src = item.img; };
@@ -2992,7 +3015,7 @@
       const modal = document.getElementById('gallery-modal');
       const img = document.getElementById('gallery-modal-img');
       const hasWebP = await supportsWebP();
-      img.src = hasWebP ? `${basePath}.webp` : `${basePath}.jpeg`;
+      img.src = hasWebP ? `${basePath}.webp` : `${basePath}.webp`;
       modal.classList.add('active');
       document.body.style.overflow = 'hidden';
     }
@@ -3143,7 +3166,10 @@
   <!-- NAV -->
   <header>
     <div class="header-main">
-      <div class="logo">MARTÍN <span>FARAÓN</span> BBQ</div>
+      <a href="#" class="logo">
+        <img src="Local/Warriors.webp" alt="Logo Faraón">
+        <div>MARTÍN <span>FARAÓN</span> BBQ</div>
+      </a>
       <nav>
         <a href="#menu">Menú</a>
         <a href="#nosotros">Historia</a>
@@ -3172,7 +3198,7 @@
   <section id="hero">
     <!-- Fondo real: foto ahumadores con overlay oscuro -->
     <div class="hero-bg">
-      <img src="Local/Ahumadores.jpg" alt="Ahumadores Faraón"
+      <img src="Local/Ahumadores.webp" alt="Ahumadores Faraón"
         style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;opacity:0.28;filter:grayscale(0.3) contrast(1.1);">
       <div
         style="position:absolute;inset:0;background:linear-gradient(to right, rgba(10,10,10,0.92) 0%, rgba(10,10,10,0.6) 50%, rgba(10,10,10,0.85) 100%);">
@@ -3242,7 +3268,7 @@
     <div class="about-visual">
       <div class="about-portrait">
         <div class="portrait-fill" style="background:none;">
-          <img id="img-martin" src="Menu/Portada.jpg" alt="Martín Faraón, experto ahumador de BBQ en Ramos Mejía"
+          <img id="img-martin" src="Menu/Portada.webp" alt="Martín Faraón, experto ahumador de BBQ en Ramos Mejía"
             loading="lazy" />
         </div>
         <div class="portrait-name-overlay">
@@ -3454,40 +3480,40 @@
         <div class="gallery-item reveal" onclick="openGalleryModal('Imagenes/Costillas')">
           <picture>
             <source srcset="Imagenes/Costillas.webp" type="image/webp">
-            <img src="Imagenes/Costillas.jpeg" loading="lazy" alt="Costillas">
+            <img src="Imagenes/Costillas.webp" loading="lazy" alt="Costillas">
           </picture>
         </div>
         <div class="gallery-item reveal" style="transition-delay: 0.1s;" onclick="openGalleryModal('Imagenes/Fachada')">
           <picture>
             <source srcset="Imagenes/Fachada.webp" type="image/webp">
-            <img src="Imagenes/Fachada.jpeg" loading="lazy" alt="Fachada del local">
+            <img src="Imagenes/Fachada.webp" loading="lazy" alt="Fachada del local">
           </picture>
         </div>
         <div class="gallery-item reveal" style="transition-delay: 0.2s;"
           onclick="openGalleryModal('Imagenes/Flancito')">
           <picture>
             <source srcset="Imagenes/Flancito.webp" type="image/webp">
-            <img src="Imagenes/Flancito.jpeg" loading="lazy" alt="Flancito Faraón">
+            <img src="Imagenes/Flancito.webp" loading="lazy" alt="Flancito Faraón">
           </picture>
         </div>
         <div class="gallery-item reveal" style="transition-delay: 0.3s;"
           onclick="openGalleryModal('Imagenes/Heladeras')">
           <picture>
             <source srcset="Imagenes/Heladeras.webp" type="image/webp">
-            <img src="Imagenes/Heladeras.jpeg" loading="lazy" alt="Heladeras">
+            <img src="Imagenes/Heladeras.webp" loading="lazy" alt="Heladeras">
           </picture>
         </div>
         <div class="gallery-item reveal" style="transition-delay: 0.1s;"
           onclick="openGalleryModal('Imagenes/Matambrito')">
           <picture>
             <source srcset="Imagenes/Matambrito.webp" type="image/webp">
-            <img src="Imagenes/Matambrito.jpeg" loading="lazy" alt="Matambrito">
+            <img src="Imagenes/Matambrito.webp" loading="lazy" alt="Matambrito">
           </picture>
         </div>
         <div class="gallery-item reveal" style="transition-delay: 0.2s;" onclick="openGalleryModal('Imagenes/Salsas')">
           <picture>
             <source srcset="Imagenes/Salsas.webp" type="image/webp">
-            <img src="Imagenes/Salsas.jpeg" loading="lazy" alt="Salsas caseras">
+            <img src="Imagenes/Salsas.webp" loading="lazy" alt="Salsas caseras">
           </picture>
         </div>
       </div>
@@ -3539,10 +3565,10 @@
 
       <div class="smokers-visual"
         style="height:500px;border:1px solid var(--steel);overflow:hidden;position:relative;display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--steel);">
-        <img id="img-ahumadores" src="Local/Ahumadores.jpg"
+        <img id="img-ahumadores" src="Local/Ahumadores.webp"
           alt="Ahumadores industriales tipo Offset de Martín Faraón BBQ"
           style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy" />
-        <img id="img-smokers" src="Local/Smokers.jpg"
+        <img id="img-smokers" src="Local/Smokers.webp"
           alt="Interior de los smokers con carne ahumándose a baja temperatura"
           style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy" />
         <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 50%);">
@@ -3812,7 +3838,10 @@
   </section>
 
   <footer>
-    <div class="footer-logo">Martín Faraón BBQ</div>
+    <div class="footer-logo">
+      <img src="Local/Warriors.webp" alt="Logo Faraón" loading="lazy">
+      <div>Martín Faraón BBQ</div>
+    </div>
     <div style="margin-bottom: 12px; font-size: 0.85rem; letter-spacing: 1px; color: var(--silver); font-weight: 300;">
       Contactanos en <a href="mailto:hola@martinfaraonbbq.site"
         style="color: var(--white); text-decoration: none; border-bottom: 1px solid var(--red);">hola@martinfaraonbbq.site</a>
