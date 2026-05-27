@@ -1320,7 +1320,7 @@
       letter-spacing: 4px;
       color: var(--red);
     }
-    
+
     .footer-logo img {
       height: 80px;
       width: auto;
@@ -3070,7 +3070,9 @@
             nombre: document.getElementById('logia-nombre').value,
             email: document.getElementById('logia-email').value,
             ubicacion: document.getElementById('logia-ubicacion').value,
-            telefono: document.getElementById('logia-telefono').value
+            telefono: document.getElementById('logia-telefono').value,
+            evento: document.getElementById('logia-evento').value,
+            porciones: document.getElementById('logia-porciones').value
           };
 
           console.log("🚀 Mandando a la Logia:", data);
@@ -3752,8 +3754,9 @@
   <!-- LEAD MAGNET: LA LOGIA DEL HUMO -->
   <section id="logia">
     <div class="logia-content">
-      <h2 class="logia-title">¿Querés sumarte al club del humo?</h2>
-      <p class="logia-subtitle">Unite al club del Humo. Recibí avisos de stock limitado y beneficios exclusivos.</p>
+      <h2 class="logia-title">¿Querés anotarte al proximo evento?</h2>
+      <p class="logia-subtitle">Sumate al proximo evento. Y además recibí avisos de stock limitado y beneficios
+        exclusivos.</p>
 
       <form id="form-logia" class="logia-form">
         <input type="text" id="logia-nombre" class="logia-input" placeholder="Tu nombre o apodo de guerrero..."
@@ -3763,6 +3766,21 @@
           required>
         <input type="text" id="logia-ubicacion" class="logia-input" placeholder="¿De dónde sos? (Ramos, Haedo, CABA...)"
           required>
+
+        <!-- 👇👇👇 CONFIGURACIÓN DE EVENTOS 👇👇👇 -->
+        <!-- Para agregar o cambiar eventos, modificá las líneas <option> de acá abajo -->
+        <select id="logia-evento" class="logia-input"
+          style="appearance: auto; background-color: var(--black); color: var(--white); cursor: pointer;" required>
+          <option value="" disabled selected>¿A qué evento te anotás?</option>
+          <option value="Locro 25 de mayo 2026">Locro 25 de mayo 2026</option>
+          <option value="Locrito 30 de Mayo">Locrito 30 de mayo</option>
+          <option value="Especial barbacoa texana">Especial barbacoa texana</option>
+        </select>
+        <!-- 👆👆👆 FIN EVENTOS 👆👆👆 -->
+
+        <input type="number" id="logia-porciones" class="logia-input" placeholder="¿Cuántas porciones?" min="1"
+          required>
+
         <button type="submit" id="logia-submit-btn" class="logia-btn">Unirme a la Logia</button>
       </form>
       <!-- ÉXITO CON SELLO DE LACRE -->
