@@ -2,7 +2,6 @@ faraon.zip
 .atl/
 .windsurf/
 node_modules/
-dist/
 .astro/
 npm-debug.log*
 yarn-debug.log*
