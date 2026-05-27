@@ -3066,13 +3066,26 @@
           submitBtn.disabled = true;
           errorMsg.style.display = 'none';
 
+          // Obtenemos la IP del usuario usando un servicio gratuito (ipify)
+          let ipCliente = "Desconocida";
+          try {
+            const ipResponse = await fetch('https://api.ipify.org?format=json');
+            if (ipResponse.ok) {
+              const ipData = await ipResponse.json();
+              ipCliente = ipData.ip;
+            }
+          } catch (e) {
+            console.warn("El humo tapó la conexión, no se pudo obtener la IP.");
+          }
+
           const data = {
             nombre: document.getElementById('logia-nombre').value,
             email: document.getElementById('logia-email').value,
             ubicacion: document.getElementById('logia-ubicacion').value,
             telefono: document.getElementById('logia-telefono').value,
             evento: document.getElementById('logia-evento').value,
-            porciones: document.getElementById('logia-porciones').value
+            porciones: document.getElementById('logia-porciones').value,
+            ip: ipCliente
           };
 
           console.log("🚀 Mandando a la Logia:", data);
