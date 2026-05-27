@@ -1,0 +1,92 @@
+---
+---
+<section id="galeria">
+  <div class="section-label" style="text-align:center;">// Desde adentro</div>
+  <h2 class="section-title" style="text-align:center;">Nuestras <em>Imágenes</em></h2>
+
+  <div class="gallery-container">
+    <div id="gallery-track" class="gallery-track">
+      <div class="gallery-item reveal" data-img="/Imagenes/Costillas.webp">
+        <picture>
+          <source srcset="/Imagenes/Costillas.webp" type="image/webp" />
+          <img src="/Imagenes/Costillas.webp" loading="lazy" alt="Costillas" />
+        </picture>
+      </div>
+      <div class="gallery-item reveal" style="transition-delay: 0.1s;" data-img="/Imagenes/Fachada.webp">
+        <picture>
+          <source srcset="/Imagenes/Fachada.webp" type="image/webp" />
+          <img src="/Imagenes/Fachada.webp" loading="lazy" alt="Fachada del local" />
+        </picture>
+      </div>
+      <div class="gallery-item reveal" style="transition-delay: 0.2s;" data-img="/Imagenes/Flancito.webp">
+        <picture>
+          <source srcset="/Imagenes/Flancito.webp" type="image/webp" />
+          <img src="/Imagenes/Flancito.webp" loading="lazy" alt="Flancito Faraón" />
+        </picture>
+      </div>
+      <div class="gallery-item reveal" style="transition-delay: 0.3s;" data-img="/Imagenes/Heladeras.webp">
+        <picture>
+          <source srcset="/Imagenes/Heladeras.webp" type="image/webp" />
+          <img src="/Imagenes/Heladeras.webp" loading="lazy" alt="Heladeras" />
+        </picture>
+      </div>
+      <div class="gallery-item reveal" style="transition-delay: 0.1s;" data-img="/Imagenes/Matambrito.webp">
+        <picture>
+          <source srcset="/Imagenes/Matambrito.webp" type="image/webp" />
+          <img src="/Imagenes/Matambrito.webp" loading="lazy" alt="Matambrito" />
+        </picture>
+      </div>
+      <div class="gallery-item reveal" style="transition-delay: 0.2s;" data-img="/Imagenes/Salsas.webp">
+        <picture>
+          <source srcset="/Imagenes/Salsas.webp" type="image/webp" />
+          <img src="/Imagenes/Salsas.webp" loading="lazy" alt="Salsas caseras" />
+        </picture>
+      </div>
+    </div>
+
+    <div class="carousel-controls">
+      <button class="carousel-btn" id="gallery-prev">←</button>
+      <button class="carousel-btn" id="gallery-next">→</button>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const prevBtn = document.getElementById('gallery-prev');
+    const nextBtn = document.getElementById('gallery-next');
+    const track = document.getElementById('gallery-track');
+
+    if (track && prevBtn && nextBtn) {
+      const scrollGallery = (direction: number) => {
+        const item = track.querySelector('.gallery-item') as HTMLElement;
+        if (!item) return;
+        const cardWidth = item.offsetWidth + 30;
+        const currentScroll = track.scrollLeft;
+        const maxScroll = track.scrollWidth - track.clientWidth;
+
+        if (direction === 1 && currentScroll >= maxScroll - 10) {
+          track.scrollTo({ left: 0, behavior: 'smooth' });
+        } else if (direction === -1 && currentScroll <= 10) {
+          track.scrollTo({ left: maxScroll, behavior: 'smooth' });
+        } else {
+          track.scrollBy({ left: direction * cardWidth, behavior: 'smooth' });
+        }
+      };
+
+      prevBtn.addEventListener('click', () => scrollGallery(-1));
+      nextBtn.addEventListener('click', () => scrollGallery(1));
+    }
+
+    // Set click handlers to open the gallery modal
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    galleryItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const imgSrc = item.getAttribute('data-img');
+        if (window.openGalleryModal && imgSrc) {
+          window.openGalleryModal(imgSrc);
+        }
+      });
+    });
+  });
+</script>

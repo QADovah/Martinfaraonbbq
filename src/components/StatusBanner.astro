@@ -1,0 +1,42 @@
+---
+---
+<div id="store-status" class="status-banner">
+  <div class="status-dot"></div>
+  <span id="status-text">Calculando fuego...</span>
+</div>
+
+<script>
+  function updateStoreStatus() {
+    const now = new Date();
+    const day = now.getDay();
+    const hour = now.getHours();
+    const min = now.getMinutes();
+    const time = hour + min / 60;
+
+    let isOpen = false;
+    let nextOpening = "JUEVES 19:30";
+
+    if ((day === 4 || day === 5) && (time >= 19.5 && time < 23)) isOpen = true;
+    else if ((day === 6 || day === 0) && (time >= 12 && time < 23)) isOpen = true;
+
+    const banner = document.getElementById('store-status');
+    const text = document.getElementById('status-text');
+
+    if (banner && text) {
+      if (isOpen) {
+        banner.classList.add('open');
+        banner.classList.remove('closed');
+        text.innerText = "🔥 ESTAMOS AHUMANDO (ABIERTO)";
+      } else {
+        banner.classList.add('closed');
+        banner.classList.remove('open');
+        text.innerText = `💨 HOY EL FUEGO DESCANSA (ABRIMOS EL ${nextOpening})`;
+      }
+    }
+  }
+
+  // Run on mount
+  updateStoreStatus();
+  // Update every minute
+  setInterval(updateStoreStatus, 60000);
+</script>

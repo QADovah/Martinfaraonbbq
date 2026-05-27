@@ -1,0 +1,125 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Martín Faraón BBQ — El Mejor Ahumado Real en Ramos Mejía",
+  description = "Vení a vivir el ritual del humo en Martín Faraón Smokehouse. Brisket, Dino Ribs y Extremos Quemados hechos con 12 horas de fuego y leña dura en Ramos Mejía."
+} = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <!-- Google Tag Manager -->
+  <script is:inline>
+    (function (w, d, s, l, i) {
+      w[l] = w[l] || []; w[l].push({
+        'gtm.start': new Date().getTime(), event: 'gtm.js'
+      }); var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+          'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-KLBT7G3D');
+  </script>
+  <!-- End Google Tag Manager -->
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-3SS7EF9G60"></script>
+  <script is:inline>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-3SS7EF9G60');
+  </script>
+
+  <meta name="google-site-verification" content="Mb_IBW7hBZHegBSeRd31sLo0x7VtfDKCrnsX3ocyEm4" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- SEO BÁSICO -->
+  <title>{title}</title>
+  <meta name="description" content={description}>
+  <meta name="keywords" content="BBQ, Ahumados, Ramos Mejía, Brisket, Costillar, Comida Americana, Parrilla, Martín Faraón">
+  <link rel="canonical" href="https://martinfaraonbbq.site">
+  <link rel="icon" type="image/webp" href="/Local/Warriors.webp">
+  <link rel="apple-touch-icon" href="/Local/Warriors.webp">
+
+  <!-- OPEN GRAPH -->
+  <meta property="og:title" content="Martín Faraón BBQ — Smokehouse en Ramos Mejía">
+  <meta property="og:description" content="Ahumado de verdad. Sin atajos. Sin apuro. Vení a probar el mejor Brisket de Buenos Aires.">
+  <meta property="og:image" content="/Menu/Portada.webp">
+  <meta property="og:type" content="website">
+
+  <!-- DATOS ESTRUCTURADOS -->
+  <script type="application/ld+json" is:inline>
+    {
+      "@context": "https://schema.org",
+      "@type": "Restaurant",
+      "name": "Martín Faraón BBQ",
+      "image": "/Menu/Portada.webp",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Bolívar 667",
+        "addressLocality": "Ramos Mejía",
+        "addressRegion": "Buenos Aires",
+        "postalCode": "1704",
+        "addressCountry": "AR"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": -34.6466663,
+        "longitude": -58.5629035
+      },
+      "url": "https://www.instagram.com/martinfaraonbbq/",
+      "telephone": "",
+      "servesCuisine": "BBQ, American, Smokehouse",
+      "priceRange": "$$",
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Thursday", "Friday"],
+          "opens": "19:30",
+          "closes": "23:00"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Saturday", "Sunday"],
+          "opens": "12:00",
+          "closes": "23:00"
+        }
+      ],
+      "potentialAction": {
+        "@type": "OrderAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://wa.me/5491131074333?text=Hola%20Mart%C3%ADn,%20quiero%20hacer%20un%20pedido.",
+          "actionPlatform": [
+            "http://schema.org/DesktopWebPlatform",
+            "http://schema.org/MobileWebPlatform"
+          ]
+        },
+        "deliveryMethod": ["http://purl.org/goodrelations/v1#DeliveryModeOwnFleet"]
+      }
+    }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Bebas+Neue&family=Oswald:wght@300;400;600;700&family=Crimson+Text:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KLBT7G3D" height="0" width="0" style="display:none;visibility:hidden"></iframe>
+  </noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+  <slot />
+</body>
+
+</html>

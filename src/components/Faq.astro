@@ -1,0 +1,84 @@
+---
+---
+<section id="faq">
+  <div class="section-label" style="text-align:center;">// Despejá el humo</div>
+  <h2 class="section-title" style="text-align:center;">Preguntas<br /><em>Frecuentes</em></h2>
+
+  <div class="faq-container">
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        <h3>¿Tengo que reservar mesa?</h3>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        No tomamos reservas. El humo no espera y nosotros tampoco. Es por orden de llegada, ¡pero siempre le encontramos un lugar a un guerrero!
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        <h3>¿Cómo funciona el servicio?</h3>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        Somos un local de autoservicio. Pedís en el mostrador, te damos un avisador y, cuando el humo te llame, retirás tu tabla de madera para disfrutar en nuestras mesas.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        <h3>¿Hacen envíos a domicilio?</h3>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        ¡Sí! Estamos en Rappi y PedidosYa, pero siempre recomendamos el Take Away para que la carne mantenga su temperatura y textura ideal hasta tu mesa.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        <h3>¿Qué pasa si llego tarde?</h3>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        Ahumamos piezas enteras por más de 12 horas. El stock es limitado: cuando se acaba el Brisket de hoy, se acaba. ¡Vení temprano si querés los Extremos Quemados!
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        <h3>¿Opciones celíacas o vegetarianas?</h3>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        Nuestra carne es 100% natural, pero al trabajar con panes artesanales hay riesgo de contaminación cruzada. Consultanos en el mostrador por opciones sin pan.
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wood-divider"></div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const faqQuestions = document.querySelectorAll('.faq-question');
+
+    faqQuestions.forEach(question => {
+      question.addEventListener('click', () => {
+        const item = question.parentElement;
+        if (!item) return;
+        const isActive = item.classList.contains('active');
+
+        // Close all items
+        document.querySelectorAll('.faq-item').forEach(el => el.classList.remove('active'));
+        faqQuestions.forEach(q => q.setAttribute('aria-expanded', 'false'));
+
+        // Toggle clicked item
+        if (!isActive) {
+          item.classList.add('active');
+          question.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+  });
+</script>

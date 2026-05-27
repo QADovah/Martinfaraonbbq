@@ -1,0 +1,203 @@
+---
+const MENU_DATA = [
+  {
+    id: "salamines",
+    name: "Salamines & Longanizas",
+    category: "entradas",
+    desc: "Embutidos ahumados de elaboración propia. Entrada directa. Para ir entrando en calor mientras el humo hace lo suyo.",
+    tag: "Ahumado en frío",
+    temp: "Para empezar",
+    img: "/Menu/Salamines.webp",
+    status: "active"
+  },
+  {
+    id: "pastel",
+    name: "Pastel de Papas",
+    category: "platos",
+    desc: "El pastel de papas que conocés, pero ahumado. Costra dorada, relleno jugoso. Comfort food de otro nivel.",
+    tag: "Ahumado · Horneado",
+    temp: "Clásico",
+    img: "/Menu/PastelDePapas.webp",
+    status: "active"
+  },
+  {
+    id: "dino-ribs",
+    name: "Dino Ribs",
+    category: "platos",
+    desc: "Costillar de res entero. Hueso largo. Carne que se desprende sola después de horas dentro del smoker. No apto para apurados.",
+    tag: "Roble · +8hs",
+    temp: "Imponente",
+    img: "/Menu/Costilla.webp",
+    status: "active"
+  },
+  {
+    id: "matambre",
+    name: "Matambre a la Pizza",
+    category: "platos",
+    desc: "Matambre ahumado con mozzarella, salsa y morrón. El cruce entre dos grandes del asado argentino. Sale distinto acá.",
+    tag: "Ahumado · Gratinado",
+    temp: "Favorito",
+    img: "/Menu/MatambrePizza.webp",
+    status: "active"
+  },
+  {
+    id: "chori-bondi",
+    name: "Chori Bondi",
+    category: "sandwiches",
+    desc: "Chorizo y bondiola ahumados juntos en pan. El sándwich más honesto que podés pedir. Directo, contundente, sin vueltas.",
+    tag: "Manzano · Sándwich",
+    temp: "Sándwich",
+    img: "/Menu/Sandwich.webp",
+    status: "active"
+  },
+  {
+    id: "papas",
+    name: "Papas Fritas",
+    category: "acompanamientos",
+    desc: "Crocantes por fuera, tiernas por dentro. El clásico infaltable para acompañar cualquier ahumado.",
+    tag: "Clásico · Fritas",
+    temp: "El acompañante",
+    img: "/Menu/PapasFritas.webp",
+    status: "active"
+  },
+  {
+    id: "brisket",
+    name: "Brisket",
+    category: "platos",
+    desc: "Pecho de novillo ahumado lento sobre roble. Costra negra. Jugoso adentro. El plato que define a Martín Faraón BBQ.",
+    tag: "Roble · +12hs",
+    temp: "Signature",
+    img: "/Menu/Brisket.webp",
+    status: "active"
+  },
+  {
+    id: "extremos",
+    name: "Extremos Quemados",
+    category: "especiales",
+    desc: "Las puntas del brisket caramelizadas en su propia grasa. El bocado más buscado. Cuando aparecen, no duran.",
+    tag: "Roble · Stock limitado",
+    temp: "Cuando hay, hay",
+    img: "/Menu/ExtremosAhumados.webp",
+    status: "limited",
+    style: "background:rgba(192,18,12,0.08);"
+  },
+  {
+    id: "especiales",
+    name: "Especiales de la Semana",
+    category: "especiales",
+    desc: "Lo que Martín quiso probar. Lo que no está en el menú fijo pero merece su lugar. Seguí el IG para saber qué hay.",
+    tag: "Limitado",
+    temp: "Novedad",
+    img: "/Menu/Especiales.webp",
+    status: "active",
+    link: "https://www.instagram.com/martinfaraonbbq/",
+    style: "background:rgba(192,18,12,0.06);border-left:3px solid var(--red);"
+  }
+];
+---
+<section id="menu">
+  <div class="menu-header">
+    <div>
+      <div class="section-label">// El fuego</div>
+      <h2 class="section-title">Solo<br /><em>Ahumados</em></h2>
+    </div>
+    <p style="font-family:'Crimson Text',serif;font-style:italic;color:var(--silver);max-width:300px;text-align:right;font-size:1rem;line-height:1.7;">
+      Calidad que se huele antes de sentarse. <br /> Lo que sale de este local tardó más en cocinarse que vos en llegar.
+    </p>
+  </div>
+
+  <div class="menu-filters">
+    <button class="filter-btn active" data-filter="all">Todos</button>
+    <button class="filter-btn" data-filter="entradas">Entradas</button>
+    <button class="filter-btn" data-filter="platos">Ahumados</button>
+    <button class="filter-btn" data-filter="sandwiches">Sándwiches</button>
+    <button class="filter-btn" data-filter="acompanamientos">Extras</button>
+    <button class="filter-btn" data-filter="especiales">Especiales</button>
+  </div>
+
+  <div id="menu-container" class="menu-grid">
+    {MENU_DATA.map((item) => {
+      const soldOutClass = item.status === 'sold-out' ? 'sold-out' : '';
+      return (
+        <div 
+          class={`menu-card reveal ${soldOutClass}`} 
+          style={item.style || ''} 
+          data-id={item.id}
+          data-category={item.category}
+        >
+          <div class="menu-card-image">
+            <img 
+              id={`img-${item.id}`} 
+              src={item.img} 
+              alt={item.name} 
+              loading="lazy" 
+              width="400" 
+              height="300"
+            />
+          </div>
+          <div class="menu-card-temp">
+            <div class="temp-dot"></div>{item.temp}
+          </div>
+          <div class="menu-card-name">{item.name}</div>
+          <p class="menu-card-desc">{item.desc}</p>
+          {item.link ? (
+            <a href={item.link} target="_blank" class="menu-card-ig-link" rel="noopener noreferrer">Ver en Instagram →</a>
+          ) : (
+            <span class="menu-card-tag">{item.tag}</span>
+          )}
+        </div>
+      );
+    })}
+  </div>
+</section>
+
+<!-- Expose data to client side for modal and handle filter events -->
+<script define:vars={{ MENU_DATA }}>
+  // Save MENU_DATA globally for the modals
+  window.MENU_DATA = MENU_DATA;
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const menuCards = document.querySelectorAll('.menu-card');
+
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const filterValue = btn.getAttribute('data-filter');
+
+        // Update active class
+        filterButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        // Filter cards
+        const container = document.getElementById('menu-container');
+        if (container) {
+          container.style.opacity = '0';
+          setTimeout(() => {
+            menuCards.forEach(card => {
+              const category = card.getAttribute('data-category');
+              if (filterValue === 'all' || category === filterValue) {
+                card.style.display = 'flex';
+              } else {
+                card.style.display = 'none';
+              }
+            });
+            container.style.opacity = '1';
+          }, 200);
+        }
+      });
+    });
+
+    // Add click listeners to open modal
+    menuCards.forEach(card => {
+      card.addEventListener('click', (e) => {
+        // Prevent if clicking on Instagram link
+        if (e.target.classList.contains('menu-card-ig-link')) return;
+        
+        const itemId = card.getAttribute('data-id');
+        if (window.openMenuModal && itemId) {
+          window.openMenuModal(itemId);
+        }
+      });
+    });
+  });
+</script>
