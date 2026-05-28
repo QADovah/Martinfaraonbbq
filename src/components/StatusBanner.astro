@@ -8,16 +8,48 @@
 <script>
   function updateStoreStatus() {
     const now = new Date();
-    const day = now.getDay();
+    const day = now.getDay(); // 0=Dom, 4=Jue, 5=Vie, 6=Sab
     const hour = now.getHours();
     const min = now.getMinutes();
     const time = hour + min / 60;
 
-    let isOpen = false;
-    let nextOpening = "JUEVES 19:30";
+    // Horarios de apertura por día
+    // Jue (4) y Vie (5): 19:30 – 23:00
+    // Sab (6) y Dom (0): 12:00 – 15:00 y 19:00 – 23:00
 
-    if ((day === 4 || day === 5) && (time >= 19.5 && time < 23)) isOpen = true;
-    else if ((day === 6 || day === 0) && (time >= 12 && time < 23)) isOpen = true;
+    let isOpen = false;
+    let opensToday = false;
+    let openingTimeLabel = "";
+    let nextOpening = "";
+
+    if (day === 4 || day === 5) {
+      if (time >= 19.5 && time < 23) {
+        isOpen = true;
+      } else if (time < 19.5) {
+        opensToday = true;
+        openingTimeLabel = "19:30";
+      }
+    } else if (day === 6 || day === 0) {
+      if ((time >= 12 && time < 15) || (time >= 19 && time < 23)) {
+        isOpen = true;
+      } else if (time < 12 || (time >= 15 && time < 19)) {
+        opensToday = true;
+        openingTimeLabel = time < 12 ? "12:00" : "19:00";
+      }
+    }
+
+    // Calcular próxima apertura si no abre hoy
+    if (!isOpen && !opensToday) {
+      const daysToNext = { 0: 4, 1: 3, 2: 2, 3: 1, 4: 0, 5: 1, 6: 0 };
+      // día actual → próximo día de apertura
+      if (day === 1) nextOpening = "JUEVES 19:30";       // Lun → Jue
+      else if (day === 2) nextOpening = "JUEVES 19:30";  // Mar → Jue
+      else if (day === 3) nextOpening = "JUEVES 19:30";  // Mié → Jue
+      else if (day === 4) nextOpening = "VIERNES 19:30"; // Jue (pasado cierre) → Vie
+      else if (day === 5) nextOpening = "SÁBADO 12:00";  // Vie (pasado cierre) → Sab
+      else if (day === 6) nextOpening = "DOMINGO 12:00"; // Sab (pasado cierre) → Dom
+      else if (day === 0) nextOpening = "JUEVES 19:30";  // Dom (pasado cierre) → Jue
+    }
 
     const banner = document.getElementById('store-status');
     const text = document.getElementById('status-text');
@@ -26,11 +58,15 @@
       if (isOpen) {
         banner.classList.add('open');
         banner.classList.remove('closed');
-        text.innerText = "🔥 ESTAMOS AHUMANDO (ABIERTO)";
+        text.innerText = "🔥 ESTAMOS AHUMANDO — ABIERTO AHORA";
+      } else if (opensToday) {
+        banner.classList.add('closed');
+        banner.classList.remove('open');
+        text.innerText = `🔥 ESTAMOS PRENDIENDO EL FUEGO — ABRIMOS A LAS ${openingTimeLabel}`;
       } else {
         banner.classList.add('closed');
         banner.classList.remove('open');
-        text.innerText = `💨 HOY EL FUEGO DESCANSA (ABRIMOS EL ${nextOpening})`;
+        text.innerText = `💨 HOY EL FUEGO DESCANSA — ABRIMOS EL ${nextOpening}`;
       }
     }
   }
