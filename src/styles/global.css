@@ -2548,6 +2548,7 @@ footer {
 
 @media (max-width: 768px) {
   #testimonios,
+  #clientes-felices,
   #galeria,
   #logia {
     padding: 80px 24px;
