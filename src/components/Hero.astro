@@ -1,13 +1,19 @@
 ---
 ---
+
 <section id="hero">
   <!-- Fondo real: foto ahumadores con overlay oscuro -->
   <div class="hero-bg">
     <img
       src="/Local/Ahumadores.webp"
       alt="Ahumadores Faraón"
+      fetchpriority="high"
       style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;opacity:0.28;filter:grayscale(0.3) contrast(1.1);"
     />
+    <video class="hero-video" muted loop playsinline preload="none" aria-hidden="true">
+      <source src="/Local/Humo.webm" type="video/webm">
+      <source src="/Local/Humo.mp4" type="video/mp4">
+    </video>
     <div
       style="position:absolute;inset:0;background:linear-gradient(to right, rgba(10,10,10,0.92) 0%, rgba(10,10,10,0.6) 50%, rgba(10,10,10,0.85) 100%);"
     >
@@ -16,12 +22,15 @@
     </div>
   </div>
 
-  <!-- Humo animado (solo sube, sin movimiento lateral) -->
+  <!-- Humo animado (no-JS fallback: oculto via .js-enabled .smoke-wisp) -->
   <div class="smoke-wisp"></div>
   <div class="smoke-wisp"></div>
   <div class="smoke-wisp"></div>
   <div class="smoke-wisp"></div>
   <div class="smoke-wisp"></div>
+
+  <!-- Canvas de partículas (JS-enabled) -->
+  <canvas class="hero-canvas" aria-hidden="true"></canvas>
 
   <!-- Contenido -->
   <div class="hero-eyebrow">Ramos Mejía · Buenos Aires · Desde el fuego</div>
@@ -37,4 +46,414 @@
   </div>
 
   <div class="smoker-badge"></div>
+
+  <!-- Scroll indicator -->
+  <div class="scroll-indicator" aria-hidden="true" data-target="manifesto">
+    <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M6 9l6 6 6-6"/>
+    </svg>
+  </div>
 </section>
+
+<script is:inline>
+  /**
+   * @typedef {Object} Particle
+   * @property {number} x
+   * @property {number} y
+   * @property {number} vx
+   * @property {number} vy
+   * @property {number} size
+   * @property {number} opacity
+   * @property {number} life
+   * @property {number} maxLife
+   * @property {'ember'|'ash'} type
+   */
+
+  /** Canvas-based ember + ash particle system. */
+  class EmberParticleSystem {
+    /** @param {HTMLCanvasElement} canvas @param {{ count?: number }} opts */
+    constructor(canvas, opts = {}) {
+      /** @type {HTMLCanvasElement} */
+      this.canvas = canvas;
+      /** @type {CanvasRenderingContext2D} */
+      this.ctx = canvas.getContext('2d');
+      /** @type {number} */
+      this.particleCount = opts.count ?? 80;
+      /** @type {Particle[]} */
+      this.particles = [];
+      /** @type {number|null} */
+      this.animationId = null;
+      /** @type {boolean} */
+      this.isRunning = false;
+      /** @type {number} */
+      this.width = 0;
+      /** @type {number} */
+      this.height = 0;
+      /** @type {number} */
+      this.dpr = 1;
+      this._resize();
+    }
+
+    /** Resize canvas backing store to match display size. */
+    _resize() {
+      const rect = this.canvas.parentElement?.getBoundingClientRect() ?? { width: 0, height: 0 };
+      this.dpr = window.devicePixelRatio || 1;
+      this.width = rect.width;
+      this.height = rect.height;
+      this.canvas.width = rect.width * this.dpr;
+      this.canvas.height = rect.height * this.dpr;
+      this.canvas.style.width = `${rect.width}px`;
+      this.canvas.style.height = `${rect.height}px`;
+      this.ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
+    }
+
+    /**
+     * @param {boolean} initial
+     * @returns {Particle}
+     */
+    _createParticle(initial) {
+      const isEmber = Math.random() > 0.35;
+      return {
+        x: Math.random() * this.width,
+        y: initial ? Math.random() * this.height : this.height + 10,
+        vx: (Math.random() - 0.5) * (isEmber ? 0.4 : 0.6),
+        vy: isEmber ? -(0.3 + Math.random() * 0.6) : -(0.08 + Math.random() * 0.15),
+        size: isEmber ? 2 + Math.random() * 4 : 1 + Math.random() * 2,
+        opacity: 0,
+        life: 0,
+        maxLife: 180 + Math.random() * 300,
+        type: isEmber ? 'ember' : 'ash',
+      };
+    }
+
+    /** Start the animation loop. */
+    start() {
+      if (this.isRunning) return;
+      this.isRunning = true;
+      this.particles = [];
+      for (let i = 0; i < this.particleCount; i++) {
+        this.particles.push(this._createParticle(true));
+      }
+      this._animate();
+    }
+
+    /** Stop the animation loop. */
+    stop() {
+      this.isRunning = false;
+      if (this.animationId !== null) {
+        cancelAnimationFrame(this.animationId);
+        this.animationId = null;
+      }
+    }
+
+    /** Clean up. */
+    destroy() {
+      this.stop();
+      this.particles = [];
+    }
+
+    /** Handle resize — rerun with new dimensions. */
+    resize() {
+      const wasRunning = this.isRunning;
+      this.stop();
+      this._resize();
+      if (wasRunning) this.start();
+    }
+
+    /** @param {Particle} p */
+    _renderParticle(p) {
+      this.ctx.save();
+
+      if (p.type === 'ember') {
+        // Warm glow via shadow blur
+        this.ctx.shadowColor = `rgba(255, 120, 0, ${p.opacity * 0.5})`;
+        this.ctx.shadowBlur = p.size * 5;
+
+        // Ember core colour — slight flicker via life-based variation
+        const flicker = Math.sin(p.life * 0.15) * 30;
+        const r = 255;
+        const g = Math.min(255, Math.max(160, 200 + flicker));
+        const b = Math.max(0, Math.min(60, 30 + flicker * 0.5));
+        this.ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${p.opacity})`;
+        this.ctx.beginPath();
+        this.ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        this.ctx.fill();
+
+        // Bright inner core
+        this.ctx.shadowBlur = 0;
+        this.ctx.fillStyle = `rgba(255, 255, 220, ${p.opacity * 0.4})`;
+        this.ctx.beginPath();
+        this.ctx.arc(p.x, p.y, p.size * 0.35, 0, Math.PI * 2);
+        this.ctx.fill();
+      } else {
+        // Ash: subtle gray drifting
+        this.ctx.shadowBlur = 0;
+        this.ctx.fillStyle = `rgba(180, 180, 180, ${p.opacity * 0.35})`;
+        this.ctx.beginPath();
+        this.ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        this.ctx.fill();
+      }
+
+      this.ctx.restore();
+    }
+
+    /** Single animation frame. */
+    _animate() {
+      if (!this.isRunning) return;
+
+      this.ctx.clearRect(0, 0, this.width, this.height);
+
+      for (let i = this.particles.length - 1; i >= 0; i--) {
+        const p = this.particles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        p.life++;
+
+        // Fade in / hold / fade out
+        if (p.life < 30) {
+          p.opacity = p.life / 30;
+        } else if (p.life > p.maxLife - 60) {
+          p.opacity = Math.max(0, (p.maxLife - p.life) / 60);
+        } else {
+          p.opacity = 1;
+        }
+
+        // Recycle dead particles
+        if (p.life > p.maxLife || p.y < -30 || p.x < -30 || p.x > this.width + 30) {
+          this.particles[i] = this._createParticle(false);
+          continue;
+        }
+
+        this._renderParticle(p);
+      }
+
+      this.animationId = requestAnimationFrame(() => this._animate());
+    }
+  }
+
+  /** 3-layer parallax: CSS scroll-driven if supported, rAF fallback otherwise. */
+  class ParallaxController {
+    /**
+     * @param {{
+     *   bg: HTMLElement|null;
+     *   canvas: HTMLElement|null;
+     *   hero: HTMLElement|null;
+     * }} layers
+     */
+    constructor(layers) {
+      /** @type {HTMLElement|null} */
+      this.bg = layers.bg;
+      /** @type {HTMLElement|null} */
+      this.canvas = layers.canvas;
+      /** @type {HTMLElement|null} */
+      this.hero = layers.hero;
+      /** @type {boolean} */
+      this.supportsCSS = typeof CSS !== 'undefined' && CSS.supports('animation-timeline', 'scroll(root)');
+      /** @type {boolean} */
+      this.active = false;
+      /** @type {number|null} */
+      this.rafId = null;
+      /** @type {number} */
+      this.lastScrollY = 0;
+    }
+
+    /** Start parallax — CSS or rAF. */
+    start() {
+      if (!this.bg || !this.canvas || !this.hero) return;
+      // Disable on mobile or reduced-motion
+      if (window.innerWidth < 768) return;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      this.active = true;
+
+      if (this.supportsCSS) {
+        this._applyCSS();
+      } else {
+        this._startRAF();
+      }
+    }
+
+    /** Apply CSS scroll-driven animation properties. */
+    _applyCSS() {
+      if (!this.bg || !this.canvas) return;
+      const heroH = this.hero.offsetHeight;
+
+      // bg: moves at 0.3x scroll speed
+      this.bg.style.animation = `parallaxBg linear`;
+      this.bg.style.animationTimeline = 'scroll(root)';
+      this.bg.style.animationRange = `0px ${heroH}px`;
+
+      // canvas: moves at 0.6x scroll speed
+      this.canvas.style.animation = `parallaxCanvas linear`;
+      this.canvas.style.animationTimeline = 'scroll(root)';
+      this.canvas.style.animationRange = `0px ${heroH}px`;
+    }
+
+    /** rAF fallback for browsers without CSS scroll-driven animation support. */
+    _startRAF() {
+      const heroH = this.hero.offsetHeight;
+
+      const tick = () => {
+        if (!this.active) return;
+        const scrollY = window.scrollY;
+        const progress = Math.min(scrollY / heroH, 1);
+
+        if (this.bg) {
+          this.bg.style.transform = `translate3d(0, ${progress * heroH * -0.3}px, 0)`;
+        }
+        if (this.canvas) {
+          this.canvas.style.transform = `translate3d(0, ${progress * heroH * -0.6}px, 0)`;
+        }
+
+        this.rafId = requestAnimationFrame(tick);
+      };
+
+      this.rafId = requestAnimationFrame(tick);
+    }
+
+    /** Stop parallax. */
+    stop() {
+      this.active = false;
+      if (this.rafId !== null) {
+        cancelAnimationFrame(this.rafId);
+        this.rafId = null;
+      }
+      if (this.bg) {
+        this.bg.style.animation = '';
+        this.bg.style.animationTimeline = '';
+        this.bg.style.animationRange = '';
+        this.bg.style.transform = '';
+      }
+      if (this.canvas) {
+        this.canvas.style.animation = '';
+        this.canvas.style.animationTimeline = '';
+        this.canvas.style.animationRange = '';
+        this.canvas.style.transform = '';
+      }
+    }
+
+    /** Handle resize — recalc hero height. */
+    resize() {
+      if (this.active && !this.supportsCSS) {
+        // rAF will recalc on next tick via hero.offsetHeight
+      }
+    }
+  }
+
+  // ── Init glue ──────────────────────────────────────────────────────────────
+
+  document.addEventListener('DOMContentLoaded', () => {
+    /** Mark JS as enabled (hides .smoke-wisp CSS fallback). */
+    document.documentElement.classList.add('js-enabled');
+
+    /** @type {HTMLVideoElement|null} */
+    const video = document.querySelector('.hero-video');
+    /** @type {HTMLCanvasElement|null} */
+    const canvas = document.querySelector('.hero-canvas');
+    /** @type {HTMLElement|null} */
+    const hero = document.getElementById('hero');
+    /** @type {HTMLElement|null} */
+    const scrollIndicator = document.querySelector('.scroll-indicator');
+    /** @type {HTMLElement|null} */
+    const manifesto = document.getElementById('manifesto');
+
+    /** Respect reduced motion. */
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const isMobile = () => window.innerWidth < 768;
+
+    /** ── Particle system ── */
+    let embers = null;
+    if (canvas && !prefersReduced.matches) {
+      const count = isMobile() ? 40 : 80;
+      embers = new EmberParticleSystem(canvas, { count });
+    }
+
+    /** ── Parallax ── */
+    const parallax = new ParallaxController({
+      bg: document.querySelector('.hero-bg'),
+      canvas,
+      hero,
+    });
+
+    /** ── IntersectionObserver: video + canvas ── */
+    const heroObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            if (video && !prefersReduced.matches) {
+              video.play().catch(() => { /* 404 gracefully — no user interaction required */ });
+            }
+            if (embers) embers.start();
+            parallax.start();
+          } else {
+            if (video) video.pause();
+            if (embers) embers.stop();
+            parallax.stop();
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    if (hero) heroObserver.observe(hero);
+
+    /** ── Scroll indicator: fade on scroll ── */
+    let indicatorFired = false;
+    const handleScroll = () => {
+      if (!scrollIndicator || indicatorFired) return;
+      if (window.scrollY > 100) {
+        scrollIndicator.classList.add('hidden');
+        indicatorFired = true;
+      }
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    /** ── Scroll indicator: click to scroll to manifesto ── */
+    if (scrollIndicator && manifesto) {
+      scrollIndicator.addEventListener('click', () => {
+        manifesto.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
+
+    /** ── Resize: debounced ── */
+    let resizeTimer = null;
+    window.addEventListener('resize', () => {
+      if (resizeTimer) clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        if (embers) {
+          const newCount = window.innerWidth < 768 ? 40 : 80;
+          embers.particleCount = newCount;
+          embers.resize();
+        }
+        if (parallax) parallax.resize();
+      }, 200);
+    });
+
+    /** ── Reduced-motion change listener ── */
+    prefersReduced.addEventListener('change', (e) => {
+      if (e.matches) {
+        // Disable all motion
+        if (video) { video.pause(); video.style.display = 'none'; }
+        if (embers) embers.stop();
+        parallax.stop();
+      } else {
+        // Re-enable if hero is visible
+        if (video) video.style.display = '';
+        if (hero && heroObserver) {
+          // Re-trigger by disconnecting and re-observing
+          heroObserver.unobserve(hero);
+          heroObserver.observe(hero);
+        }
+      }
+    });
+
+    /** ── If hero is already visible on load, start immediately ── */
+    if (hero && hero.getBoundingClientRect().top < window.innerHeight) {
+      if (video && !prefersReduced.matches) {
+        video.play().catch(() => {});
+      }
+      if (embers) embers.start();
+      parallax.start();
+    }
+  });
+</script>

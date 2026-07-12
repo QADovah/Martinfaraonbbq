@@ -164,6 +164,7 @@ header nav a:hover {
   position: absolute;
   inset: 0;
   overflow: hidden;
+  z-index: 0;
 }
 
 .smoke-wisp {
@@ -471,6 +472,117 @@ header nav a:hover {
   letter-spacing: 4px;
   color: var(--silver);
   text-transform: uppercase;
+}
+
+/* ── HERO EDGE GLOW (pseudo-elements) ── */
+#hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 40%;
+  height: 100%;
+  background: radial-gradient(ellipse 400px 100% at 0% 50%, rgba(192, 18, 12, 0.12), transparent 60%);
+  pointer-events: none;
+  z-index: 1;
+  animation: edgeGlowA 4s ease-in-out infinite;
+}
+
+#hero::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 40%;
+  background: radial-gradient(ellipse 80% 200px at 50% 100%, rgba(192, 18, 12, 0.08), transparent 60%);
+  pointer-events: none;
+  z-index: 1;
+  animation: edgeGlowB 5s ease-in-out infinite;
+}
+
+@keyframes edgeGlowA {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+@keyframes edgeGlowB {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 0.85; }
+}
+
+/* ── HERO VIDEO OVERLAY ── */
+.hero-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  mix-blend-mode: screen;
+  opacity: 0.4;
+  z-index: 1;
+}
+
+/* ── HERO CANVAS (particle system) ── */
+.hero-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ── SCROLL INDICATOR ── */
+.scroll-indicator {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  color: var(--chrome);
+  opacity: 0.8;
+  cursor: pointer;
+  animation: scrollBounce 2s ease-in-out infinite;
+  transition: opacity 0.4s ease;
+}
+
+.scroll-indicator.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.scroll-indicator svg {
+  display: block;
+  width: 32px;
+  height: 32px;
+}
+
+@keyframes scrollBounce {
+  0%, 100% {
+    transform: translateX(-50%) translateY(0);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateX(-50%) translateY(8px);
+    opacity: 0.4;
+  }
+}
+
+/* ── PARALLAX KEYFRAMES (CSS scroll-driven animation) ── */
+@keyframes parallaxBg {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(0, -30vh, 0); }
+}
+
+@keyframes parallaxCanvas {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(0, -60vh, 0); }
+}
+
+/* ── NO-JS FALLBACK: hide CSS smoke wisps when JS is active ── */
+.js-enabled .smoke-wisp {
+  display: none;
 }
 
 /* ── MANIFESTO STRIP ── */
@@ -2303,6 +2415,25 @@ footer {
     font-size: 3.5rem;
   }
 
+  .scroll-indicator {
+    bottom: 20px;
+  }
+
+  .scroll-indicator svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  #hero::before {
+    width: 30%;
+    background: radial-gradient(ellipse 200px 100% at 0% 50%, rgba(192, 18, 12, 0.1), transparent 60%);
+  }
+
+  #hero::after {
+    height: 30%;
+    background: radial-gradient(ellipse 60% 120px at 50% 100%, rgba(192, 18, 12, 0.06), transparent 60%);
+  }
+
   #nosotros,
   #horarios {
     grid-template-columns: 1fr;
@@ -2445,6 +2576,10 @@ footer {
 
   .logia-btn {
     padding: 15px;
+  }
+
+  .hero-video {
+    opacity: 0.3;
   }
 
   #pagos {
