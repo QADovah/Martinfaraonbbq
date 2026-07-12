@@ -1,0 +1,119 @@
+---
+---
+<section id="logia">
+  <div class="logia-content">
+    <h2 class="logia-title">¿Querés anotarte al proximo evento?</h2>
+    <p class="logia-subtitle">Sumate al proximo evento. Y además recibí avisos de stock limitado y beneficios exclusivos.</p>
+
+    <form id="form-logia" class="logia-form">
+      <input type="text" id="logia-nombre" class="logia-input" placeholder="Tu nombre o apodo de guerrero..." required />
+      <input type="email" id="logia-email" class="logia-input" placeholder="Tu mejor email..." required />
+      <input type="tel" id="logia-telefono" class="logia-input" placeholder="Tu WhatsApp (con código de área)..." required />
+      <input type="text" id="logia-ubicacion" class="logia-input" placeholder="¿De dónde sos? (Ramos, Haedo, CABA...)" required />
+
+      <!-- 👇👇👇 CONFIGURACIÓN DE EVENTOS 👇👇👇 -->
+      <select id="logia-evento" class="logia-input" style="appearance: auto; background-color: var(--black); color: var(--white); cursor: pointer;" required>
+        <option value="" disabled selected>¿A qué evento te anotás?</option>
+        <option value="Locro 25 de mayo 2026">Locro 25 de mayo 2026</option>
+        <option value="Locrito 30 de Mayo">Locrito 30 de mayo</option>
+      </select>
+      <!-- 👆👆👆 FIN EVENTOS 👆👆👆 -->
+
+      <input type="number" id="logia-porciones" class="logia-input" placeholder="¿Cuántas porciones?" min="1" required />
+
+      <button type="submit" id="logia-submit-btn" class="logia-btn">Unirme a la Logia</button>
+    </form>
+
+    <!-- ÉXITO CON SELLO DE LACRE -->
+    <div id="logia-success-container" class="success-container">
+      <div class="wax-seal-wrapper">
+        <div class="wax-seal"></div>
+        <div class="wax-drips">
+          <div class="drip drip-1"></div>
+          <div class="drip drip-2"></div>
+          <div class="drip drip-3"></div>
+        </div>
+      </div>
+
+      <div class="ticket-rustico">
+        <div class="ticket-title">BIENVENIDO GUERRERO</div>
+        <p style="font-size: 1.1rem; line-height: 1.4; color: #3d2b1f; margin-bottom: 20px;">
+          Tu lugar en <strong>La Logia del Humo</strong> ha sido sellado con éxito.
+        </p>
+        <div style="border-top: 1px dashed rgba(61,43,31,0.5); padding-top: 15px; font-size: 0.8rem; letter-spacing: 1px;">
+          PRÓXIMAMENTE RECIBIRÁS TU PRIMER AVISO DE STOCK.<br />
+          <strong>MANTENÉ EL FUEGO PRENDIDO.</strong>
+        </div>
+      </div>
+    </div>
+
+    <div id="logia-error" class="logia-msg" style="color: var(--red); background: rgba(192, 18, 12, 0.1); border: 1px solid var(--red); padding: 20px;">
+      Algo salió mal. El fuego está rebelde, por favor intentá de nuevo.
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const logiaForm = document.getElementById('form-logia') as HTMLFormElement;
+    if (logiaForm) {
+      logiaForm.addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const submitBtn = document.getElementById('logia-submit-btn') as HTMLButtonElement;
+        const errorMsg = document.getElementById('logia-error') as HTMLElement;
+        const successContainer = document.getElementById('logia-success-container') as HTMLElement;
+
+        const originalBtnText = submitBtn.innerText;
+        submitBtn.innerText = "PROCESANDO HUMO...";
+        submitBtn.disabled = true;
+        errorMsg.style.display = 'none';
+
+        // Obtenemos la IP del usuario usando un servicio gratuito (ipify)
+        let ipCliente = "Desconocida";
+        try {
+          const ipResponse = await fetch('https://api.ipify.org?format=json');
+          if (ipResponse.ok) {
+            const ipData = await ipResponse.json();
+            ipCliente = ipData.ip;
+          }
+        } catch (err) {
+          console.warn("El humo tapó la conexión, no se pudo obtener la IP.");
+        }
+
+        const data = {
+          nombre: (document.getElementById('logia-nombre') as HTMLInputElement).value,
+          email: (document.getElementById('logia-email') as HTMLInputElement).value,
+          ubicacion: (document.getElementById('logia-ubicacion') as HTMLInputElement).value,
+          telefono: (document.getElementById('logia-telefono') as HTMLInputElement).value,
+          evento: (document.getElementById('logia-evento') as HTMLSelectElement).value,
+          porciones: (document.getElementById('logia-porciones') as HTMLInputElement).value,
+          ip: ipCliente
+        };
+
+        console.log("🚀 Mandando a la Logia:", data);
+
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbxfoAqPRJC6r8OdpF4brNWm26r1Bf2msEe4DctST43pM5pcc0RfxCqoBV7xPAkETvmvHw/exec';
+
+        try {
+          await fetch(scriptURL, {
+            method: 'POST',
+            mode: 'no-cors',
+            cache: 'no-cache',
+            body: JSON.stringify(data)
+          });
+
+          if (successContainer) {
+            successContainer.style.display = 'block';
+            logiaForm.style.display = 'none';
+          }
+        } catch (error: any) {
+          console.error('Error!', error.message);
+          submitBtn.innerText = originalBtnText;
+          submitBtn.disabled = false;
+          errorMsg.style.display = 'block';
+        }
+      });
+    }
+  });
+</script>

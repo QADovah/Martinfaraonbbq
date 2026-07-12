@@ -1,0 +1,123 @@
+---
+---
+<section id="testimonios">
+  <div class="section-label">// La voz de la logia</div>
+  <h2 class="section-title"><em>Los Guerreros</em> andan diciendo...</h2>
+
+  <div class="testimonials-container">
+    <div id="testimonials-track" class="testimonials-track">
+      <!-- Facundo (Destacado) -->
+      <div class="testimonial-card featured reveal">
+        <div class="testimonial-quote">
+          <br />
+          Hay dos tipos de personas, los que saben cocinar carne y luego están estas personas. Es un viaje de ida, más que nada si sos un amante de los ahumados.<br /><br />
+          Hicimos un pedido por Rappi... De repente teníamos dos brutalidades ahumadas en nuestra mesa. Cada bocado es una experiencia única, no les falta nada.
+          <strong>Ahora entiendo que cuando Homer comió la costilla, tuve la misma sensación.</strong>
+          Me saco el sombrero ante el chef que creó estas maravillas.
+        </div>
+        <div class="testimonial-meta">
+          <div class="author-info">
+            <span class="name">Facundo</span>
+            <span class="date">18 de Abril, 2026</span>
+          </div>
+          <div class="stars">★★★★★</div>
+        </div>
+      </div>
+
+      <!-- Alejandro -->
+      <div class="testimonial-card reveal" style="transition-delay: 0.1s;">
+        <div class="testimonial-quote">
+          <br />
+          ¡Excelente lugar! Martín un fenómeno… los sándwiches son lo más! Si querés comer algo distinto tenés que venir. 10/10.
+        </div>
+        <div class="testimonial-meta">
+          <div class="author-info">
+            <span class="name">Alejandro</span>
+            <span class="date">12 de Abril, 2026</span>
+          </div>
+          <div class="stars">★★★★★</div>
+        </div>
+      </div>
+
+      <!-- Federico (Destacado) -->
+      <div class="testimonial-card featured reveal" style="transition-delay: 0.2s;">
+        <div class="testimonial-quote">
+          <br />
+          Lo que cocina el Barba loco. No importa lo que pida, cada porción me dilata las pupilas. Esta vez volvimos porque pusieron postre. Nos pedimos un chebusan de costilla y extremos ahumados. Es cruzar un umbral que está más allá de la realidad.
+          <strong>Y nuevamente me cerró la boca con el flan. Sin agujeritos (como debe ser), super cremoso.</strong>
+          No van a probar otro ahumado con la calidad, dedicación y pasión que le ponen en este lugar del bien.
+        </div>
+        <div class="testimonial-meta">
+          <div class="author-info">
+            <span class="name">Fede</span>
+            <span class="date">24 de Abril, 2026</span>
+          </div>
+          <div class="stars">★★★★★</div>
+        </div>
+      </div>
+
+      <!-- Pablo -->
+      <div class="testimonial-card reveal" style="transition-delay: 0.3s;">
+        <div class="testimonial-quote">
+          <br />
+          Martín un genio, es arte a las brasas y humo, nada igual!! Lugar autoservicio, buenos picantes, salsas y encurtidos caseros. ¡Obviamente voy a volver, es una locura lo que ahuma el Faraón!
+        </div>
+        <div class="testimonial-meta">
+          <div class="author-info">
+            <span class="name">Pablo</span>
+            <span class="date">22 de Marzo, 2026</span>
+          </div>
+          <div class="stars">★★★★★</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="carousel-controls">
+      <button class="carousel-btn" id="testimonials-prev">←</button>
+      <button class="carousel-btn" id="testimonials-next">→</button>
+    </div>
+  </div>
+</section>
+
+<!-- SECCIÓN TEMPORAL: Clientes felices -->
+<section id="clientes-felices" style="text-align: center; padding: 2rem 1rem;">
+  <h2 class="section-title">Clientes felices</h2>
+  <div style="margin-top: 1.5rem;">
+    <img 
+      src="/Imagenes/EduSillon.jpeg" 
+      alt="Cliente feliz" 
+      style="max-width: 100%; height: auto; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);"
+    />
+    <p style="margin-top: 1rem; font-size: 1.1rem; color: var(--text-secondary);">Clientes felices</p>
+  </div>
+</section>
+<!-- FIN SECCIÓN TEMPORAL -->
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const prevBtn = document.getElementById('testimonials-prev');
+    const nextBtn = document.getElementById('testimonials-next');
+    const track = document.getElementById('testimonials-track');
+
+    if (track && prevBtn && nextBtn) {
+      const scrollCarousel = (direction: number) => {
+        const card = track.querySelector('.testimonial-card') as HTMLElement;
+        if (!card) return;
+        const cardWidth = card.offsetWidth + 30;
+        const currentScroll = track.scrollLeft;
+        const maxScroll = track.scrollWidth - track.clientWidth;
+
+        if (direction === 1 && currentScroll >= maxScroll - 10) {
+          track.scrollTo({ left: 0, behavior: 'smooth' });
+        } else if (direction === -1 && currentScroll <= 10) {
+          track.scrollTo({ left: maxScroll, behavior: 'smooth' });
+        } else {
+          track.scrollBy({ left: direction * cardWidth, behavior: 'smooth' });
+        }
+      };
+
+      prevBtn.addEventListener('click', () => scrollCarousel(-1));
+      nextBtn.addEventListener('click', () => scrollCarousel(1));
+    }
+  });
+</script>
