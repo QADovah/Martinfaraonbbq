@@ -27,7 +27,7 @@ html {
 body {
   background: var(--black);
   color: var(--white);
-  font-family: 'Oswald', sans-serif;
+  font-family: 'Inter', sans-serif;
   overflow-x: hidden;
   cursor: default;
 }
@@ -65,6 +65,10 @@ nav,
 footer {
   position: relative;
   z-index: 2;
+}
+
+#clientes-felices {
+  display: none;
 }
 
 /* ── HEADER & NAV ── */
@@ -329,7 +333,7 @@ header nav a:hover {
 }
 
 .hero-sub {
-  font-family: 'Crimson Text', serif;
+  font-family: 'Lora', serif;
   font-style: italic;
   font-size: 1.3rem;
   color: var(--silver);
@@ -733,7 +737,7 @@ header nav a:hover {
 }
 
 .about-text {
-  font-family: 'Crimson Text', serif;
+  font-family: 'Lora', serif;
   font-size: 1.15rem;
   line-height: 1.8;
   color: var(--silver);
@@ -793,10 +797,13 @@ header nav a:hover {
 .menu-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 2px;
-  background: var(--steel);
+  gap: 10px;
+  background: transparent;
   transition: opacity 0.3s ease;
   margin-top: 50px;
+  max-width: 1728px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .menu-card {
@@ -812,7 +819,7 @@ header nav a:hover {
 
 .menu-card-image {
   margin: -36px -28px 20px;
-  height: 250px;
+  aspect-ratio: 1 / 1;
   background: #151515;
   overflow: hidden;
   display: flex;
@@ -881,7 +888,7 @@ header nav a:hover {
 }
 
 .menu-card-desc {
-  font-family: 'Crimson Text', serif;
+  font-family: 'Lora', serif;
   font-style: italic;
   font-size: 0.95rem;
   color: var(--silver);
@@ -1367,24 +1374,24 @@ footer {
   right: 30px;
   width: 60px;
   height: 60px;
-  background-color: var(--red);
+  background-color: #25d366;
   color: var(--white);
   border-radius: 50%;
   text-align: center;
   font-size: 30px;
-  box-shadow: 0 0 15px rgba(192, 18, 12, 0.4);
+  box-shadow: 0 0 15px rgba(37, 211, 102, 0.4);
   z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
   text-decoration: none;
   transition: transform 0.3s ease, background-color 0.3s ease;
-  animation: pulse-red 2s infinite;
+  animation: pulse-green 2s infinite;
 }
 
 .whatsapp-float:hover {
   transform: scale(1.1);
-  background-color: var(--red-hot);
+  background-color: #20ba5a;
 }
 
 .whatsapp-float svg {
@@ -1393,17 +1400,17 @@ footer {
   fill: currentColor;
 }
 
-@keyframes pulse-red {
+@keyframes pulse-green {
   0% {
-    box-shadow: 0 0 0 0 rgba(192, 18, 12, 0.7);
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
   }
 
   70% {
-    box-shadow: 0 0 0 15px rgba(192, 18, 12, 0);
+    box-shadow: 0 0 0 15px rgba(37, 211, 102, 0);
   }
 
   100% {
-    box-shadow: 0 0 0 0 rgba(192, 18, 12, 0);
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
   }
 }
 
@@ -1421,7 +1428,7 @@ footer {
   visibility: hidden;
   transition: opacity 0.3s;
   pointer-events: none;
-  border: 1px solid var(--red);
+  border: 1px solid #25d366;
 }
 
 .whatsapp-float:hover .whatsapp-tooltip {
@@ -1484,7 +1491,7 @@ footer {
 }
 
 .testimonial-quote {
-  font-family: 'Crimson Text', serif;
+  font-family: 'Lora', serif;
   font-size: 1.1rem;
   line-height: 1.7;
   color: var(--silver);
@@ -1579,19 +1586,25 @@ footer {
 .gallery-container {
   position: relative;
   margin-top: 50px;
-  max-width: 1400px;
+  max-width: 1728px;
   margin-left: auto;
   margin-right: auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.gallery-container .carousel-btn {
+  flex-shrink: 0;
 }
 
 .gallery-track {
   display: flex;
-  gap: 30px;
+  gap: 10px;
+  background: var(--steel);
+  padding: 0;
   overflow-x: auto;
-  scroll-snap-type: x mandatory;
   scrollbar-width: none;
-  scroll-behavior: smooth;
-  padding: 20px 5px;
 }
 
 .gallery-track::-webkit-scrollbar {
@@ -1599,13 +1612,11 @@ footer {
 }
 
 .gallery-item {
-  flex: 0 0 calc(33.333% - 20px);
-  scroll-snap-align: center;
-  border: 1px solid var(--steel);
+  flex: 0 0 calc((1728px - 50px) / 6);
+  border: none;
   position: relative;
   transition: all 0.4s ease;
-  min-width: 320px;
-  height: 400px;
+  aspect-ratio: 1 / 1;
   overflow: hidden;
   background: var(--steel);
   cursor: pointer;
@@ -1723,7 +1734,7 @@ footer {
 }
 
 .step-desc {
-  font-family: 'Crimson Text', serif;
+  font-family: 'Lora', serif;
   font-size: 0.95rem;
   color: var(--iron);
   line-height: 1.6;
@@ -1786,7 +1797,7 @@ footer {
   overflow: hidden;
   transition: max-height 0.4s ease, padding 0.4s ease;
   color: var(--silver);
-  font-family: 'Crimson Text', serif;
+  font-family: 'Lora', serif;
   font-size: 1.1rem;
   line-height: 1.7;
   padding-right: 40px;
@@ -2071,7 +2082,7 @@ footer {
 }
 
 .logia-subtitle {
-  font-family: 'Crimson Text', serif;
+  font-family: 'Lora', serif;
   font-size: 1.2rem;
   color: var(--silver);
   font-style: italic;
@@ -2368,8 +2379,7 @@ footer {
 
 /* ── RESPONSIVE MEDIA QUERIES ── */
 @media (max-width: 1100px) {
-  .testimonial-card,
-  .gallery-item {
+  .testimonial-card {
     flex: 0 0 calc(50% - 15px);
   }
 }
@@ -2554,13 +2564,8 @@ footer {
     padding: 80px 24px;
   }
 
-  .testimonial-card,
-  .gallery-item {
+  .testimonial-card {
     flex: 0 0 85%;
-  }
-
-  .gallery-item {
-    height: 300px;
   }
 
   .carousel-controls {
