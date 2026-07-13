@@ -45,20 +45,46 @@
   <!-- ACCESSIBILITY PANEL -->
   <div class="accessibility-panel" id="a11y-panel">
     <div class="a11y-toggle">
-      <span class="a11y-toggle-label">Alto Contraste</span>
+      <div class="a11y-toggle-info">
+        <span class="a11y-toggle-label">Alto Contraste</span>
+        <span class="a11y-helper" data-tip="Bordes más marcados y texto más brillante para mejor legibilidad">?</span>
+      </div>
       <div class="a11y-switch" data-mode="high-contrast"></div>
     </div>
     <div class="a11y-toggle">
-      <span class="a11y-toggle-label">Daltonismo</span>
-      <div class="a11y-switch" data-mode="colorblind"></div>
+      <div class="a11y-toggle-info">
+        <span class="a11y-toggle-label">Daltonismo (R-V)</span>
+        <span class="a11y-helper" data-tip="Para personas con deuteranopia o protanopia (8% de hombres). Cambia rojos y verdes a azules.">?</span>
+      </div>
+      <div class="a11y-switch" data-mode="colorblind" data-group="colorblind"></div>
     </div>
     <div class="a11y-toggle">
-      <span class="a11y-toggle-label">Texto Grande</span>
+      <div class="a11y-toggle-info">
+        <span class="a11y-toggle-label">Daltonismo (Az-A)</span>
+        <span class="a11y-helper" data-tip="Para personas con tritanopia (0.01% de la población). Cambia azules y amarillos a rosas.">?</span>
+      </div>
+      <div class="a11y-switch" data-mode="tritanopia" data-group="colorblind"></div>
+    </div>
+    <div class="a11y-toggle">
+      <div class="a11y-toggle-info">
+        <span class="a11y-toggle-label">Texto Grande</span>
+        <span class="a11y-helper" data-tip="Aumenta el tamaño del texto un 20% para facilitar la lectura">?</span>
+      </div>
       <div class="a11y-switch" data-mode="large-text"></div>
     </div>
     <div class="a11y-toggle">
-      <span class="a11y-toggle-label">Reducir Movimiento</span>
+      <div class="a11y-toggle-info">
+        <span class="a11y-toggle-label">Reducir Movimiento</span>
+        <span class="a11y-helper" data-tip="Desactiva animaciones y efectos de movimiento para evitar mareos">?</span>
+      </div>
       <div class="a11y-switch" data-mode="reduce-motion"></div>
+    </div>
+    <div class="a11y-toggle">
+      <div class="a11y-toggle-info">
+        <span class="a11y-toggle-label">Dislexia Amigable</span>
+        <span class="a11y-helper" data-tip="Aumenta el espaciado entre letras y palabras para facilitar la lectura">?</span>
+      </div>
+      <div class="a11y-switch" data-mode="dyslexia-friendly"></div>
     </div>
   </div>
 

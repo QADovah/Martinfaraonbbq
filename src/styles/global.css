@@ -1610,45 +1610,50 @@ footer {
   height: 20px;
 }
 
+/* ── HEADER ACTIONS ── */
+.header-actions {
+  position: relative;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
 /* ── ACCESSIBILITY BUTTON ── */
 .a11y-btn {
-  position: fixed;
-  bottom: 100px;
-  left: 30px;
-  width: 50px;
-  height: 50px;
-  background: var(--steel);
   color: var(--white);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
   cursor: pointer;
-  z-index: 1000;
-  transition: background-color 0.3s ease, border-color 0.3s ease;
+  transition: color 0.3s ease, border-color 0.3s ease, background 0.3s ease;
 }
 
 .a11y-btn:hover {
-  background: var(--red);
+  color: var(--red);
   border-color: var(--red);
+  background: rgba(192, 18, 12, 0.1);
 }
 
 .a11y-btn svg {
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
 }
 
 /* ── ACCESSIBILITY PANEL ── */
 .accessibility-panel {
-  position: fixed;
-  bottom: 160px;
-  left: 30px;
+  position: absolute;
+  top: 100%;
+  right: 0;
   background: var(--deep);
   border: 1px solid var(--steel);
   max-width: 220px;
   width: 220px;
-  z-index: 1000;
+  z-index: 1001;
   padding: 14px 18px;
   opacity: 0;
   visibility: hidden;
@@ -1672,6 +1677,12 @@ footer {
 
 .a11y-toggle:last-child {
   border-bottom: none;
+}
+
+.a11y-toggle-info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .a11y-toggle-label {
@@ -1711,6 +1722,55 @@ footer {
 
 .a11y-switch.active::after {
   transform: translateX(20px);
+}
+
+/* ── A11Y HELPER TOOLTIP ── */
+.a11y-helper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--silver);
+  font-size: 0.55rem;
+  font-weight: 600;
+  cursor: help;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.a11y-helper::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--black);
+  border: 1px solid var(--steel);
+  color: var(--silver);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.6rem;
+  font-weight: 400;
+  line-height: 1.4;
+  padding: 8px 10px;
+  border-radius: 6px;
+  width: 180px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s, visibility 0.2s;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.a11y-helper:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.a11y-helper:hover::after {
+  opacity: 1;
+  visibility: visible;
 }
 
 /* ── ACCESSIBILITY: HIGH CONTRAST ── */
@@ -1759,6 +1819,147 @@ body.reduce-motion .smoke-wisp {
 
 html.reduce-motion {
   scroll-behavior: auto;
+}
+
+/* ── ACCESSIBILITY: DYSLEXIA-FRIENDLY ── */
+body.dyslexia-friendly {
+  letter-spacing: 0.12em;
+  word-spacing: 0.16em;
+  line-height: 1.8;
+}
+
+body.dyslexia-friendly .faq-question,
+body.dyslexia-friendly .faq-answer,
+body.dyslexia-friendly .dia,
+body.dyslexia-friendly .closed-tag,
+body.dyslexia-friendly .time,
+body.dyslexia-friendly .horario-row,
+body.dyslexia-friendly .location-address,
+body.dyslexia-friendly .location-city,
+body.dyslexia-friendly .horario-header,
+body.dyslexia-friendly .footer-logo,
+body.dyslexia-friendly .footer-copy,
+body.dyslexia-friendly .logo,
+body.dyslexia-friendly .ig-btn-top,
+body.dyslexia-friendly .mobile-nav-links,
+body.dyslexia-friendly header nav a,
+body.dyslexia-friendly p,
+body.dyslexia-friendly .about-text,
+body.dyslexia-friendly .modal-info,
+body.dyslexia-friendly .section-title,
+body.dyslexia-friendly .menu-card-title,
+body.dyslexia-friendly .menu-card-desc,
+body.dyslexia-friendly .testimonial-text,
+body.dyslexia-friendly .menu-card-tag,
+body.dyslexia-friendly .section-label,
+body.dyslexia-friendly .whatsapp-tooltip {
+  letter-spacing: 0.12em;
+  word-spacing: 0.16em;
+}
+
+body.dyslexia-friendly .menu-card-title,
+body.dyslexia-friendly .section-title {
+  letter-spacing: 0.08em;
+}
+
+/* ── ACCESSIBILITY: TRITANOPIA (BLUE-YELLOW) ── */
+body.tritanopia {
+  --red: #e646a0;
+  --red-hot: #ff5cb8;
+  --red-ember: #b83580;
+}
+
+body.tritanopia .fire-text {
+  background: linear-gradient(135deg, #e646a0, #ff5cb8, #ee7733, #ee9933);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+body.tritanopia .ig-btn-top:hover,
+body.tritanopia a:hover {
+  color: #e646a0;
+}
+
+/* ── ACCESSIBILITY: ENHANCED HIGH CONTRAST ── */
+body.high-contrast {
+  --white: #ffffff;
+  --silver: #e0e0e0;
+  --chrome: #ffffff;
+  --steel: #555555;
+  --deep: #000000;
+}
+
+body.high-contrast .section-title {
+  text-shadow: 0 0 6px rgba(255, 255, 255, 0.5);
+  border-bottom: 2px solid var(--white);
+  padding-bottom: 8px;
+}
+
+body.high-contrast .about-text,
+body.high-contrast .testimonial-text,
+body.high-contrast .menu-card-desc {
+  color: var(--chrome);
+}
+
+body.high-contrast .menu-card,
+body.high-contrast .testimonial-card {
+  border: 2px solid var(--white);
+}
+
+body.high-contrast .modal-content {
+  border: 2px solid var(--white);
+}
+
+body.high-contrast header {
+  border-bottom: 2px solid var(--white);
+}
+
+body.high-contrast footer {
+  border-top: 2px solid var(--white);
+}
+
+body.high-contrast .menu-card-tag,
+body.high-contrast .section-label {
+  color: var(--red);
+  border: 1px solid var(--red);
+  padding: 2px 6px;
+}
+
+/* ── SKIP TO CONTENT LINK ── */
+.skip-to-content {
+  position: fixed;
+  top: -100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--red);
+  color: var(--white);
+  padding: 12px 24px;
+  z-index: 10000;
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 0 0 8px 8px;
+  transition: top 0.3s ease;
+}
+
+.skip-to-content:focus {
+  top: 0;
+}
+
+/* ── VISIBLE FOCUS INDICATORS ── */
+*:focus-visible {
+  outline: 3px solid var(--red);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid var(--red);
+  outline-offset: 3px;
 }
 
 /* ── TESTIMONIALS (CAROUSEL) ── */

@@ -15,36 +15,7 @@
   </svg>
 </button>
 
-<!-- ACCESSIBILITY BUTTON -->
-<button class="a11y-btn" id="a11y-btn" aria-label="Toggle accessibility panel">
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <circle cx="12" cy="5" r="2.5"/>
-    <path d="M5 10l7 1 7-1"/>
-    <path d="M8.5 10.5l1 8"/>
-    <path d="M15.5 10.5l-1 8"/>
-    <path d="M10 14h4"/>
-  </svg>
-</button>
 
-<!-- ACCESSIBILITY PANEL -->
-<div class="accessibility-panel" id="a11y-panel">
-  <div class="a11y-toggle">
-    <span class="a11y-toggle-label">Alto Contraste</span>
-    <div class="a11y-switch" data-mode="high-contrast"></div>
-  </div>
-  <div class="a11y-toggle">
-    <span class="a11y-toggle-label">Daltonismo</span>
-    <div class="a11y-switch" data-mode="colorblind"></div>
-  </div>
-  <div class="a11y-toggle">
-    <span class="a11y-toggle-label">Texto Grande</span>
-    <div class="a11y-switch" data-mode="large-text"></div>
-  </div>
-  <div class="a11y-toggle">
-    <span class="a11y-toggle-label">Reducir Movimiento</span>
-    <div class="a11y-switch" data-mode="reduce-motion"></div>
-  </div>
-</div>
 
 <!-- PAGOS SECTION -->
 <section id="pagos">
@@ -313,7 +284,7 @@
     });
 
     // Accessibility panel
-    var a11yModes = ['high-contrast', 'colorblind', 'large-text', 'reduce-motion'];
+    var a11yModes = ['high-contrast', 'colorblind', 'tritanopia', 'large-text', 'reduce-motion', 'dyslexia-friendly'];
 
     function applyA11yModes(modes) {
       a11yModes.forEach(function(mode) {
@@ -380,12 +351,24 @@
       sw.addEventListener('click', function(e) {
         e.stopPropagation();
         var mode = sw.getAttribute('data-mode');
+        var group = sw.getAttribute('data-group');
         var modes = {};
         try {
           modes = JSON.parse(localStorage.getItem('a11y-modes')) || {};
         } catch(e) {
           modes = {};
         }
+
+        // If toggling ON and has a group, deactivate siblings in same group
+        if (!modes[mode] && group) {
+          document.querySelectorAll('.a11y-switch[data-group="' + group + '"]').forEach(function(sibling) {
+            var siblingMode = sibling.getAttribute('data-mode');
+            if (siblingMode !== mode) {
+              modes[siblingMode] = false;
+            }
+          });
+        }
+
         modes[mode] = !modes[mode];
         applyA11yModes(modes);
         updateA11ySwitches(modes);
