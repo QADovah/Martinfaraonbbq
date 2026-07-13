@@ -8,6 +8,44 @@
   </svg>
 </a>
 
+<!-- BOTÓN FLOTANTE BACK TO TOP -->
+<button class="back-to-top" id="back-to-top-btn" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="24" height="24">
+    <polyline points="18 15 12 9 6 15"></polyline>
+  </svg>
+</button>
+
+<!-- ACCESSIBILITY BUTTON -->
+<button class="a11y-btn" id="a11y-btn" aria-label="Toggle accessibility panel">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="5" r="2.5"/>
+    <path d="M5 10l7 1 7-1"/>
+    <path d="M8.5 10.5l1 8"/>
+    <path d="M15.5 10.5l-1 8"/>
+    <path d="M10 14h4"/>
+  </svg>
+</button>
+
+<!-- ACCESSIBILITY PANEL -->
+<div class="accessibility-panel" id="a11y-panel">
+  <div class="a11y-toggle">
+    <span class="a11y-toggle-label">Alto Contraste</span>
+    <div class="a11y-switch" data-mode="high-contrast"></div>
+  </div>
+  <div class="a11y-toggle">
+    <span class="a11y-toggle-label">Daltonismo</span>
+    <div class="a11y-switch" data-mode="colorblind"></div>
+  </div>
+  <div class="a11y-toggle">
+    <span class="a11y-toggle-label">Texto Grande</span>
+    <div class="a11y-switch" data-mode="large-text"></div>
+  </div>
+  <div class="a11y-toggle">
+    <span class="a11y-toggle-label">Reducir Movimiento</span>
+    <div class="a11y-switch" data-mode="reduce-motion"></div>
+  </div>
+</div>
+
 <!-- PAGOS SECTION -->
 <section id="pagos">
   <div class="pagos-container">
@@ -56,9 +94,9 @@
 </footer>
 
 <!-- MENU DETAIL MODAL -->
-<div id="menu-modal" class="modal-overlay">
+<div id="menu-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
   <div class="modal-content">
-    <button class="modal-close" id="close-menu-modal-btn">×</button>
+    <button class="modal-close" id="close-menu-modal-btn" aria-label="Close menu detail">×</button>
     <div class="modal-image-container">
       <img id="modal-img" src="" alt="" />
     </div>
@@ -74,10 +112,20 @@
 </div>
 
 <!-- GALLERY DETAIL MODAL -->
-<div id="gallery-modal" class="modal-overlay">
+<div id="gallery-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-label="Image gallery">
   <div class="modal-content">
-    <button class="modal-close" id="close-gallery-modal-btn">×</button>
+    <button class="modal-close" id="close-gallery-modal-btn" aria-label="Close gallery">×</button>
+    <button class="gallery-modal-arrow gallery-modal-prev" id="gallery-modal-prev" aria-label="Previous image">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+    </button>
     <img id="gallery-modal-img" src="" alt="Faraón" />
+    <button class="gallery-modal-arrow gallery-modal-next" id="gallery-modal-next" aria-label="Next image">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="9 18 15 12 9 6"></polyline>
+      </svg>
+    </button>
   </div>
 </div>
 
@@ -115,14 +163,27 @@
     }
   };
 
+  // Gallery image list and current index
+  window.GALLERY_IMAGES = [];
+  window.GALLERY_CURRENT_INDEX = 0;
+
   window.openGalleryModal = function(imgSrc) {
     const modal = document.getElementById('gallery-modal');
     const img = document.getElementById('gallery-modal-img');
-    if (modal && img) {
-      img.src = imgSrc;
-      modal.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    }
+    if (!modal || !img) return;
+
+    // Find index from data-img attributes
+    const items = document.querySelectorAll('.gallery-item[data-img]');
+    window.GALLERY_IMAGES = Array.from(items).map(el => el.getAttribute('data-img'));
+    window.GALLERY_CURRENT_INDEX = window.GALLERY_IMAGES.indexOf(imgSrc);
+    if (window.GALLERY_CURRENT_INDEX === -1) window.GALLERY_CURRENT_INDEX = 0;
+
+    img.src = imgSrc;
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+
+    // Update arrow visibility
+    updateGalleryArrows();
   };
 
   window.closeGalleryModal = function() {
@@ -132,6 +193,38 @@
       document.body.style.overflow = '';
     }
   };
+
+  window.navigateGallery = function(direction) {
+    const images = window.GALLERY_IMAGES;
+    if (!images || images.length === 0) return;
+
+    window.GALLERY_CURRENT_INDEX += direction;
+    if (window.GALLERY_CURRENT_INDEX < 0) {
+      window.GALLERY_CURRENT_INDEX = images.length - 1;
+    } else if (window.GALLERY_CURRENT_INDEX >= images.length) {
+      window.GALLERY_CURRENT_INDEX = 0;
+    }
+
+    const img = document.getElementById('gallery-modal-img');
+    const src = images[window.GALLERY_CURRENT_INDEX];
+    if (img && src) {
+      img.src = src;
+    }
+
+    updateGalleryArrows();
+  };
+
+  function updateGalleryArrows() {
+    const prevBtn = document.getElementById('gallery-modal-prev');
+    const nextBtn = document.getElementById('gallery-modal-next');
+    const images = window.GALLERY_IMAGES;
+    if (!prevBtn || !nextBtn || !images) return;
+
+    // Always show arrows (wrap-around navigation), show/hide only if 1 or fewer images
+    const show = images.length > 1;
+    prevBtn.style.display = show ? '' : 'none';
+    nextBtn.style.display = show ? '' : 'none';
+  }
 
   document.addEventListener('DOMContentLoaded', () => {
     // Intersection observer for reveal animations
@@ -147,6 +240,23 @@
     });
 
     document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    // Skeleton loader: mark images as loaded to hide shimmer
+    document.querySelectorAll('.skeleton').forEach(container => {
+      const img = container.querySelector('img');
+      if (!img) return;
+
+      if (img.complete && img.naturalWidth > 0) {
+        container.classList.add('loaded');
+      } else {
+        img.addEventListener('load', () => {
+          container.classList.add('loaded');
+        }, { once: true });
+        img.addEventListener('error', () => {
+          container.classList.add('loaded');
+        }, { once: true });
+      }
+    });
 
     // Modal click controls
     const closeMenuBtn = document.getElementById('close-menu-modal-btn');
@@ -166,6 +276,136 @@
     if (galleryModal) {
       galleryModal.addEventListener('click', (e) => {
         if (e.target === galleryModal) window.closeGalleryModal();
+      });
+    }
+
+    // Gallery modal arrow navigation
+    const galleryPrevBtn = document.getElementById('gallery-modal-prev');
+    const galleryNextBtn = document.getElementById('gallery-modal-next');
+
+    if (galleryPrevBtn) {
+      galleryPrevBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        window.navigateGallery(-1);
+      });
+    }
+
+    if (galleryNextBtn) {
+      galleryNextBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        window.navigateGallery(1);
+      });
+    }
+
+    // Keyboard arrow key support for gallery modal
+    document.addEventListener('keydown', (e) => {
+      if (!galleryModal || !galleryModal.classList.contains('active')) return;
+
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        window.navigateGallery(-1);
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        window.navigateGallery(1);
+      } else if (e.key === 'Escape') {
+        window.closeGalleryModal();
+      }
+    });
+
+    // Accessibility panel
+    var a11yModes = ['high-contrast', 'colorblind', 'large-text', 'reduce-motion'];
+
+    function applyA11yModes(modes) {
+      a11yModes.forEach(function(mode) {
+        if (modes[mode]) {
+          document.body.classList.add(mode);
+          if (mode === 'reduce-motion') {
+            document.documentElement.classList.add('reduce-motion');
+          }
+        } else {
+          document.body.classList.remove(mode);
+          if (mode === 'reduce-motion') {
+            document.documentElement.classList.remove('reduce-motion');
+          }
+        }
+      });
+    }
+
+    function updateA11ySwitches(modes) {
+      document.querySelectorAll('.a11y-switch').forEach(function(sw) {
+        var mode = sw.getAttribute('data-mode');
+        if (modes[mode]) {
+          sw.classList.add('active');
+        } else {
+          sw.classList.remove('active');
+        }
+      });
+    }
+
+    function saveA11yModes(modes) {
+      localStorage.setItem('a11y-modes', JSON.stringify(modes));
+    }
+
+    // Load saved preferences
+    var savedModes = {};
+    try {
+      savedModes = JSON.parse(localStorage.getItem('a11y-modes')) || {};
+    } catch(e) {
+      savedModes = {};
+    }
+    applyA11yModes(savedModes);
+    updateA11ySwitches(savedModes);
+
+    // Toggle panel visibility
+    var a11yBtn = document.getElementById('a11y-btn');
+    var a11yPanel = document.getElementById('a11y-panel');
+    if (a11yBtn && a11yPanel) {
+      a11yBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        a11yPanel.classList.toggle('active');
+      });
+
+      // Close panel on outside click
+      document.addEventListener('click', function(e) {
+        if (a11yPanel.classList.contains('active') &&
+            !a11yPanel.contains(e.target) &&
+            e.target !== a11yBtn) {
+          a11yPanel.classList.remove('active');
+        }
+      });
+    }
+
+    // Toggle switches
+    document.querySelectorAll('.a11y-switch').forEach(function(sw) {
+      sw.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var mode = sw.getAttribute('data-mode');
+        var modes = {};
+        try {
+          modes = JSON.parse(localStorage.getItem('a11y-modes')) || {};
+        } catch(e) {
+          modes = {};
+        }
+        modes[mode] = !modes[mode];
+        applyA11yModes(modes);
+        updateA11ySwitches(modes);
+        saveA11yModes(modes);
+      });
+    });
+
+    // Back to top button
+    const backToTopBtn = document.getElementById('back-to-top-btn');
+    if (backToTopBtn) {
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 400) {
+          backToTopBtn.classList.add('visible');
+        } else {
+          backToTopBtn.classList.remove('visible');
+        }
+      }, { passive: true });
+
+      backToTopBtn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       });
     }
   });

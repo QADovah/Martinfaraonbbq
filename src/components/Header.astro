@@ -25,6 +25,98 @@
           <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
         </svg>
       </a>
+      <button class="hamburger" id="hamburger-btn" aria-label="Toggle navigation menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <button class="a11y-btn" id="a11y-btn" aria-label="Toggle accessibility panel">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="5" r="2.5"/>
+          <path d="M5 10l7 1 7-1"/>
+          <path d="M8.5 10.5l1 8"/>
+          <path d="M15.5 10.5l-1 8"/>
+          <path d="M10 14h4"/>
+        </svg>
+      </button>
     </div>
   </div>
+
+  <!-- ACCESSIBILITY PANEL -->
+  <div class="accessibility-panel" id="a11y-panel">
+    <div class="a11y-toggle">
+      <span class="a11y-toggle-label">Alto Contraste</span>
+      <div class="a11y-switch" data-mode="high-contrast"></div>
+    </div>
+    <div class="a11y-toggle">
+      <span class="a11y-toggle-label">Daltonismo</span>
+      <div class="a11y-switch" data-mode="colorblind"></div>
+    </div>
+    <div class="a11y-toggle">
+      <span class="a11y-toggle-label">Texto Grande</span>
+      <div class="a11y-switch" data-mode="large-text"></div>
+    </div>
+    <div class="a11y-toggle">
+      <span class="a11y-toggle-label">Reducir Movimiento</span>
+      <div class="a11y-switch" data-mode="reduce-motion"></div>
+    </div>
+  </div>
+
+  <!-- Mobile navigation overlay -->
+  <div class="mobile-nav" id="mobile-nav" role="dialog" aria-modal="true" aria-label="Mobile navigation">
+    <nav class="mobile-nav-links">
+      <a href="#menu">Menú</a>
+      <a href="#nosotros">Historia</a>
+      <a href="#ritual">El Ritual</a>
+      <a href="#contacto">Ubicación</a>
+    </nav>
+  </div>
 </header>
+
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', () => {
+    const header = document.querySelector('header');
+    if (!header) return;
+
+    const onScroll = () => {
+      if (window.scrollY > 80) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    // Hamburger mobile menu
+    const hamburger = document.getElementById('hamburger-btn');
+    const mobileNav = document.getElementById('mobile-nav');
+    const mobileLinks = mobileNav ? mobileNav.querySelectorAll('a') : [];
+
+    if (hamburger && mobileNav) {
+      const toggleMenu = () => {
+        const isActive = mobileNav.classList.toggle('active');
+        hamburger.classList.toggle('active');
+        document.body.style.overflow = isActive ? 'hidden' : '';
+      };
+
+      const closeMenu = () => {
+        mobileNav.classList.remove('active');
+        hamburger.classList.remove('active');
+        document.body.style.overflow = '';
+      };
+
+      hamburger.addEventListener('click', toggleMenu);
+
+      mobileLinks.forEach(link => {
+        link.addEventListener('click', closeMenu);
+      });
+
+      // Close on overlay click (clicking the backdrop area)
+      mobileNav.addEventListener('click', (e) => {
+        if (e.target === mobileNav) closeMenu();
+      });
+    }
+  });
+</script>

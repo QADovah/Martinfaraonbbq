@@ -99,7 +99,7 @@ const MENU_DATA = [
   <div class="menu-header">
     <div>
       <div class="section-label">// El fuego</div>
-      <h2 class="section-title">Solo<br /><em>Ahumados</em></h2>
+      <h2 class="section-title">Solo<br /><em class="fire-text">Ahumados</em></h2>
     </div>
     <p style="font-family:'Crimson Text',serif;font-style:italic;color:var(--silver);max-width:300px;text-align:right;font-size:1rem;line-height:1.7;">
       Calidad que se huele antes de sentarse. <br /> Lo que sale de este local tardó más en cocinarse que vos en llegar.
@@ -116,16 +116,17 @@ const MENU_DATA = [
   </div>
 
   <div id="menu-container" class="menu-grid">
-    {MENU_DATA.map((item) => {
+    {MENU_DATA.map((item, i) => {
       const soldOutClass = item.status === 'sold-out' ? 'sold-out' : '';
+      const delayClass = `reveal-delay-${Math.min(i % 6, 5) || ''}`;
       return (
         <div 
-          class={`menu-card reveal ${soldOutClass}`} 
+          class={`menu-card reveal ${soldOutClass} ${delayClass}`} 
           style={item.style || ''} 
           data-id={item.id}
           data-category={item.category}
         >
-          <div class="menu-card-image">
+          <div class="menu-card-image skeleton">
             <img 
               id={`img-${item.id}`} 
               src={item.img} 
@@ -136,7 +137,7 @@ const MENU_DATA = [
           <div class="menu-card-temp">
             <div class="temp-dot"></div>{item.temp}
           </div>
-          <div class="menu-card-name">{item.name}</div>
+          <div class="menu-card-name fire-text">{item.name}</div>
           <p class="menu-card-desc">{item.desc}</p>
           {item.link ? (
             <a href={item.link} target="_blank" class="menu-card-ig-link" rel="noopener noreferrer">Ver en Instagram →</a>

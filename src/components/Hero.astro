@@ -33,16 +33,18 @@
   <canvas class="hero-canvas" aria-hidden="true"></canvas>
 
   <!-- Contenido -->
-  <div class="hero-eyebrow">Ramos Mejía · Buenos Aires · Desde el fuego</div>
-  <h1 class="hero-title">
-    Martín<br />Faraón
-    <span class="smokehouse">SMOKEHOUSE</span>
-  </h1>
-  <p class="hero-sub">Ahumado de verdad. Sin atajos. Sin apuro. Vení a probar el mejor Ahumado de Buenos Aires.</p>
-  <div class="hero-divider"></div>
-  <div>
-    <a href="#horarios" class="hero-cta">Ver Horarios</a>
-    <a href="#menu" class="hero-cta-secondary">Menú</a>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Ramos Mejía · Buenos Aires · Desde el fuego</div>
+    <h1 class="hero-title">
+      Martín<br />Faraón
+      <span class="smokehouse">SMOKEHOUSE</span>
+    </h1>
+    <p class="hero-sub">Ahumado de verdad. Sin atajos. Sin apuro. Vení a probar el mejor Ahumado de Buenos Aires.</p>
+    <div class="hero-divider"></div>
+    <div>
+      <a href="#horarios" class="hero-cta">Ver Horarios</a>
+      <a href="#menu" class="hero-cta-secondary">Menú</a>
+    </div>
   </div>
 
   <div class="smoker-badge"></div>
@@ -238,6 +240,7 @@
      *   bg: HTMLElement|null;
      *   canvas: HTMLElement|null;
      *   hero: HTMLElement|null;
+     *   content: HTMLElement|null;
      * }} layers
      */
     constructor(layers) {
@@ -247,6 +250,8 @@
       this.canvas = layers.canvas;
       /** @type {HTMLElement|null} */
       this.hero = layers.hero;
+      /** @type {HTMLElement|null} */
+      this.content = layers.content;
       /** @type {boolean} */
       this.supportsCSS = typeof CSS !== 'undefined' && CSS.supports('animation-timeline', 'scroll(root)');
       /** @type {boolean} */
@@ -287,6 +292,13 @@
       this.canvas.style.animation = `parallaxCanvas linear`;
       this.canvas.style.animationTimeline = 'scroll(root)';
       this.canvas.style.animationRange = `0px ${heroH}px`;
+
+      // content: moves at 0.15x scroll speed (subtle lift)
+      if (this.content) {
+        this.content.style.animation = `parallaxContent linear`;
+        this.content.style.animationTimeline = 'scroll(root)';
+        this.content.style.animationRange = `0px ${heroH}px`;
+      }
     }
 
     /** rAF fallback for browsers without CSS scroll-driven animation support. */
@@ -303,6 +315,12 @@
         }
         if (this.canvas) {
           this.canvas.style.transform = `translate3d(0, ${progress * heroH * -0.6}px, 0)`;
+        }
+        if (this.content) {
+          // Cap displacement at 120px max
+          const maxDisplacement = 120;
+          const displacement = Math.min(progress * heroH * 0.15, maxDisplacement);
+          this.content.style.transform = `translate3d(0, ${-displacement}px, 0)`;
         }
 
         this.rafId = requestAnimationFrame(tick);
@@ -329,6 +347,12 @@
         this.canvas.style.animationTimeline = '';
         this.canvas.style.animationRange = '';
         this.canvas.style.transform = '';
+      }
+      if (this.content) {
+        this.content.style.animation = '';
+        this.content.style.animationTimeline = '';
+        this.content.style.animationRange = '';
+        this.content.style.transform = '';
       }
     }
 
@@ -373,6 +397,7 @@
       bg: document.querySelector('.hero-bg'),
       canvas,
       hero,
+      content: document.querySelector('.hero-content'),
     });
 
     /** ── IntersectionObserver: video + canvas ── */
